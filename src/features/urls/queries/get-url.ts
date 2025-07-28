@@ -30,9 +30,8 @@ export const getUrlByShortCode = async (shortCode: string) => {
       expiresAt: cached.expiresAt === 'null' ? null : cached.expiresAt,
     } as CachedUrlData;
 
-    // Check if the URL has expired
     if (isExpired(urlData.expiresAt)) {
-      return null; // URL has expired
+      return null;
     }
 
     await queueClickIncrement(shortCode);
@@ -52,9 +51,8 @@ export const getUrlByShortCode = async (shortCode: string) => {
     return null;
   }
 
-  // Check if the URL has expired
   if (isExpired(url.expiresAt)) {
-    return null; // URL has expired
+    return null;
   }
 
   const updatedClicks = url.clicks + 1;

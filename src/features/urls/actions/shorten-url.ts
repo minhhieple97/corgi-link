@@ -33,11 +33,8 @@ export const shortenUrl = authAction
 
     const originalUrl = ensureHttps(url);
     const userIsAdmin = isAdmin(user);
-
-    const [shortCode, safetyCheck] = await Promise.all([
-      generateShortCode(customCode),
-      checkUrlSafety(originalUrl),
-    ]);
+    const shortCode = await generateShortCode(customCode);
+    const safetyCheck = await checkUrlSafety(originalUrl);
 
     const { flagged, flagReason, shouldBlock } = processSafetyCheck(safetyCheck, userIsAdmin);
 
