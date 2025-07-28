@@ -16,6 +16,7 @@ export const getUserUrlsForStats = async ({ userId }: GetUserUrlsForStatsParams)
       shortCode: urls.shortCode,
       clicks: urls.clicks,
       createdAt: urls.createdAt,
+      expiresAt: urls.expiresAt,
     })
     .from(urls)
     .where(eq(urls.userId, userId))

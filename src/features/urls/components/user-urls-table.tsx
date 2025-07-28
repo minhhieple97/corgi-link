@@ -1,12 +1,14 @@
 'use client';
 
-import { Copy, Edit, ExternalLink, QrCode, Trash2Icon, MoreHorizontal } from 'lucide-react';
+import { Copy, Edit, ExternalLink, QrCode, Trash2Icon, MoreHorizontal, Clock } from 'lucide-react';
 import { Button } from '@/components/ui';
 import { formatDistanceToNow } from 'date-fns';
 import { IUrl, PaginationInfo } from '../types';
 import { QRCodeModal } from './qr-code-modal';
 import { EditUrlModal } from './edit-url-modal';
+
 import { useUserUrlsTable } from '../hooks/use-user-urls-table';
+import { ExpirationBadge } from '@/components/shared';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -69,10 +71,11 @@ export const UserUrlsTable = ({ urlsPromise }: IUserUrlsTableProps) => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[35%] sm:w-[40%]">Original URL</TableHead>
-              <TableHead className="w-[30%] sm:w-[30%]">Short URL</TableHead>
-              <TableHead className="w-[10%]">Clicks</TableHead>
-              <TableHead className="w-[15%] sm:w-[20%]">Created</TableHead>
+              <TableHead className="w-[30%] sm:w-[35%]">Original URL</TableHead>
+              <TableHead className="w-[25%] sm:w-[25%]">Short URL</TableHead>
+              <TableHead className="w-[8%]">Clicks</TableHead>
+              <TableHead className="w-[15%] sm:w-[15%]">Expiration</TableHead>
+              <TableHead className="w-[12%] sm:w-[15%]">Created</TableHead>
               <TableHead className="w-[10%] text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -113,6 +116,9 @@ export const UserUrlsTable = ({ urlsPromise }: IUserUrlsTableProps) => {
                     </div>
                   </TableCell>
                   <TableCell className="text-muted-foreground">{url.clicks}</TableCell>
+                  <TableCell>
+                    <ExpirationBadge expiresAt={url.expiresAt} />
+                  </TableCell>
                   <TableCell className="text-muted-foreground">
                     <div
                       className="truncate text-sm"
@@ -139,7 +145,7 @@ export const UserUrlsTable = ({ urlsPromise }: IUserUrlsTableProps) => {
                         <Button
                           variant={'ghost'}
                           size={'icon'}
-                          onClick={() => handleEdit(url.id, url.shortCode)}
+                          onClick={() => handleEdit(url.id, url.shortCode, url.expiresAt)}
                           className="size-8"
                           title="Edit URL"
                         >
@@ -174,9 +180,11 @@ export const UserUrlsTable = ({ urlsPromise }: IUserUrlsTableProps) => {
                               <QrCode className="size-4 mr-2" />
                               QR Code
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleEdit(url.id, url.shortCode)}>
+                            <DropdownMenuItem
+                              onClick={() => handleEdit(url.id, url.shortCode, url.expiresAt)}
+                            >
                               <Edit className="size-4 mr-2" />
-                              Edit
+                              Edit URL
                             </DropdownMenuItem>
                             <DropdownMenuItem
                               onClick={() => handleDelete(url.id)}
@@ -215,6 +223,7 @@ export const UserUrlsTable = ({ urlsPromise }: IUserUrlsTableProps) => {
           onOpenChange={setIsEditModalOpen}
           urlId={urlToEdit.id}
           currentShortCode={urlToEdit.shortCode}
+          currentExpiration={urlToEdit.expiresAt}
           onSuccess={handleEditSuccess}
         />
       )}

@@ -17,6 +17,7 @@ export type IUrl = {
   shortCode: string;
   createdAt: Date;
   clicks: number;
+  expiresAt: Date | null;
 };
 
 export type IUpdateUrlFormData = z.infer<typeof UpdateUrlSchema>;

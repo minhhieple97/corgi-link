@@ -15,7 +15,9 @@ export const useUserUrlsTable = () => {
   const [urlToEdit, setUrlToEdit] = useState<{
     id: number;
     shortCode: string;
+    expiresAt?: Date | null;
   } | null>(null);
+
   const router = useRouter();
   const { handleDelete: deleteUrlAction } = useDeleteUrl({});
   const [deletingUrlId, setDeletingUrlId] = useState<number | null>(null);
@@ -51,8 +53,8 @@ export const useUserUrlsTable = () => {
     setIsQrCodeModalOpen(true);
   };
 
-  const handleEdit = (id: number, shortCode: string) => {
-    setUrlToEdit({ id, shortCode });
+  const handleEdit = (id: number, shortCode: string, expiresAt?: Date | null) => {
+    setUrlToEdit({ id, shortCode, expiresAt });
     setIsEditModalOpen(true);
   };
 

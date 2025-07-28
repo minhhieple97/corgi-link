@@ -13,6 +13,7 @@ import { useEffect } from 'react';
 type UseUpdateUrlProps = {
   urlId: number;
   currentShortCode: string;
+  currentExpiration?: Date | null;
   onSuccess?: (newShortCode: string) => void;
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
@@ -21,6 +22,7 @@ type UseUpdateUrlProps = {
 export const useUpdateUrl = ({
   urlId,
   currentShortCode,
+  currentExpiration,
   onSuccess,
   isOpen,
   onOpenChange,
@@ -29,6 +31,7 @@ export const useUpdateUrl = ({
     resolver: zodResolver(UpdateUrlSchema),
     defaultValues: {
       customCode: currentShortCode,
+      expiresAt: currentExpiration,
     },
   });
 
@@ -57,6 +60,10 @@ export const useUpdateUrl = ({
           );
         }
 
+        if (fieldErrors?.expiresAt) {
+          toast.error(fieldErrors.expiresAt[0]);
+        }
+
         if (formErrors && formErrors.length > 0) {
           toast.error(formErrors[0]);
         }
@@ -72,19 +79,26 @@ export const useUpdateUrl = ({
     execute({
       id: urlId,
       customCode: data.customCode,
+      expiresAt: data.expiresAt,
     });
   };
 
   const resetForm = () => {
-    form.reset({ customCode: currentShortCode });
+    form.reset({
+      customCode: currentShortCode,
+      expiresAt: currentExpiration,
+    });
     resetAction();
   };
 
   useEffect(() => {
     if (isOpen) {
-      form.reset({ customCode: currentShortCode });
+      form.reset({
+        customCode: currentShortCode,
+        expiresAt: currentExpiration,
+      });
     }
-  }, [isOpen, currentShortCode, form]);
+  }, [isOpen, currentShortCode, currentExpiration, form]);
 
   const handleCancel = () => {
     resetForm();

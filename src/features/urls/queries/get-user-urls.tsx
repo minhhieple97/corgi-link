@@ -39,6 +39,7 @@ export const getUserUrls = async ({
     shortCode: url.shortCode,
     createdAt: url.createdAt,
     clicks: url.clicks,
+    expiresAt: url.expiresAt,
   }));
 
   const totalPages = Math.ceil(total / limit);

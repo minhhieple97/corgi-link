@@ -51,7 +51,7 @@ export const QRCodeModal = ({ isOpen, onOpenChange, url, shortCode }: QRCodeModa
     if (!qrCodeDataUrl) return;
     const link = document.createElement('a');
     link.href = qrCodeDataUrl;
-    link.download = `shortlink-${shortCode}.png`;
+    link.download = `corgi-link-${shortCode}.png`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
