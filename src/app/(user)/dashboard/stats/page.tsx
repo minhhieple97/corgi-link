@@ -6,7 +6,7 @@ import { Metadata } from 'next';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Statistics | ShortLink',
+  title: 'Statistics | CorgiLink',
   description: 'View your URL statistics and analytics',
 };
 

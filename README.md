@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>🔗 Shortlink</h1>
+  <h1>🔗 Coriglink</h1>
   <p><strong>Modern URL Shortener & Analytics Platform</strong></p>
   
   <p>
@@ -20,11 +20,11 @@
 
 ## 🌟 Overview
 
-A next-generation URL shortener engineered for enterprise performance and security. Built with cutting-edge asynchronous processing architecture and AI-powered threat detection, Shortlink delivers lightning-fast URL transformation while ensuring maximum security for your links and users.
+A next-generation URL shortener engineered for enterprise performance and security. Built with cutting-edge asynchronous processing architecture and AI-powered threat detection, CorgiLink delivers lightning-fast URL transformation while ensuring maximum security for your links and users.
 
 **🚀 Experience blazing-fast performance with intelligent security at [https://corgi-link.vercel.app](https://corgi-link.vercel.app/)**
 
-### 🎯 **Why Choose Shortlink?**
+### 🎯 **Why Choose CorgiLink?**
 
 **⚡ Asynchronous Processing Excellence**  
 Our advanced async architecture ensures sub-second response times, handling thousands of concurrent requests without performance degradation. Every operation is optimized for speed and scalability.
@@ -106,8 +106,8 @@ Node.js 20+ | pnpm | Docker
 
 ### 1. Clone & Install
 ```bash
-git clone https://github.com/minhhieple97/shortlink.git
-cd shortlink
+git clone https://github.com/minhhieple97/corgi-link.git
+cd corgi-link
 pnpm install
 ```
 

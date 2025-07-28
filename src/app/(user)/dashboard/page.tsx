@@ -15,7 +15,7 @@ import {
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Dashboard | ShortLink',
+  title: 'Dashboard | CorgiLink',
   description: 'Dashboard page',
 };
 

@@ -4,7 +4,7 @@ import { SignInButton } from '@clerk/nextjs';
 import { getPublicStats } from '@/features/urls/queries';
 
 export const metadata: Metadata = {
-  title: 'Statistics | ShortLink',
+  title: 'Statistics | CorgiLink',
   description: 'Statistics about our URL shortener service',
 };
 

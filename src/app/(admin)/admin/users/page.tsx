@@ -7,8 +7,8 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'User Management | Admin | ShortLink',
-  description: 'Manage users in the ShortLink application',
+  title: 'User Management | Admin | CorgiLink',
+  description: 'Manage users in the CorgiLink application',
 };
 
 export default async function UserManagementPage({

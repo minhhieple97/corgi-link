@@ -9,8 +9,8 @@ import type { UrlWithUser } from '@/features/admin/types';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'URL Management | Admin | ShortLink',
-  description: 'Manage URLs in the ShortLink application',
+  title: 'URL Management | Admin | CorgiLink',
+  description: 'Manage URLs in the CorgiLink application',
 };
 
 export default async function AdminUrlsPage({

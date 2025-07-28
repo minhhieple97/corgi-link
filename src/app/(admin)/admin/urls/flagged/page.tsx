@@ -8,8 +8,8 @@ import type { UrlWithUser } from '@/features/admin/types';
 import { createSearchParamsCache, parseAsInteger, parseAsString } from 'nuqs/server';
 
 export const metadata: Metadata = {
-  title: 'Flagged URLs | Admin | ShortLink',
-  description: 'Review potentially unsafe URLs in the ShortLink application',
+  title: 'Flagged URLs | Admin | CorgiLink',
+  description: 'Review potentially unsafe URLs in the CorgiLink application',
 };
 
 const getSearchParams = createSearchParamsCache({
