@@ -20,7 +20,7 @@
 
 ## 🌟 Overview
 
-A next-generation URL shortener engineered for enterprise performance and security. Built with cutting-edge asynchronous processing architecture and AI-powered threat detection, CorgiLink delivers lightning-fast URL transformation while ensuring maximum security for your links and users.
+A next-generation URL shortener and biolink platform engineered for enterprise performance and security. Built with cutting-edge asynchronous processing architecture and AI-powered threat detection, CorgiLink delivers lightning-fast URL transformation and beautiful personal landing pages while ensuring maximum security for your links and users.
 
 **🚀 Experience blazing-fast performance with intelligent security at [https://corgi-link.vercel.app](https://corgi-link.vercel.app/)**
 
@@ -37,6 +37,9 @@ Built on Next.js 15 with Redis caching, PostgreSQL optimization, and intelligent
 
 **📊 Real-Time Analytics & Insights**  
 Comprehensive analytics dashboard with geographic tracking, referral analysis, and user behavior insights to help you understand and optimize your link performance.
+
+**🎨 Professional BioLink Builder**  
+Create stunning personal landing pages with our intuitive drag-and-drop editor. Showcase your portfolio, social links, and projects with customizable components and professional themes.
 
 ## ✨ Key Features
 
@@ -60,6 +63,26 @@ Comprehensive analytics dashboard with geographic tracking, referral analysis, a
   <tr>
     <td>📱 <strong>QR Code Generation</strong></td>
     <td>Instant QR codes for mobile sharing</td>
+  </tr>
+  <tr>
+    <td>🎨 <strong>BioLink Builder</strong></td>
+    <td>Drag-and-drop personal landing page creator</td>
+  </tr>
+  <tr>
+    <td>🧩 <strong>Dynamic Components</strong></td>
+    <td>8 component types: buttons, text, images, social links, projects</td>
+  </tr>
+  <tr>
+    <td>🎛️ <strong>Visual Page Editor</strong></td>
+    <td>Professional 3-panel interface with real-time preview</td>
+  </tr>
+  <tr>
+    <td>🎨 <strong>Custom Styling</strong></td>
+    <td>Colors, fonts, layouts with live preview</td>
+  </tr>
+  <tr>
+    <td>📄 <strong>Version Control</strong></td>
+    <td>Save drafts and publish when ready</td>
   </tr>
   <tr>
     <td>🛡️ <strong>URL Safety Checking</strong></td>

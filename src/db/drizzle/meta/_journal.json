@@ -15,6 +15,13 @@
       "when": 1753671216014,
       "tag": "0001_little_cargill",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1753693583643,
+      "tag": "0002_majestic_vengeance",
+      "breakpoints": true
     }
   ]
 }

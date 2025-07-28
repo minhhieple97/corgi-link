@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { Button } from '../ui/button';
-import { BarChart3Icon, LayoutDashboard, LogOut, Menu } from 'lucide-react';
+import { BarChart3Icon, LayoutDashboard, LogOut, Menu, User } from 'lucide-react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '../ui/sheet';
 import { SignInButton, SignOutButton, UserButton, useUser } from '@clerk/nextjs';
 import { ThemeToggle } from '@/components/shared/theme-toggle';
@@ -37,6 +37,13 @@ export const Header = () => {
                 <Link href={routes.dashboard.stats} className="flex items-center gap-2">
                   <BarChart3Icon className="size-4" />
                   My Stats
+                </Link>
+              </Button>
+
+              <Button variant={'ghost'} size={'sm'} asChild>
+                <Link href={routes.biolink.root} className="flex items-center gap-2">
+                  <User className="size-4" />
+                  BioLink
                 </Link>
               </Button>
 
@@ -103,6 +110,16 @@ export const Header = () => {
                       >
                         <BarChart3Icon className="size-4" />
                         My Stats
+                      </Link>
+                    </Button>
+
+                    <Button variant={'ghost'} size={'sm'} asChild onClick={closeSheet}>
+                      <Link
+                        href={routes.biolink.root}
+                        className="flex items-center gap-3 justify-start w-full h-12"
+                      >
+                        <User className="size-4" />
+                        BioLink
                       </Link>
                     </Button>
 
