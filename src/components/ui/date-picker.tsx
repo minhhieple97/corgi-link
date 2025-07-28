@@ -141,6 +141,7 @@ export function ExpirationDatePicker({
               )}
             </div>
             <Button
+              type="button"
               variant="ghost"
               size="sm"
               onClick={handleClear}
@@ -154,4 +155,4 @@ export function ExpirationDatePicker({
       </div>
     </div>
   )
-} 
+}

@@ -13,6 +13,7 @@ export const UrlFormSchema = z.object({
     .date()
     .min(new Date(), 'Expiration date must be in the future')
     .optional()
+    .nullable()
     .refine((date) => {
       if (!date) return true;
       const maxDate = new Date();

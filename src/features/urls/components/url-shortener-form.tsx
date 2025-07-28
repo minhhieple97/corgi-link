@@ -1,7 +1,14 @@
 'use client';
 
 import { useEffect, useMemo } from 'react';
-import { Form, FormControl, FormField, FormItem, Input, Button } from '@/components/ui';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  Input,
+  Button,
+} from '@/components/ui';
 import { ExpirationDatePicker } from '@/components/ui/date-picker';
 import { env } from '@/env';
 import { useShortenUrl } from '../hooks/use-shorten-url';
@@ -27,7 +34,8 @@ export const UrlShortenerForm = () => {
     setIsAnalyzing,
   } = useShortenUrl();
 
-  const { suggestedAliases, isGenerating, generateAliases, clearSuggestions } = useGenerateAlias();
+  const { suggestedAliases, isGenerating, generateAliases, clearSuggestions } =
+    useGenerateAlias();
 
   const urlValue = form.watch('url');
   const isUrlValid = useMemo(() => {
@@ -67,7 +75,11 @@ export const UrlShortenerForm = () => {
             <p className="font-medium text-yellow-800">⚠️ URL Flagged</p>
             <p className="text-yellow-700">{flagReason}</p>
             <div className="flex justify-center">
-              <Button variant="outline" onClick={handleResetForm} className="w-fit">
+              <Button
+                variant="outline"
+                onClick={handleResetForm}
+                className="w-fit"
+              >
                 {UI_CONSTANTS.BUTTON_LABELS.CREATE_ANOTHER}
               </Button>
             </div>
@@ -84,7 +96,11 @@ export const UrlShortenerForm = () => {
               </Button>
             </div>
             <div className="flex justify-center">
-              <Button variant="outline" onClick={handleResetForm} className="w-fit">
+              <Button
+                variant="outline"
+                onClick={handleResetForm}
+                className="w-fit"
+              >
                 {UI_CONSTANTS.BUTTON_LABELS.CREATE_ANOTHER}
               </Button>
             </div>
@@ -143,14 +159,19 @@ export const UrlShortenerForm = () => {
                         <div className="flex items-center gap-2">
                           <div className="flex items-center flex-1">
                             <span className="text-sm text-muted-foreground mr-2">
-                              {env.NEXT_PUBLIC_APP_URL || window.location.origin}
+                              {env.NEXT_PUBLIC_APP_URL ||
+                                window.location.origin}
                               {UI_CONSTANTS.URL_PREFIX_SEPARATOR}
                             </span>
                             <Input
-                              placeholder={UI_CONSTANTS.FORM_PLACEHOLDERS.CUSTOM_CODE}
+                              placeholder={
+                                UI_CONSTANTS.FORM_PLACEHOLDERS.CUSTOM_CODE
+                              }
                               {...field}
                               value={field.value || ''}
-                              onChange={(e) => field.onChange(e.target.value || '')}
+                              onChange={(e) =>
+                                field.onChange(e.target.value || '')
+                              }
                               className="flex-1"
                               disabled={isPending || !isSignedIn || !isUrlValid}
                             />
@@ -160,7 +181,12 @@ export const UrlShortenerForm = () => {
                             variant="outline"
                             size="sm"
                             onClick={handleGenerateAliases}
-                            disabled={isPending || !isSignedIn || isGenerating || !isUrlValid}
+                            disabled={
+                              isPending ||
+                              !isSignedIn ||
+                              isGenerating ||
+                              !isUrlValid
+                            }
                             className="shrink-0"
                           >
                             {isGenerating ? (
