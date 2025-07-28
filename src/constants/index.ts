@@ -140,3 +140,14 @@ export const RESPONSE_MESSAGES = {
 export const CONTENT_TYPES = {
   JSON: 'application/json',
 } as const;
+
+export const ALIAS_GENERATION = {
+  DEFAULT_COUNT: 5,
+  MAX_COUNT: 10,
+  MAX_LENGTH: 12,
+  MIN_LENGTH: 3,
+  ALLOWED_CHARS_REGEX: /^[a-z0-9-]+$/,
+  CRAWLER_TIMEOUT: 10000,
+  RETRY_ATTEMPTS: 3,
+  CACHE_TTL: 3600, // 1 hour
+} as const;

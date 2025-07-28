@@ -32,3 +32,35 @@ export type PaginationInfo = {
   hasNextPage: boolean;
   hasPreviousPage: boolean;
 };
+
+export type AliasGenerationRequest = {
+  url: string;
+  options?: {
+    count?: number;
+    maxLength?: number;
+    excludeWords?: string[];
+  };
+};
+
+export type AliasGenerationResponse = {
+  success: boolean;
+  data?: {
+    aliases: string[];
+    metadata: {
+      originalUrl: string;
+      title: string;
+      description: string;
+      generatedAt: string;
+      processingTime: number;
+    };
+  };
+  error?: {
+    code: string;
+    message: string;
+  };
+};
+
+// Types moved to lib services for better modularity
+// CrawledContent - now in lib/crawler.ts
+// UrlSafetyCheck - now in lib/llm-service.ts
+// AliasGenerationOptions - now in lib/llm-service.ts

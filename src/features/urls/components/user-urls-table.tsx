@@ -1,6 +1,6 @@
 'use client';
 
-import { Copy, Edit, ExternalLink, QrCode, Trash2Icon, MoreHorizontal, Clock } from 'lucide-react';
+import { Copy, Edit, ExternalLink, QrCode, Trash2Icon, MoreHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui';
 import { formatDistanceToNow } from 'date-fns';
 import { IUrl, PaginationInfo } from '../types';

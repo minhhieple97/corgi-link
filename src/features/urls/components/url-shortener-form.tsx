@@ -1,12 +1,15 @@
 'use client';
 
+import { useEffect } from 'react';
 import { Form, FormControl, FormField, FormItem, Input, Button } from '@/components/ui';
 import { ExpirationDatePicker } from '@/components/ui/date-picker';
 import { env } from '@/env';
 import { useShortenUrl } from '../hooks/use-shorten-url';
+import { useGenerateAlias } from '../hooks/use-generate-alias';
 import { UI_CONSTANTS } from '@/constants';
 import { SignInButton, useAuth } from '@clerk/nextjs';
 import { AnalyzingModal } from '@/components/shared';
+import { Sparkles, Loader2 } from 'lucide-react';
 
 export const UrlShortenerForm = () => {
   const { isSignedIn } = useAuth();
@@ -23,6 +26,33 @@ export const UrlShortenerForm = () => {
     setIsAnalyzing,
   } = useShortenUrl();
 
+  const { suggestedAliases, isGenerating, generateAliases, clearSuggestions } = useGenerateAlias();
+
+  const handleSuggestionClick = (alias: string) => {
+    form.setValue('customCode', alias);
+    clearSuggestions();
+  };
+
+  const handleGenerateAliases = () => {
+    const url = form.getValues('url');
+    generateAliases(url);
+  };
+
+  const handleResetForm = () => {
+    resetForm();
+    clearSuggestions();
+  };
+
+  // Clear suggestions when URL changes
+  useEffect(() => {
+    const subscription = form.watch((value, { name }) => {
+      if (name === 'url' && suggestedAliases.length > 0) {
+        clearSuggestions();
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [form, suggestedAliases.length, clearSuggestions]);
+
   return (
     <>
       <div className="w-full max-w-2xl mx-auto">
@@ -31,7 +61,7 @@ export const UrlShortenerForm = () => {
             <p className="font-medium text-yellow-800">⚠️ URL Flagged</p>
             <p className="text-yellow-700">{flagReason}</p>
             <div className="flex justify-center">
-              <Button variant="outline" onClick={resetForm} className="w-fit">
+              <Button variant="outline" onClick={handleResetForm} className="w-fit">
                 {UI_CONSTANTS.BUTTON_LABELS.CREATE_ANOTHER}
               </Button>
             </div>
@@ -48,7 +78,7 @@ export const UrlShortenerForm = () => {
               </Button>
             </div>
             <div className="flex justify-center">
-              <Button variant="outline" onClick={resetForm} className="w-fit">
+              <Button variant="outline" onClick={handleResetForm} className="w-fit">
                 {UI_CONSTANTS.BUTTON_LABELS.CREATE_ANOTHER}
               </Button>
             </div>
@@ -103,19 +133,63 @@ export const UrlShortenerForm = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <div className="flex items-center">
-                        <span className="text-sm text-muted-foreground mr-2">
-                          {env.NEXT_PUBLIC_APP_URL || window.location.origin}
-                          {UI_CONSTANTS.URL_PREFIX_SEPARATOR}
-                        </span>
-                        <Input
-                          placeholder={UI_CONSTANTS.FORM_PLACEHOLDERS.CUSTOM_CODE}
-                          {...field}
-                          value={field.value || ''}
-                          onChange={(e) => field.onChange(e.target.value || '')}
-                          className="flex-1"
-                          disabled={isPending || !isSignedIn}
-                        />
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                          <div className="flex items-center flex-1">
+                            <span className="text-sm text-muted-foreground mr-2">
+                              {env.NEXT_PUBLIC_APP_URL || window.location.origin}
+                              {UI_CONSTANTS.URL_PREFIX_SEPARATOR}
+                            </span>
+                            <Input
+                              placeholder={UI_CONSTANTS.FORM_PLACEHOLDERS.CUSTOM_CODE}
+                              {...field}
+                              value={field.value || ''}
+                              onChange={(e) => field.onChange(e.target.value || '')}
+                              className="flex-1"
+                              disabled={isPending || !isSignedIn}
+                            />
+                          </div>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={handleGenerateAliases}
+                            disabled={
+                              isPending || !isSignedIn || isGenerating || !form.getValues('url')
+                            }
+                            className="shrink-0"
+                          >
+                            {isGenerating ? (
+                              <Loader2 className="h-4 w-4 animate-spin" />
+                            ) : (
+                              <Sparkles className="h-4 w-4" />
+                            )}
+                            {isGenerating ? 'Generating...' : 'Suggest'}
+                          </Button>
+                        </div>
+
+                        {suggestedAliases.length > 0 && (
+                          <div className="space-y-2">
+                            <p className="text-sm text-muted-foreground">
+                              AI-generated suggestions (click to use):
+                            </p>
+                            <div className="flex flex-wrap gap-2">
+                              {suggestedAliases.map((alias, index) => (
+                                <Button
+                                  key={index}
+                                  type="button"
+                                  variant="secondary"
+                                  size="sm"
+                                  onClick={() => handleSuggestionClick(alias)}
+                                  className="text-xs h-7 px-2"
+                                  disabled={isPending}
+                                >
+                                  {alias}
+                                </Button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </FormControl>
                   </FormItem>
