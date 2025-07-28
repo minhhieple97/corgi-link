@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Form, FormControl, FormField, FormItem, Input, Button } from '@/components/ui';
 import { ExpirationDatePicker } from '@/components/ui/date-picker';
 import { env } from '@/env';
 import { useShortenUrl } from '../hooks/use-shorten-url';
 import { useGenerateAlias } from '../hooks/use-generate-alias';
+import { UrlFormSchema } from '../schemas';
 import { UI_CONSTANTS } from '@/constants';
 import { SignInButton, useAuth } from '@clerk/nextjs';
 import { AnalyzingModal } from '@/components/shared';
@@ -28,6 +29,12 @@ export const UrlShortenerForm = () => {
 
   const { suggestedAliases, isGenerating, generateAliases, clearSuggestions } = useGenerateAlias();
 
+  const urlValue = form.watch('url');
+  const isUrlValid = useMemo(() => {
+    if (!urlValue || urlValue.trim() === '') return false;
+    return UrlFormSchema.shape.url.safeParse(urlValue).success;
+  }, [urlValue]);
+
   const handleSuggestionClick = (alias: string) => {
     form.setValue('customCode', alias);
     clearSuggestions();
@@ -43,7 +50,6 @@ export const UrlShortenerForm = () => {
     clearSuggestions();
   };
 
-  // Clear suggestions when URL changes
   useEffect(() => {
     const subscription = form.watch((value, { name }) => {
       if (name === 'url' && suggestedAliases.length > 0) {
@@ -90,7 +96,7 @@ export const UrlShortenerForm = () => {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                if (isSignedIn) {
+                if (isSignedIn && isUrlValid) {
                   onSubmit(form.getValues());
                 }
               }}
@@ -113,14 +119,14 @@ export const UrlShortenerForm = () => {
                   )}
                 />
                 {isSignedIn ? (
-                  <Button type="submit" disabled={isPending}>
+                  <Button type="submit" disabled={isPending || !isUrlValid}>
                     {isPending
                       ? UI_CONSTANTS.BUTTON_LABELS.SHORTENING
                       : UI_CONSTANTS.BUTTON_LABELS.SHORTEN}
                   </Button>
                 ) : (
                   <SignInButton>
-                    <Button type="button" disabled={isPending}>
+                    <Button type="button" disabled={isPending || !isUrlValid}>
                       Login to shorten
                     </Button>
                   </SignInButton>
@@ -146,7 +152,7 @@ export const UrlShortenerForm = () => {
                               value={field.value || ''}
                               onChange={(e) => field.onChange(e.target.value || '')}
                               className="flex-1"
-                              disabled={isPending || !isSignedIn}
+                              disabled={isPending || !isSignedIn || !isUrlValid}
                             />
                           </div>
                           <Button
@@ -154,9 +160,7 @@ export const UrlShortenerForm = () => {
                             variant="outline"
                             size="sm"
                             onClick={handleGenerateAliases}
-                            disabled={
-                              isPending || !isSignedIn || isGenerating || !form.getValues('url')
-                            }
+                            disabled={isPending || !isSignedIn || isGenerating || !isUrlValid}
                             className="shrink-0"
                           >
                             {isGenerating ? (
@@ -182,7 +186,7 @@ export const UrlShortenerForm = () => {
                                   size="sm"
                                   onClick={() => handleSuggestionClick(alias)}
                                   className="text-xs h-7 px-2"
-                                  disabled={isPending}
+                                  disabled={isPending || !isUrlValid}
                                 >
                                   {alias}
                                 </Button>
@@ -205,7 +209,7 @@ export const UrlShortenerForm = () => {
                       <ExpirationDatePicker
                         date={field.value}
                         onDateChange={field.onChange}
-                        disabled={isPending || !isSignedIn}
+                        disabled={isPending || !isSignedIn || !isUrlValid}
                       />
                     </FormControl>
                   </FormItem>
