@@ -1,6 +1,6 @@
 export type BiolinkStatus = 'draft' | 'public';
 
-export type ComponentType = 
+export type ComponentType =
   | 'button'
   | 'text'
   | 'image'
@@ -116,12 +116,13 @@ export type CreateBiolinkComponentInput = {
   borderColor?: string;
   order: number;
   isVisible?: boolean;
-  settings?: Record<string, any>;
+  settings?: Record<string, string | number | boolean>;
 };
 
-export type UpdateBiolinkComponentInput = Partial<CreateBiolinkComponentInput> & {
-  id: number;
-};
+export type UpdateBiolinkComponentInput =
+  Partial<CreateBiolinkComponentInput> & {
+    id: number;
+  };
 
 export type CreateBiolinkSocialLinkInput = {
   profileId: number;
@@ -132,9 +133,10 @@ export type CreateBiolinkSocialLinkInput = {
   order: number;
 };
 
-export type UpdateBiolinkSocialLinkInput = Partial<CreateBiolinkSocialLinkInput> & {
-  id: number;
-};
+export type UpdateBiolinkSocialLinkInput =
+  Partial<CreateBiolinkSocialLinkInput> & {
+    id: number;
+  };
 
 export type CreateBiolinkProjectInput = {
   profileId: number;
@@ -187,12 +189,12 @@ export type LinkComponentSettings = {
   underline: boolean;
 };
 
-export type ComponentSettings = 
+export type ComponentSettings =
   | ButtonComponentSettings
   | TextComponentSettings
   | ImageComponentSettings
   | LinkComponentSettings
-  | Record<string, any>;
+  | Record<string, string | number | boolean>;
 
 // Page builder types
 export type DraggedComponent = {
@@ -206,4 +208,4 @@ export type PageBuilderState = {
   selectedComponent: BiolinkComponent | null;
   isDragging: boolean;
   draggedComponent: DraggedComponent | null;
-}; 
+};

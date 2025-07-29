@@ -1,4 +1,3 @@
-import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { biolinkService } from '@/features/biolink';
@@ -17,7 +16,9 @@ type PublicProfilePageProps = {
   }>;
 };
 
-export const generateMetadata = async ({ params }: PublicProfilePageProps): Promise<Metadata> => {
+export const generateMetadata = async ({
+  params,
+}: PublicProfilePageProps): Promise<Metadata> => {
   const { slug } = await params;
   const profile = await biolinkService.getPublicProfile(slug);
 
@@ -30,7 +31,8 @@ export const generateMetadata = async ({ params }: PublicProfilePageProps): Prom
 
   return {
     title: profile.metaTitle || profile.title || `${slug}'s Profile`,
-    description: profile.metaDescription || profile.bio || 'Personal landing page',
+    description:
+      profile.metaDescription || profile.bio || 'Personal landing page',
     openGraph: {
       title: profile.title || `${slug}'s Profile`,
       description: profile.bio || 'Personal landing page',
@@ -70,4 +72,4 @@ const PublicProfilePage = async ({ params }: PublicProfilePageProps) => {
   return <PublicProfileContent slug={slug} />;
 };
 
-export default PublicProfilePage; 
+export default PublicProfilePage;

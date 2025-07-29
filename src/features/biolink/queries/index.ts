@@ -1,4 +1,4 @@
- 'use server';
+'use server';
 
 import { db } from '@/db';
 import {
@@ -8,7 +8,7 @@ import {
   biolinkProjects,
   biolinkVersions,
 } from '@/db/schema';
-import { eq, and, desc, asc, count, like, sql } from 'drizzle-orm';
+import { eq, and, desc, asc, count, sql } from 'drizzle-orm';
 import { PAGINATION } from '@/constants';
 import type {
   BiolinkProfile,
@@ -28,7 +28,9 @@ import type {
 } from '../types';
 
 // Profile queries
-export const getBiolinkProfileBySlug = async (slug: string): Promise<BiolinkProfileWithRelations | null> => {
+export const getBiolinkProfileBySlug = async (
+  slug: string,
+): Promise<BiolinkProfileWithRelations | null> => {
   const profile = await db.query.biolinkProfiles.findFirst({
     where: eq(biolinkProfiles.slug, slug),
     with: {
@@ -50,7 +52,9 @@ export const getBiolinkProfileBySlug = async (slug: string): Promise<BiolinkProf
   return profile || null;
 };
 
-export const getBiolinkProfileById = async (id: number): Promise<BiolinkProfileWithRelations | null> => {
+export const getBiolinkProfileById = async (
+  id: number,
+): Promise<BiolinkProfileWithRelations | null> => {
   const profile = await db.query.biolinkProfiles.findFirst({
     where: eq(biolinkProfiles.id, id),
     with: {
@@ -76,7 +80,7 @@ export const getBiolinkProfileById = async (id: number): Promise<BiolinkProfileW
 export const getUserBiolinkProfiles = async (
   userId: string,
   page: number = PAGINATION.DEFAULT_PAGE,
-  limit: number = PAGINATION.DEFAULT_LIMIT
+  limit: number = PAGINATION.DEFAULT_LIMIT,
 ) => {
   const offset = (page - PAGINATION.MIN_PAGE) * limit;
 
@@ -109,9 +113,12 @@ export const getUserBiolinkProfiles = async (
   };
 };
 
-export const checkSlugAvailability = async (slug: string, excludeProfileId?: number): Promise<boolean> => {
+export const checkSlugAvailability = async (
+  slug: string,
+  excludeProfileId?: number,
+): Promise<boolean> => {
   const conditions = [eq(biolinkProfiles.slug, slug)];
-  
+
   if (excludeProfileId) {
     conditions.push(sql`${biolinkProfiles.id} != ${excludeProfileId}`);
   }
@@ -125,7 +132,7 @@ export const checkSlugAvailability = async (slug: string, excludeProfileId?: num
 
 export const createBiolinkProfile = async (
   userId: string,
-  data: CreateBiolinkProfileInput
+  data: CreateBiolinkProfileInput,
 ): Promise<BiolinkProfile> => {
   const [newProfile] = await db
     .insert(biolinkProfiles)
@@ -137,7 +144,7 @@ export const createBiolinkProfile = async (
 
 export const updateBiolinkProfile = async (
   id: number,
-  data: Partial<UpdateBiolinkProfileInput>
+  data: Partial<UpdateBiolinkProfileInput>,
 ): Promise<BiolinkProfile | null> => {
   const [updatedProfile] = await db
     .update(biolinkProfiles)
@@ -157,7 +164,9 @@ export const deleteBiolinkProfile = async (id: number): Promise<boolean> => {
 };
 
 // Component queries
-export const getBiolinkComponent = async (id: number): Promise<BiolinkComponent | null> => {
+export const getBiolinkComponent = async (
+  id: number,
+): Promise<BiolinkComponent | null> => {
   const component = await db.query.biolinkComponents.findFirst({
     where: eq(biolinkComponents.id, id),
   });
@@ -165,7 +174,9 @@ export const getBiolinkComponent = async (id: number): Promise<BiolinkComponent 
   return component || null;
 };
 
-export const getBiolinkSocialLink = async (id: number): Promise<BiolinkSocialLink | null> => {
+export const getBiolinkSocialLink = async (
+  id: number,
+): Promise<BiolinkSocialLink | null> => {
   const socialLink = await db.query.biolinkSocialLinks.findFirst({
     where: eq(biolinkSocialLinks.id, id),
   });
@@ -173,7 +184,9 @@ export const getBiolinkSocialLink = async (id: number): Promise<BiolinkSocialLin
   return socialLink || null;
 };
 
-export const getBiolinkProject = async (id: number): Promise<BiolinkProject | null> => {
+export const getBiolinkProject = async (
+  id: number,
+): Promise<BiolinkProject | null> => {
   const project = await db.query.biolinkProjects.findFirst({
     where: eq(biolinkProjects.id, id),
   });
@@ -182,7 +195,7 @@ export const getBiolinkProject = async (id: number): Promise<BiolinkProject | nu
 };
 
 export const createBiolinkComponent = async (
-  data: CreateBiolinkComponentInput
+  data: CreateBiolinkComponentInput,
 ): Promise<BiolinkComponent> => {
   // Convert settings object to JSON string if provided
   const componentData = {
@@ -200,7 +213,7 @@ export const createBiolinkComponent = async (
 
 export const updateBiolinkComponent = async (
   id: number,
-  data: Partial<UpdateBiolinkComponentInput>
+  data: Partial<UpdateBiolinkComponentInput>,
 ): Promise<BiolinkComponent | null> => {
   const updateData = {
     ...data,
@@ -227,7 +240,7 @@ export const deleteBiolinkComponent = async (id: number): Promise<boolean> => {
 
 export const reorderBiolinkComponents = async (
   profileId: number,
-  componentIds: number[]
+  componentIds: number[],
 ): Promise<boolean> => {
   try {
     await db.transaction(async (tx) => {
@@ -238,8 +251,8 @@ export const reorderBiolinkComponents = async (
           .where(
             and(
               eq(biolinkComponents.id, componentIds[i]),
-              eq(biolinkComponents.profileId, profileId)
-            )
+              eq(biolinkComponents.profileId, profileId),
+            ),
           );
       }
     });
@@ -252,7 +265,7 @@ export const reorderBiolinkComponents = async (
 
 // Social Links queries
 export const createBiolinkSocialLink = async (
-  data: CreateBiolinkSocialLinkInput
+  data: CreateBiolinkSocialLinkInput,
 ): Promise<BiolinkSocialLink> => {
   const [newSocialLink] = await db
     .insert(biolinkSocialLinks)
@@ -264,7 +277,7 @@ export const createBiolinkSocialLink = async (
 
 export const updateBiolinkSocialLink = async (
   id: number,
-  data: Partial<UpdateBiolinkSocialLinkInput>
+  data: Partial<UpdateBiolinkSocialLinkInput>,
 ): Promise<BiolinkSocialLink | null> => {
   const [updatedSocialLink] = await db
     .update(biolinkSocialLinks)
@@ -285,7 +298,7 @@ export const deleteBiolinkSocialLink = async (id: number): Promise<boolean> => {
 
 // Project queries
 export const createBiolinkProject = async (
-  data: CreateBiolinkProjectInput
+  data: CreateBiolinkProjectInput,
 ): Promise<BiolinkProject> => {
   const projectData = {
     ...data,
@@ -302,11 +315,13 @@ export const createBiolinkProject = async (
 
 export const updateBiolinkProject = async (
   id: number,
-  data: Partial<UpdateBiolinkProjectInput>
+  data: Partial<UpdateBiolinkProjectInput>,
 ): Promise<BiolinkProject | null> => {
   const updateData = {
     ...data,
-    technologies: data.technologies ? JSON.stringify(data.technologies) : undefined,
+    technologies: data.technologies
+      ? JSON.stringify(data.technologies)
+      : undefined,
     updatedAt: new Date(),
   };
 
@@ -330,7 +345,7 @@ export const deleteBiolinkProject = async (id: number): Promise<boolean> => {
 // Version queries
 export const createBiolinkVersion = async (
   profileId: number,
-  data: string
+  data: string,
 ): Promise<BiolinkVersion> => {
   // Get the next version number
   const [latestVersion] = await db
@@ -357,7 +372,7 @@ export const createBiolinkVersion = async (
 export const getBiolinkVersions = async (
   profileId: number,
   page: number = PAGINATION.DEFAULT_PAGE,
-  limit: number = PAGINATION.DEFAULT_LIMIT
+  limit: number = PAGINATION.DEFAULT_LIMIT,
 ) => {
   const offset = (page - PAGINATION.MIN_PAGE) * limit;
 
@@ -391,11 +406,13 @@ export const getBiolinkVersions = async (
 };
 
 // Public profile queries (for published profiles only)
-export const getPublicBiolinkProfile = async (slug: string): Promise<BiolinkProfileWithRelations | null> => {
+export const getPublicBiolinkProfile = async (
+  slug: string,
+): Promise<BiolinkProfileWithRelations | null> => {
   const profile = await db.query.biolinkProfiles.findFirst({
     where: and(
       eq(biolinkProfiles.slug, slug),
-      eq(biolinkProfiles.status, 'public')
+      eq(biolinkProfiles.status, 'public'),
     ),
     with: {
       components: {
@@ -420,7 +437,7 @@ export const getPublicBiolinkProfile = async (slug: string): Promise<BiolinkProf
 export const searchPublicBiolinkProfiles = async (
   query: string,
   page: number = PAGINATION.DEFAULT_PAGE,
-  limit: number = PAGINATION.DEFAULT_LIMIT
+  limit: number = PAGINATION.DEFAULT_LIMIT,
 ) => {
   const offset = (page - PAGINATION.MIN_PAGE) * limit;
   const searchTerm = `%${query}%`;
@@ -435,8 +452,8 @@ export const searchPublicBiolinkProfiles = async (
           ${biolinkProfiles.title} ILIKE ${searchTerm} OR 
           ${biolinkProfiles.bio} ILIKE ${searchTerm} OR 
           ${biolinkProfiles.career} ILIKE ${searchTerm}
-        )`
-      )
+        )`,
+      ),
     );
 
   const total = totalResult.count;
@@ -460,8 +477,8 @@ export const searchPublicBiolinkProfiles = async (
           ${biolinkProfiles.title} ILIKE ${searchTerm} OR 
           ${biolinkProfiles.bio} ILIKE ${searchTerm} OR 
           ${biolinkProfiles.career} ILIKE ${searchTerm}
-        )`
-      )
+        )`,
+      ),
     )
     .orderBy(desc(biolinkProfiles.updatedAt))
     .limit(limit)
@@ -480,4 +497,4 @@ export const searchPublicBiolinkProfiles = async (
       hasPreviousPage: page > PAGINATION.MIN_PAGE,
     },
   };
-}; 
+};

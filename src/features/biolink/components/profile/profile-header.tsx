@@ -8,11 +8,6 @@ type ProfileHeaderProps = {
 };
 
 export const ProfileHeader = ({ profile }: ProfileHeaderProps) => {
-  const profileStyle = {
-    backgroundColor: profile.backgroundColor || '#ffffff',
-    color: profile.textColor || '#000000',
-  };
-
   return (
     <div className="text-center mb-8">
       {profile.avatar ? (
@@ -23,9 +18,9 @@ export const ProfileHeader = ({ profile }: ProfileHeaderProps) => {
           </AvatarFallback>
         </Avatar>
       ) : (
-        <div 
+        <div
           className="w-24 h-24 rounded-full mx-auto mb-4 flex items-center justify-center text-2xl font-bold border-2"
-          style={{ 
+          style={{
             backgroundColor: profile.accentColor || '#3b82f6',
             color: profile.backgroundColor || '#ffffff',
           }}
@@ -60,4 +55,4 @@ export const ProfileHeader = ({ profile }: ProfileHeaderProps) => {
       )}
     </div>
   );
-}; 
+};

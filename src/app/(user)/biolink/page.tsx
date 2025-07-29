@@ -4,14 +4,14 @@ import { redirect } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Globe, Edit, Copy, Trash2, Eye, ExternalLink } from 'lucide-react';
+import { Plus, Globe, Edit, Copy, Trash2, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { routes } from '@/routes';
 import { biolinkService } from '@/features/biolink';
 
 const BiolinkDashboard = async () => {
   const user = await currentUser();
-  
+
   if (!user) {
     redirect('/sign-in');
   }
@@ -44,7 +44,8 @@ const BiolinkDashboard = async () => {
             <div>
               <h3 className="text-lg font-semibold mb-2">No profiles yet</h3>
               <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-                Create your first BioLink profile to share all your important links in one beautiful page.
+                Create your first BioLink profile to share all your important
+                links in one beautiful page.
               </p>
               <Button asChild>
                 <Link href={routes.biolink.create}>
@@ -58,7 +59,10 @@ const BiolinkDashboard = async () => {
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {profiles.map((profile) => (
-            <Card key={profile.id} className="group hover:shadow-lg transition-all duration-200">
+            <Card
+              key={profile.id}
+              className="group hover:shadow-lg transition-all duration-200"
+            >
               <CardHeader className="space-y-4">
                 <div className="flex items-start justify-between">
                   <div className="flex-1 min-w-0">
@@ -66,7 +70,11 @@ const BiolinkDashboard = async () => {
                       {profile.title || 'Untitled Profile'}
                     </h3>
                     <div className="flex items-center gap-2 mt-1">
-                      <Badge variant={profile.status === 'public' ? 'default' : 'secondary'}>
+                      <Badge
+                        variant={
+                          profile.status === 'public' ? 'default' : 'secondary'
+                        }
+                      >
                         {profile.status === 'public' ? 'Published' : 'Draft'}
                       </Badge>
                       <span className="text-sm text-muted-foreground truncate">
@@ -83,13 +91,20 @@ const BiolinkDashboard = async () => {
                 )}
 
                 <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                  <span>Updated {new Date(profile.updatedAt).toLocaleDateString()}</span>
+                  <span>
+                    Updated {new Date(profile.updatedAt).toLocaleDateString()}
+                  </span>
                 </div>
               </CardHeader>
 
               <CardContent className="pt-0">
                 <div className="flex items-center gap-2">
-                  <Button variant="outline" size="sm" asChild className="flex-1">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    asChild
+                    className="flex-1"
+                  >
                     <Link href={routes.biolink.edit(profile.id)}>
                       <Edit className="size-4 mr-2" />
                       Edit
@@ -104,8 +119,8 @@ const BiolinkDashboard = async () => {
 
                   {profile.status === 'public' && (
                     <Button variant="outline" size="sm" asChild>
-                      <Link 
-                        href={routes.profile(profile.slug)} 
+                      <Link
+                        href={routes.profile(profile.slug)}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -118,7 +133,11 @@ const BiolinkDashboard = async () => {
                     <Copy className="size-4" />
                   </Button>
 
-                  <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-destructive hover:text-destructive"
+                  >
                     <Trash2 className="size-4" />
                   </Button>
                 </div>
@@ -150,7 +169,7 @@ const BiolinkDashboard = async () => {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {profiles.filter(p => p.status === 'public').length}
+                {profiles.filter((p) => p.status === 'public').length}
               </div>
             </CardContent>
           </Card>
@@ -162,29 +181,31 @@ const BiolinkDashboard = async () => {
 
 const BiolinkDashboardPage = () => {
   return (
-    <Suspense fallback={
-      <div className="container mx-auto py-8 px-4">
-        <div className="animate-pulse space-y-6">
-          <div className="h-8 bg-muted rounded w-1/3" />
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <Card key={i}>
-                <CardHeader>
-                  <div className="h-4 bg-muted rounded w-3/4" />
-                  <div className="h-3 bg-muted rounded w-1/2" />
-                </CardHeader>
-                <CardContent>
-                  <div className="h-8 bg-muted rounded" />
-                </CardContent>
-              </Card>
-            ))}
+    <Suspense
+      fallback={
+        <div className="container mx-auto py-8 px-4">
+          <div className="animate-pulse space-y-6">
+            <div className="h-8 bg-muted rounded w-1/3" />
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <Card key={i}>
+                  <CardHeader>
+                    <div className="h-4 bg-muted rounded w-3/4" />
+                    <div className="h-3 bg-muted rounded w-1/2" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="h-8 bg-muted rounded" />
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-    }>
+      }
+    >
       <BiolinkDashboard />
     </Suspense>
   );
 };
 
-export default BiolinkDashboardPage; 
+export default BiolinkDashboardPage;

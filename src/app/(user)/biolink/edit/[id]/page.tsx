@@ -6,20 +6,20 @@ import { biolinkService } from '@/features/biolink';
 import { routes } from '@/routes';
 
 type EditProfilePageProps = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 const EditProfileContent = async ({ profileId }: { profileId: number }) => {
   const user = await currentUser();
-  
+
   if (!user) {
     redirect('/sign-in');
   }
 
   const profile = await biolinkService.getProfileById(profileId);
-  
+
   if (!profile) {
     notFound();
   }
@@ -41,21 +41,23 @@ const EditProfilePage = async ({ params }: EditProfilePageProps) => {
   }
 
   return (
-    <Suspense fallback={
-      <div className="container mx-auto py-8 px-4 max-w-2xl">
-        <div className="animate-pulse space-y-6">
-          <div className="h-8 bg-muted rounded w-1/3" />
-          <div className="space-y-4">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className="h-12 bg-muted rounded" />
-            ))}
+    <Suspense
+      fallback={
+        <div className="container mx-auto py-8 px-4 max-w-2xl">
+          <div className="animate-pulse space-y-6">
+            <div className="h-8 bg-muted rounded w-1/3" />
+            <div className="space-y-4">
+              {Array.from({ length: 8 }).map((_, i) => (
+                <div key={i} className="h-12 bg-muted rounded" />
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-    }>
+      }
+    >
       <EditProfileContent profileId={profileId} />
     </Suspense>
   );
 };
 
-export default EditProfilePage; 
+export default EditProfilePage;

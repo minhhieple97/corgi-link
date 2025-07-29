@@ -1,18 +1,36 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { ExternalLink, Github, Linkedin, Twitter, Mail, Instagram, Facebook } from 'lucide-react';
-import type { BiolinkComponent, ButtonComponentSettings, TextComponentSettings, ImageComponentSettings, LinkComponentSettings } from '../../types';
+import {
+  ExternalLink,
+  Github,
+  Linkedin,
+  Twitter,
+  Mail,
+  Instagram,
+  Facebook,
+} from 'lucide-react';
+import type {
+  BiolinkComponent,
+  ButtonComponentSettings,
+  TextComponentSettings,
+  ImageComponentSettings,
+  LinkComponentSettings,
+} from '../../types';
 
 type ComponentRendererProps = {
   component: BiolinkComponent;
   isPreview: boolean;
 };
 
-export const ComponentRenderer = ({ component, isPreview }: ComponentRendererProps) => {
+export const ComponentRenderer = ({
+  component,
+  isPreview,
+}: ComponentRendererProps) => {
   const getSettings = <T,>(defaultSettings: T): T => {
     if (!component.settings) return defaultSettings;
     try {
@@ -38,8 +56,13 @@ export const ComponentRenderer = ({ component, isPreview }: ComponentRendererPro
 
       return (
         <Button
-          variant={settings.buttonStyle === 'filled' ? 'default' : 
-                  settings.buttonStyle === 'outlined' ? 'outline' : 'ghost'}
+          variant={
+            settings.buttonStyle === 'filled'
+              ? 'default'
+              : settings.buttonStyle === 'outlined'
+              ? 'outline'
+              : 'ghost'
+          }
           className="w-full"
           style={{
             ...getComponentStyle(),
@@ -109,7 +132,7 @@ export const ComponentRenderer = ({ component, isPreview }: ComponentRendererPro
           {component.title && (
             <h3 className="font-semibold mb-3">{component.title}</h3>
           )}
-          <div 
+          <div
             className="mx-auto bg-muted border-2 border-dashed border-muted-foreground/25 flex items-center justify-center"
             style={{
               width: `${settings.width}px`,
@@ -119,9 +142,11 @@ export const ComponentRenderer = ({ component, isPreview }: ComponentRendererPro
             }}
           >
             {component.imageUrl ? (
-              <img
+              <Image
                 src={component.imageUrl}
                 alt={settings.alt || component.title || 'Image'}
+                width={settings.width}
+                height={settings.height}
                 className="w-full h-full object-cover"
                 style={{ borderRadius: `${settings.borderRadius}px` }}
               />
@@ -147,7 +172,11 @@ export const ComponentRenderer = ({ component, isPreview }: ComponentRendererPro
           <a
             href={isPreview ? component.url || '#' : '#'}
             target={isPreview && settings.openInNewTab ? '_blank' : undefined}
-            rel={isPreview && settings.openInNewTab ? 'noopener noreferrer' : undefined}
+            rel={
+              isPreview && settings.openInNewTab
+                ? 'noopener noreferrer'
+                : undefined
+            }
             className={`
               inline-flex items-center gap-2 transition-colors
               ${settings.underline ? 'underline' : ''}
@@ -164,10 +193,22 @@ export const ComponentRenderer = ({ component, isPreview }: ComponentRendererPro
     case 'social-links': {
       const socialPlatforms = [
         { name: 'github', icon: Github, url: 'https://github.com/username' },
-        { name: 'linkedin', icon: Linkedin, url: 'https://linkedin.com/in/username' },
+        {
+          name: 'linkedin',
+          icon: Linkedin,
+          url: 'https://linkedin.com/in/username',
+        },
         { name: 'twitter', icon: Twitter, url: 'https://twitter.com/username' },
-        { name: 'instagram', icon: Instagram, url: 'https://instagram.com/username' },
-        { name: 'facebook', icon: Facebook, url: 'https://facebook.com/username' },
+        {
+          name: 'instagram',
+          icon: Instagram,
+          url: 'https://instagram.com/username',
+        },
+        {
+          name: 'facebook',
+          icon: Facebook,
+          url: 'https://facebook.com/username',
+        },
         { name: 'email', icon: Mail, url: 'mailto:email@example.com' },
       ];
 
@@ -205,7 +246,7 @@ export const ComponentRenderer = ({ component, isPreview }: ComponentRendererPro
           tech: ['React', 'TypeScript'],
         },
         {
-          title: 'Project 2', 
+          title: 'Project 2',
           description: 'Another awesome project you worked on',
           image: null,
           tech: ['Next.js', 'Tailwind'],
@@ -215,13 +256,17 @@ export const ComponentRenderer = ({ component, isPreview }: ComponentRendererPro
       return (
         <div style={getComponentStyle()}>
           {component.title && (
-            <h3 className="font-semibold mb-4 text-center">{component.title}</h3>
+            <h3 className="font-semibold mb-4 text-center">
+              {component.title}
+            </h3>
           )}
           <div className="space-y-4">
             {mockProjects.map((project, index) => (
               <div key={index} className="border rounded-lg p-4 space-y-2">
                 <h4 className="font-medium">{project.title}</h4>
-                <p className="text-sm text-muted-foreground">{project.description}</p>
+                <p className="text-sm text-muted-foreground">
+                  {project.description}
+                </p>
                 <div className="flex gap-2 flex-wrap">
                   {project.tech.map((tech) => (
                     <span
@@ -243,13 +288,19 @@ export const ComponentRenderer = ({ component, isPreview }: ComponentRendererPro
       return (
         <div style={getComponentStyle()}>
           {component.title && (
-            <h3 className="font-semibold mb-4 text-center">{component.title}</h3>
+            <h3 className="font-semibold mb-4 text-center">
+              {component.title}
+            </h3>
           )}
           <div className="space-y-4">
             <Input placeholder="Your name" disabled={!isPreview} />
-            <Input placeholder="Your email" type="email" disabled={!isPreview} />
-            <Textarea 
-              placeholder={component.content || "Your message"}
+            <Input
+              placeholder="Your email"
+              type="email"
+              disabled={!isPreview}
+            />
+            <Textarea
+              placeholder={component.content || 'Your message'}
               rows={4}
               disabled={!isPreview}
             />
@@ -264,7 +315,7 @@ export const ComponentRenderer = ({ component, isPreview }: ComponentRendererPro
     case 'divider': {
       return (
         <div className="flex items-center justify-center py-4">
-          <div 
+          <div
             className="w-full h-px bg-border"
             style={{
               backgroundColor: component.backgroundColor || undefined,
@@ -281,4 +332,4 @@ export const ComponentRenderer = ({ component, isPreview }: ComponentRendererPro
         </div>
       );
   }
-}; 
+};

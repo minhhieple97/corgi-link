@@ -13,7 +13,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { ArrowLeft, Check, Globe } from 'lucide-react';
 import Link from 'next/link';
 import { routes } from '@/routes';
-import { createBiolinkProfileSchema, createBiolinkProfileAction } from '@/features/biolink';
+import {
+  createBiolinkProfileSchema,
+  createBiolinkProfileAction,
+} from '@/features/biolink';
 import type { CreateBiolinkProfileInput } from '@/features/biolink/types';
 
 const CreateBiolinkProfilePage = () => {
@@ -49,7 +52,7 @@ const CreateBiolinkProfilePage = () => {
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTitle = e.target.value;
     setValue('title', newTitle);
-    
+
     if (newTitle && !slug) {
       const generatedSlug = newTitle
         .toLowerCase()
@@ -65,24 +68,24 @@ const CreateBiolinkProfilePage = () => {
       .replace(/[^a-z0-9-_]+/g, '')
       .replace(/^-+|-+$/g, '');
     setValue('slug', newSlug);
-    
+
     // Reset availability check
     setSlugAvailable(null);
   };
 
   const checkSlugAvailability = async () => {
     if (!slug || slug.length < 3) return;
-    
+
     try {
       // Here you would call the slug validation action
       // const result = await validateBiolinkSlugAction({ slug });
       // setSlugAvailable(result.isAvailable);
-      
+
       // For now, simulate the check
       setTimeout(() => {
         setSlugAvailable(true);
       }, 500);
-    } catch (error) {
+    } catch {
       setSlugAvailable(false);
     }
   };
@@ -91,7 +94,7 @@ const CreateBiolinkProfilePage = () => {
     startTransition(async () => {
       try {
         const result = await createBiolinkProfileAction(data);
-        
+
         if (result?.data?.profile) {
           toast.success('Profile created successfully!');
           router.push(routes.biolink.builder(result.data.profile.id));
@@ -114,7 +117,7 @@ const CreateBiolinkProfilePage = () => {
             Back to Profiles
           </Link>
         </Button>
-        
+
         <h1 className="text-3xl font-bold">Create New Profile</h1>
         <p className="text-muted-foreground mt-2">
           Set up your personal landing page to share all your important links
@@ -139,7 +142,9 @@ const CreateBiolinkProfilePage = () => {
                   className={errors.title ? 'border-destructive' : ''}
                 />
                 {errors.title && (
-                  <p className="text-sm text-destructive">{errors.title.message}</p>
+                  <p className="text-sm text-destructive">
+                    {errors.title.message}
+                  </p>
                 )}
               </div>
 
@@ -156,7 +161,9 @@ const CreateBiolinkProfilePage = () => {
                       onChange={handleSlugChange}
                       onBlur={checkSlugAvailability}
                       placeholder="your-name"
-                      className={`rounded-l-none ${errors.slug ? 'border-destructive' : ''}`}
+                      className={`rounded-l-none ${
+                        errors.slug ? 'border-destructive' : ''
+                      }`}
                     />
                     {slugAvailable === true && (
                       <Check className="absolute right-3 top-1/2 transform -translate-y-1/2 size-4 text-green-500" />
@@ -164,10 +171,14 @@ const CreateBiolinkProfilePage = () => {
                   </div>
                 </div>
                 {errors.slug && (
-                  <p className="text-sm text-destructive">{errors.slug.message}</p>
+                  <p className="text-sm text-destructive">
+                    {errors.slug.message}
+                  </p>
                 )}
                 {slugAvailable === false && (
-                  <p className="text-sm text-destructive">This URL is already taken</p>
+                  <p className="text-sm text-destructive">
+                    This URL is already taken
+                  </p>
                 )}
               </div>
 
@@ -181,7 +192,9 @@ const CreateBiolinkProfilePage = () => {
                   className={errors.bio ? 'border-destructive' : ''}
                 />
                 {errors.bio && (
-                  <p className="text-sm text-destructive">{errors.bio.message}</p>
+                  <p className="text-sm text-destructive">
+                    {errors.bio.message}
+                  </p>
                 )}
               </div>
 
@@ -195,7 +208,9 @@ const CreateBiolinkProfilePage = () => {
                     className={errors.career ? 'border-destructive' : ''}
                   />
                   {errors.career && (
-                    <p className="text-sm text-destructive">{errors.career.message}</p>
+                    <p className="text-sm text-destructive">
+                      {errors.career.message}
+                    </p>
                   )}
                 </div>
 
@@ -208,7 +223,9 @@ const CreateBiolinkProfilePage = () => {
                     className={errors.location ? 'border-destructive' : ''}
                   />
                   {errors.location && (
-                    <p className="text-sm text-destructive">{errors.location.message}</p>
+                    <p className="text-sm text-destructive">
+                      {errors.location.message}
+                    </p>
                   )}
                 </div>
               </div>
@@ -282,7 +299,7 @@ const CreateBiolinkProfilePage = () => {
               <CardTitle>Preview</CardTitle>
             </CardHeader>
             <CardContent>
-              <div 
+              <div
                 className="max-w-sm mx-auto p-6 rounded-lg border text-center"
                 style={{
                   backgroundColor: watch('backgroundColor'),
@@ -302,8 +319,8 @@ const CreateBiolinkProfilePage = () => {
                 {watch('bio') && (
                   <p className="text-sm opacity-90 mb-4">{watch('bio')}</p>
                 )}
-                <Button 
-                  size="sm" 
+                <Button
+                  size="sm"
                   style={{ backgroundColor: watch('accentColor') }}
                   disabled
                 >
@@ -315,8 +332,8 @@ const CreateBiolinkProfilePage = () => {
         </div>
 
         <div className="flex items-center gap-4 mt-8">
-          <Button 
-            type="submit" 
+          <Button
+            type="submit"
             disabled={isPending || !isValid}
             className="flex-1"
           >
@@ -332,7 +349,7 @@ const CreateBiolinkProfilePage = () => {
               </>
             )}
           </Button>
-          
+
           <Button variant="outline" asChild>
             <Link href={routes.biolink.root}>Cancel</Link>
           </Button>
@@ -342,4 +359,4 @@ const CreateBiolinkProfilePage = () => {
   );
 };
 
-export default CreateBiolinkProfilePage; 
+export default CreateBiolinkProfilePage;

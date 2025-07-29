@@ -4,7 +4,11 @@ import { revalidatePath } from 'next/cache';
 import { ActionError, authAction } from '@/lib/safe-action';
 import { routes } from '@/routes';
 import { biolinkService } from '../services';
-import { getBiolinkComponent, getBiolinkSocialLink, getBiolinkProject } from '../queries';
+import {
+  getBiolinkComponent,
+  getBiolinkSocialLink,
+  getBiolinkProject,
+} from '../queries';
 import {
   createBiolinkProfileSchema,
   updateBiolinkProfileSchema,
@@ -18,7 +22,6 @@ import {
   duplicateProfileSchema,
   reorderComponentsSchema,
   validateSlugSchema,
-  createVersionSchema,
 } from '../schemas';
 import { z } from 'zod';
 
@@ -52,7 +55,9 @@ export const updateBiolinkProfileAction = authAction
     // Check if user owns the profile
     const profile = await biolinkService.getProfileById(id);
     if (!profile || profile.userId !== user.id) {
-      throw new ActionError("Profile not found or you don't have permission to edit it");
+      throw new ActionError(
+        "Profile not found or you don't have permission to edit it",
+      );
     }
 
     const result = await biolinkService.updateProfile(id, updateData);
@@ -82,7 +87,9 @@ export const deleteBiolinkProfileAction = authAction
     // Check if user owns the profile
     const profile = await biolinkService.getProfileById(id);
     if (!profile || profile.userId !== user.id) {
-      throw new ActionError("Profile not found or you don't have permission to delete it");
+      throw new ActionError(
+        "Profile not found or you don't have permission to delete it",
+      );
     }
 
     const result = await biolinkService.deleteProfile(id);
@@ -111,7 +118,9 @@ export const publishBiolinkProfileAction = authAction
     // Check if user owns the profile
     const profile = await biolinkService.getProfileById(profileId);
     if (!profile || profile.userId !== user.id) {
-      throw new ActionError("Profile not found or you don't have permission to publish it");
+      throw new ActionError(
+        "Profile not found or you don't have permission to publish it",
+      );
     }
 
     const result = await biolinkService.publishProfile(profileId, status);
@@ -140,7 +149,9 @@ export const duplicateBiolinkProfileAction = authAction
     // Check if user owns the profile
     const profile = await biolinkService.getProfileById(profileId);
     if (!profile || profile.userId !== user.id) {
-      throw new ActionError("Profile not found or you don't have permission to duplicate it");
+      throw new ActionError(
+        "Profile not found or you don't have permission to duplicate it",
+      );
     }
 
     const result = await biolinkService.duplicateProfile(profileId, newSlug);
@@ -166,7 +177,9 @@ export const createBiolinkComponentAction = authAction
     // Check if user owns the profile
     const profile = await biolinkService.getProfileById(parsedInput.profileId);
     if (!profile || profile.userId !== user.id) {
-      throw new ActionError("Profile not found or you don't have permission to add components");
+      throw new ActionError(
+        "Profile not found or you don't have permission to add components",
+      );
     }
 
     const result = await biolinkService.addComponent(parsedInput);
@@ -233,7 +246,9 @@ export const deleteBiolinkComponentAction = authAction
 
     const profile = await biolinkService.getProfileById(component.profileId);
     if (!profile || profile.userId !== user.id) {
-      throw new ActionError("You don't have permission to delete this component");
+      throw new ActionError(
+        "You don't have permission to delete this component",
+      );
     }
 
     const result = await biolinkService.deleteComponent(id);
@@ -264,7 +279,10 @@ export const reorderBiolinkComponentsAction = authAction
       throw new ActionError("You don't have permission to reorder components");
     }
 
-    const result = await biolinkService.reorderComponents(profileId, componentIds);
+    const result = await biolinkService.reorderComponents(
+      profileId,
+      componentIds,
+    );
 
     if (!result.success) {
       throw new ActionError(result.error || 'Failed to reorder components');
@@ -289,7 +307,9 @@ export const createBiolinkSocialLinkAction = authAction
     // Check if user owns the profile
     const profile = await biolinkService.getProfileById(parsedInput.profileId);
     if (!profile || profile.userId !== user.id) {
-      throw new ActionError("Profile not found or you don't have permission to add social links");
+      throw new ActionError(
+        "Profile not found or you don't have permission to add social links",
+      );
     }
 
     const result = await biolinkService.addSocialLink(parsedInput);
@@ -323,7 +343,9 @@ export const updateBiolinkSocialLinkAction = authAction
 
     const profile = await biolinkService.getProfileById(socialLink.profileId);
     if (!profile || profile.userId !== user.id) {
-      throw new ActionError("You don't have permission to edit this social link");
+      throw new ActionError(
+        "You don't have permission to edit this social link",
+      );
     }
 
     const result = await biolinkService.updateSocialLink(id, updateData);
@@ -356,7 +378,9 @@ export const deleteBiolinkSocialLinkAction = authAction
 
     const profile = await biolinkService.getProfileById(socialLink.profileId);
     if (!profile || profile.userId !== user.id) {
-      throw new ActionError("You don't have permission to delete this social link");
+      throw new ActionError(
+        "You don't have permission to delete this social link",
+      );
     }
 
     const result = await biolinkService.deleteSocialLink(id);
@@ -385,7 +409,9 @@ export const createBiolinkProjectAction = authAction
     // Check if user owns the profile
     const profile = await biolinkService.getProfileById(parsedInput.profileId);
     if (!profile || profile.userId !== user.id) {
-      throw new ActionError("Profile not found or you don't have permission to add projects");
+      throw new ActionError(
+        "Profile not found or you don't have permission to add projects",
+      );
     }
 
     const result = await biolinkService.addProject(parsedInput);
@@ -481,7 +507,9 @@ export const saveBiolinkVersionAction = authAction
     // Check if user owns the profile
     const profile = await biolinkService.getProfileById(profileId);
     if (!profile || profile.userId !== user.id) {
-      throw new ActionError("Profile not found or you don't have permission to save versions");
+      throw new ActionError(
+        "Profile not found or you don't have permission to save versions",
+      );
     }
 
     const result = await biolinkService.saveVersion(profileId);
@@ -508,7 +536,9 @@ export const previewBiolinkProfileAction = authAction
     // Check if user owns the profile
     const profile = await biolinkService.getProfileById(profileId);
     if (!profile || profile.userId !== user.id) {
-      throw new ActionError("Profile not found or you don't have permission to preview it");
+      throw new ActionError(
+        "Profile not found or you don't have permission to preview it",
+      );
     }
 
     return {

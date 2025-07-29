@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { ExternalLink } from 'lucide-react';
 import type { BiolinkProject, BiolinkProfile } from '@/features/biolink/types';
@@ -7,9 +8,12 @@ type ProjectsSectionProps = {
   profile: BiolinkProfile;
 };
 
-export const ProjectsSection = ({ projects, profile }: ProjectsSectionProps) => {
+export const ProjectsSection = ({
+  projects,
+  profile,
+}: ProjectsSectionProps) => {
   const featuredProjects = projects
-    .filter(project => project.isVisible && project.isFeatured)
+    .filter((project) => project.isVisible && project.isFeatured)
     .sort((a, b) => a.order - b.order);
 
   if (featuredProjects.length === 0) {
@@ -21,15 +25,17 @@ export const ProjectsSection = ({ projects, profile }: ProjectsSectionProps) => 
       <h2 className="text-xl font-bold mb-6 text-center">Featured Projects</h2>
       <div className="space-y-4">
         {featuredProjects.map((project) => (
-          <div 
+          <div
             key={project.id}
             className="border rounded-lg p-4 space-y-3"
             style={{ borderColor: profile.accentColor || '#e5e5e5' }}
           >
             {project.imageUrl && (
-              <img
+              <Image
                 src={project.imageUrl}
                 alt={project.title}
+                width={400}
+                height={128}
                 className="w-full h-32 object-cover rounded-md"
               />
             )}
@@ -57,7 +63,7 @@ export const ProjectsSection = ({ projects, profile }: ProjectsSectionProps) => 
             <div className="flex gap-2">
               {project.projectUrl && (
                 <Button size="sm" variant="outline" asChild>
-                  <a 
+                  <a
                     href={project.projectUrl}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -69,7 +75,7 @@ export const ProjectsSection = ({ projects, profile }: ProjectsSectionProps) => 
               )}
               {project.githubUrl && (
                 <Button size="sm" variant="ghost" asChild>
-                  <a 
+                  <a
                     href={project.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -84,4 +90,4 @@ export const ProjectsSection = ({ projects, profile }: ProjectsSectionProps) => 
       </div>
     </div>
   );
-}; 
+};

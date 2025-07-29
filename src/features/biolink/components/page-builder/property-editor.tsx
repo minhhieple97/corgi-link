@@ -7,16 +7,30 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Separator } from '@/components/ui/separator';
-import { Palette, Type, Link as LinkIcon, Settings } from 'lucide-react';
+import { Palette, Type, Settings } from 'lucide-react';
 import { useDragContext } from './drag-context';
-import type { BiolinkComponent, ButtonComponentSettings, TextComponentSettings, ImageComponentSettings, LinkComponentSettings } from '../../types';
+import type {
+  BiolinkComponent,
+  ButtonComponentSettings,
+  TextComponentSettings,
+  ImageComponentSettings,
+  LinkComponentSettings,
+  ComponentSettings,
+} from '../../types';
 
 export const PropertyEditor = () => {
   const { state, updateComponent, selectComponent } = useDragContext();
-  const [localComponent, setLocalComponent] = useState<BiolinkComponent | null>(null);
+  const [localComponent, setLocalComponent] = useState<BiolinkComponent | null>(
+    null,
+  );
 
   useEffect(() => {
     setLocalComponent(state.selectedComponent);
@@ -33,8 +47,12 @@ export const PropertyEditor = () => {
         </CardHeader>
         <CardContent>
           <div className="text-center py-20 text-muted-foreground">
-            <div className="text-lg font-medium mb-2">No component selected</div>
-            <div className="text-sm">Click a component to edit its properties</div>
+            <div className="text-lg font-medium mb-2">
+              No component selected
+            </div>
+            <div className="text-sm">
+              Click a component to edit its properties
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -56,7 +74,7 @@ export const PropertyEditor = () => {
     }
   };
 
-  const updateSettings = (newSettings: any) => {
+  const updateSettings = (newSettings: ComponentSettings) => {
     updateLocalComponent({
       settings: JSON.stringify(newSettings),
     });
@@ -118,7 +136,9 @@ export const PropertyEditor = () => {
         <Switch
           id="visibility"
           checked={localComponent.isVisible}
-          onCheckedChange={(checked) => updateLocalComponent({ isVisible: checked })}
+          onCheckedChange={(checked) =>
+            updateLocalComponent({ isVisible: checked })
+          }
         />
       </div>
     </div>
@@ -133,12 +153,16 @@ export const PropertyEditor = () => {
             id="backgroundColor"
             type="color"
             value={localComponent.backgroundColor || '#ffffff'}
-            onChange={(e) => updateLocalComponent({ backgroundColor: e.target.value })}
+            onChange={(e) =>
+              updateLocalComponent({ backgroundColor: e.target.value })
+            }
             className="w-16 h-10 p-1"
           />
           <Input
             value={localComponent.backgroundColor || ''}
-            onChange={(e) => updateLocalComponent({ backgroundColor: e.target.value })}
+            onChange={(e) =>
+              updateLocalComponent({ backgroundColor: e.target.value })
+            }
             placeholder="#ffffff"
             className="flex-1"
           />
@@ -152,12 +176,16 @@ export const PropertyEditor = () => {
             id="textColor"
             type="color"
             value={localComponent.textColor || '#000000'}
-            onChange={(e) => updateLocalComponent({ textColor: e.target.value })}
+            onChange={(e) =>
+              updateLocalComponent({ textColor: e.target.value })
+            }
             className="w-16 h-10 p-1"
           />
           <Input
             value={localComponent.textColor || ''}
-            onChange={(e) => updateLocalComponent({ textColor: e.target.value })}
+            onChange={(e) =>
+              updateLocalComponent({ textColor: e.target.value })
+            }
             placeholder="#000000"
             className="flex-1"
           />
@@ -172,12 +200,16 @@ export const PropertyEditor = () => {
               id="borderColor"
               type="color"
               value={localComponent.borderColor || '#e5e5e5'}
-              onChange={(e) => updateLocalComponent({ borderColor: e.target.value })}
+              onChange={(e) =>
+                updateLocalComponent({ borderColor: e.target.value })
+              }
               className="w-16 h-10 p-1"
             />
             <Input
               value={localComponent.borderColor || ''}
-              onChange={(e) => updateLocalComponent({ borderColor: e.target.value })}
+              onChange={(e) =>
+                updateLocalComponent({ borderColor: e.target.value })
+              }
               placeholder="#e5e5e5"
               className="flex-1"
             />
@@ -202,7 +234,9 @@ export const PropertyEditor = () => {
               <Label>Button Style</Label>
               <Select
                 value={settings.buttonStyle}
-                onValueChange={(value) => updateSettings({ ...settings, buttonStyle: value })}
+                onValueChange={(value) =>
+                  updateSettings({ ...settings, buttonStyle: value })
+                }
               >
                 <SelectTrigger>
                   <SelectValue />
@@ -224,7 +258,12 @@ export const PropertyEditor = () => {
                   min="0"
                   max="50"
                   value={settings.borderRadius}
-                  onChange={(e) => updateSettings({ ...settings, borderRadius: Number(e.target.value) })}
+                  onChange={(e) =>
+                    updateSettings({
+                      ...settings,
+                      borderRadius: Number(e.target.value),
+                    })
+                  }
                   className="flex-1"
                 />
                 <span className="text-sm text-muted-foreground w-12 text-right">
@@ -249,7 +288,9 @@ export const PropertyEditor = () => {
               <Label>Font Size</Label>
               <Select
                 value={settings.fontSize}
-                onValueChange={(value) => updateSettings({ ...settings, fontSize: value })}
+                onValueChange={(value) =>
+                  updateSettings({ ...settings, fontSize: value })
+                }
               >
                 <SelectTrigger>
                   <SelectValue />
@@ -268,7 +309,9 @@ export const PropertyEditor = () => {
               <Label>Font Weight</Label>
               <Select
                 value={settings.fontWeight}
-                onValueChange={(value) => updateSettings({ ...settings, fontWeight: value })}
+                onValueChange={(value) =>
+                  updateSettings({ ...settings, fontWeight: value })
+                }
               >
                 <SelectTrigger>
                   <SelectValue />
@@ -286,7 +329,9 @@ export const PropertyEditor = () => {
               <Label>Text Alignment</Label>
               <Select
                 value={settings.textAlign}
-                onValueChange={(value) => updateSettings({ ...settings, textAlign: value })}
+                onValueChange={(value) =>
+                  updateSettings({ ...settings, textAlign: value })
+                }
               >
                 <SelectTrigger>
                   <SelectValue />
@@ -320,7 +365,9 @@ export const PropertyEditor = () => {
                 min="50"
                 max="500"
                 value={settings.width}
-                onChange={(e) => updateSettings({ ...settings, width: Number(e.target.value) })}
+                onChange={(e) =>
+                  updateSettings({ ...settings, width: Number(e.target.value) })
+                }
               />
             </div>
 
@@ -332,7 +379,12 @@ export const PropertyEditor = () => {
                 min="50"
                 max="500"
                 value={settings.height}
-                onChange={(e) => updateSettings({ ...settings, height: Number(e.target.value) })}
+                onChange={(e) =>
+                  updateSettings({
+                    ...settings,
+                    height: Number(e.target.value),
+                  })
+                }
               />
             </div>
 
@@ -341,7 +393,9 @@ export const PropertyEditor = () => {
               <Input
                 id="alt"
                 value={settings.alt}
-                onChange={(e) => updateSettings({ ...settings, alt: e.target.value })}
+                onChange={(e) =>
+                  updateSettings({ ...settings, alt: e.target.value })
+                }
                 placeholder="Describe the image..."
               />
             </div>
@@ -363,7 +417,9 @@ export const PropertyEditor = () => {
               <Switch
                 id="showIcon"
                 checked={settings.showIcon}
-                onCheckedChange={(checked) => updateSettings({ ...settings, showIcon: checked })}
+                onCheckedChange={(checked) =>
+                  updateSettings({ ...settings, showIcon: checked })
+                }
               />
             </div>
 
@@ -372,7 +428,9 @@ export const PropertyEditor = () => {
               <Switch
                 id="openInNewTab"
                 checked={settings.openInNewTab}
-                onCheckedChange={(checked) => updateSettings({ ...settings, openInNewTab: checked })}
+                onCheckedChange={(checked) =>
+                  updateSettings({ ...settings, openInNewTab: checked })
+                }
               />
             </div>
 
@@ -381,7 +439,9 @@ export const PropertyEditor = () => {
               <Switch
                 id="underline"
                 checked={settings.underline}
-                onCheckedChange={(checked) => updateSettings({ ...settings, underline: checked })}
+                onCheckedChange={(checked) =>
+                  updateSettings({ ...settings, underline: checked })
+                }
               />
             </div>
           </div>
@@ -391,7 +451,9 @@ export const PropertyEditor = () => {
       default:
         return (
           <div className="text-center py-8 text-muted-foreground">
-            <div className="text-sm">No specific settings for this component type</div>
+            <div className="text-sm">
+              No specific settings for this component type
+            </div>
           </div>
         );
     }
@@ -450,4 +512,4 @@ export const PropertyEditor = () => {
       </CardContent>
     </Card>
   );
-}; 
+};
