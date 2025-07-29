@@ -13,18 +13,17 @@ type PageBuilderPageProps = {
 
 const PageBuilderContent = async ({ profileId }: { profileId: number }) => {
   const user = await currentUser();
-  
-  if (!user) {
-    redirect('/sign-in');
-  }
 
   const profile = await biolinkService.getProfileById(profileId);
-  
+
   if (!profile) {
     notFound();
   }
 
-  // Check if user owns this profile
+  if (!user) {
+    redirect(routes.home);
+  }
+
   if (profile.userId !== user.id) {
     redirect(routes.biolink.root);
   }
@@ -65,17 +64,19 @@ const PageBuilderPage = async ({ params }: PageBuilderPageProps) => {
   }
 
   return (
-    <Suspense fallback={
-      <div className="flex items-center justify-center h-screen">
-        <div className="flex flex-col items-center gap-4">
-          <div className="size-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-          <p className="text-muted-foreground">Loading page builder...</p>
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center h-screen">
+          <div className="flex flex-col items-center gap-4">
+            <div className="size-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+            <p className="text-muted-foreground">Loading page builder...</p>
+          </div>
         </div>
-      </div>
-    }>
+      }
+    >
       <PageBuilderContent profileId={profileId} />
     </Suspense>
   );
 };
 
-export default PageBuilderPage; 
+export default PageBuilderPage;
