@@ -474,7 +474,7 @@ export const deleteBiolinkProjectAction = authAction
 
 // Version actions
 export const saveBiolinkVersionAction = authAction
-  .schema(createVersionSchema)
+  .schema(z.object({ profileId: z.number().positive() }))
   .action(async ({ parsedInput: { profileId }, ctx }) => {
     const { user } = ctx;
 
@@ -499,6 +499,24 @@ export const saveBiolinkVersionAction = authAction
   });
 
 // Utility actions
+// Preview action
+export const previewBiolinkProfileAction = authAction
+  .schema(z.object({ profileId: z.number().positive() }))
+  .action(async ({ parsedInput: { profileId }, ctx }) => {
+    const { user } = ctx;
+
+    // Check if user owns the profile
+    const profile = await biolinkService.getProfileById(profileId);
+    if (!profile || profile.userId !== user.id) {
+      throw new ActionError("Profile not found or you don't have permission to preview it");
+    }
+
+    return {
+      success: true,
+      previewUrl: routes.biolink.preview(profile.slug),
+    };
+  });
+
 export const validateBiolinkSlugAction = authAction
   .schema(validateSlugSchema)
   .action(async ({ parsedInput: { slug, excludeProfileId } }) => {
@@ -509,4 +527,4 @@ export const validateBiolinkSlugAction = authAction
       isAvailable: result.isAvailable,
       error: result.error,
     };
-  }); 
+  });

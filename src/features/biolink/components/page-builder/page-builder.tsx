@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useAction } from 'next-safe-action/hooks';
 import { DragProvider } from './drag-context';
 import { ComponentPalette } from './component-palette';
 import { CanvasArea } from './canvas-area';
@@ -9,17 +10,63 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Save, Eye, Share, Settings, Smartphone, Monitor } from 'lucide-react';
+import { toast } from 'sonner';
 import type { BiolinkProfileWithRelations } from '../../types';
+import { 
+  saveBiolinkVersionAction, 
+  previewBiolinkProfileAction, 
+  publishBiolinkProfileAction 
+} from '../../actions';
 
 type PageBuilderProps = {
   profile: BiolinkProfileWithRelations;
-  onSave?: () => void;
-  onPreview?: () => void;
-  onPublish?: () => void;
 };
 
-export const PageBuilder = ({ profile, onSave, onPreview, onPublish }: PageBuilderProps) => {
+export const PageBuilder = ({ profile }: PageBuilderProps) => {
   const [previewMode, setPreviewMode] = React.useState<'mobile' | 'desktop'>('mobile');
+
+  // Server actions
+  const { execute: saveVersion, isExecuting: isSaving } = useAction(saveBiolinkVersionAction, {
+    onSuccess: () => {
+      toast.success('Profile saved successfully!');
+    },
+    onError: ({ error }) => {
+      toast.error(error.serverError || 'Failed to save profile');
+    },
+  });
+
+  const { execute: previewProfile, isExecuting: isPreviewing } = useAction(previewBiolinkProfileAction, {
+    onSuccess: ({ data }) => {
+      if (data?.previewUrl) {
+        window.open(data.previewUrl, '_blank');
+      }
+    },
+    onError: ({ error }) => {
+      toast.error(error.serverError || 'Failed to open preview');
+    },
+  });
+
+  const { execute: publishProfile, isExecuting: isPublishing } = useAction(publishBiolinkProfileAction, {
+    onSuccess: () => {
+      toast.success('Profile published successfully!');
+    },
+    onError: ({ error }) => {
+      toast.error(error.serverError || 'Failed to publish profile');
+    },
+  });
+
+  const handleSave = () => {
+    saveVersion({ profileId: profile.id });
+  };
+
+  const handlePreview = () => {
+    previewProfile({ profileId: profile.id });
+  };
+
+  const handlePublish = () => {
+    const newStatus = profile.status === 'public' ? 'draft' : 'public';
+    publishProfile({ profileId: profile.id, status: newStatus });
+  };
 
   return (
     <div className="flex flex-col h-screen bg-background">
@@ -67,23 +114,33 @@ export const PageBuilder = ({ profile, onSave, onPreview, onPublish }: PageBuild
               </div>
 
               {/* Action buttons */}
-              <Button variant="outline" size="sm" onClick={onSave}>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={handleSave}
+                disabled={isSaving}
+              >
                 <Save className="size-4 mr-1" />
-                Save
+                {isSaving ? 'Saving...' : 'Save'}
               </Button>
               
-              <Button variant="outline" size="sm" onClick={onPreview}>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={handlePreview}
+                disabled={isPreviewing}
+              >
                 <Eye className="size-4 mr-1" />
-                Preview
+                {isPreviewing ? 'Opening...' : 'Preview'}
               </Button>
 
               <Button 
                 size="sm" 
-                onClick={onPublish}
-                disabled={profile.status === 'public'}
+                onClick={handlePublish}
+                disabled={isPublishing}
               >
                 <Share className="size-4 mr-1" />
-                {profile.status === 'public' ? 'Published' : 'Publish'}
+                {isPublishing ? 'Publishing...' : (profile.status === 'public' ? 'Unpublish' : 'Publish')}
               </Button>
             </div>
           </div>
@@ -130,4 +187,4 @@ export const PageBuilder = ({ profile, onSave, onPreview, onPublish }: PageBuild
       </Card>
     </div>
   );
-}; 
+};
