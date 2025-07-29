@@ -7,8 +7,8 @@ export { PropertyEditor } from './page-builder/property-editor';
 export { PageBuilder } from './page-builder/page-builder';
 
 // Form Components
-export { EditProfileForm } from './edit-profile-form'; 
-
+export { EditProfileForm } from './edit-profile-form';
+export * from './create-profile-form';
 
 // Profile Components
 export * from './profile';

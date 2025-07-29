@@ -14,4 +14,7 @@ export { biolinkService } from './services';
 export * from './actions';
 
 // Components
-export * from './components'; 
+export * from './components';
+
+// Hooks
+export * from './hooks';
