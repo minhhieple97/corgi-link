@@ -1,4 +1,8 @@
-import { clerkMiddleware, createRouteMatcher, clerkClient } from '@clerk/nextjs/server';
+import {
+  clerkMiddleware,
+  createRouteMatcher,
+  clerkClient,
+} from '@clerk/nextjs/server';
 import { ROLE_TYPE } from '@/constants';
 const isAdminRoute = createRouteMatcher(['/admin', '/admin/(.*)']);
 
@@ -9,6 +13,8 @@ const isProtectedRoute = createRouteMatcher([
   '/dashboard/(.*)',
   '/profile',
   '/profile/(.*)',
+  '/biolink',
+  '/biolink/(.*)',
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
@@ -24,7 +30,11 @@ export default clerkMiddleware(async (auth, req) => {
       return Response.redirect(new URL('/', req.url));
     }
 
-    if (isAuthRoute(req) && role !== ROLE_TYPE.USER && role !== ROLE_TYPE.ADMIN) {
+    if (
+      isAuthRoute(req) &&
+      role !== ROLE_TYPE.USER &&
+      role !== ROLE_TYPE.ADMIN
+    ) {
       return Response.redirect(new URL('/', req.url));
     }
   }
