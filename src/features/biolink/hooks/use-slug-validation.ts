@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useCallback } from 'react';
 import { validateBiolinkSlugAction } from '@/features/biolink';
 
@@ -12,10 +14,10 @@ export const useSlugValidation = () => {
     }
 
     setIsValidating(true);
-    
+
     try {
       const result = await validateBiolinkSlugAction({ slug });
-      
+
       if (result?.data) {
         setSlugAvailable(result.data.isAvailable);
       } else {

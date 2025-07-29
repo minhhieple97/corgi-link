@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback } from 'react';
 import type { UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import type { CreateBiolinkProfileInput } from '@/features/biolink/types';
@@ -7,7 +9,10 @@ type UseSlugGenerationProps = {
   watch: UseFormWatch<CreateBiolinkProfileInput>;
 };
 
-export const useSlugGeneration = ({ setValue, watch }: UseSlugGenerationProps) => {
+export const useSlugGeneration = ({
+  setValue,
+  watch,
+}: UseSlugGenerationProps) => {
   const slug = watch('slug');
 
   const generateSlugFromTitle = useCallback((title: string): string => {
@@ -24,21 +29,27 @@ export const useSlugGeneration = ({ setValue, watch }: UseSlugGenerationProps) =
       .replace(/^-+|-+$/g, '');
   }, []);
 
-  const handleTitleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const newTitle = e.target.value;
-    setValue('title', newTitle);
+  const handleTitleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newTitle = e.target.value;
+      setValue('title', newTitle);
 
-    // Auto-generate slug only if current slug is empty
-    if (newTitle && !slug) {
-      const generatedSlug = generateSlugFromTitle(newTitle);
-      setValue('slug', generatedSlug);
-    }
-  }, [setValue, slug, generateSlugFromTitle]);
+      // Auto-generate slug only if current slug is empty
+      if (newTitle && !slug) {
+        const generatedSlug = generateSlugFromTitle(newTitle);
+        setValue('slug', generatedSlug);
+      }
+    },
+    [setValue, slug, generateSlugFromTitle],
+  );
 
-  const handleSlugChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const sanitizedSlug = sanitizeSlug(e.target.value);
-    setValue('slug', sanitizedSlug);
-  }, [setValue, sanitizeSlug]);
+  const handleSlugChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const sanitizedSlug = sanitizeSlug(e.target.value);
+      setValue('slug', sanitizedSlug);
+    },
+    [setValue, sanitizeSlug],
+  );
 
   return {
     handleTitleChange,

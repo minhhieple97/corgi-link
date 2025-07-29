@@ -5,7 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import type { UseFormRegister, FieldErrors, UseFormWatch } from 'react-hook-form';
+import type {
+  UseFormRegister,
+  FieldErrors,
+  UseFormWatch,
+} from 'react-hook-form';
 import type { CreateBiolinkProfileInput } from '@/features/biolink/types';
 
 type BasicInfoSectionProps = {
@@ -22,7 +26,6 @@ type BasicInfoSectionProps = {
 export const BasicInfoSection = ({
   register,
   errors,
-  watch,
   onTitleChange,
   onSlugChange,
   onSlugBlur,
@@ -45,9 +48,7 @@ export const BasicInfoSection = ({
             className={errors.title ? 'border-destructive' : ''}
           />
           {errors.title && (
-            <p className="text-sm text-destructive">
-              {errors.title.message}
-            </p>
+            <p className="text-sm text-destructive">{errors.title.message}</p>
           )}
         </div>
 
@@ -77,9 +78,7 @@ export const BasicInfoSection = ({
             </div>
           </div>
           {errors.slug && (
-            <p className="text-sm text-destructive">
-              {errors.slug.message}
-            </p>
+            <p className="text-sm text-destructive">{errors.slug.message}</p>
           )}
           {slugAvailable === false && !isValidatingSlug && (
             <p className="text-sm text-destructive">
@@ -98,9 +97,7 @@ export const BasicInfoSection = ({
             className={errors.bio ? 'border-destructive' : ''}
           />
           {errors.bio && (
-            <p className="text-sm text-destructive">
-              {errors.bio.message}
-            </p>
+            <p className="text-sm text-destructive">{errors.bio.message}</p>
           )}
         </div>
 

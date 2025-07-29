@@ -1,9 +1,14 @@
+'use client';
+
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { createBiolinkProfileSchema, createBiolinkProfileAction } from '@/features/biolink';
+import {
+  createBiolinkProfileSchema,
+  createBiolinkProfileAction,
+} from '@/features/biolink';
 import { routes } from '@/routes';
 import type { CreateBiolinkProfileInput } from '@/features/biolink/types';
 

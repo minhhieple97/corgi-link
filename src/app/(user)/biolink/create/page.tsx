@@ -1,17 +1,11 @@
-'use client';
+import { PageHeader } from '@/features/biolink/components/create-profile-form';
+import { CreateFormClient } from '@/features/biolink/components/create-profile-form';
 
-import {
-  CreateProfileForm,
-  PageHeader,
-} from '@/features/biolink/components/create-profile-form';
-
-export const CreateBiolinkProfilePage = () => {
+export default function CreateBiolinkProfilePage() {
   return (
     <div className="container mx-auto py-8 px-4 max-w-2xl">
       <PageHeader />
-      <CreateProfileForm />
+      <CreateFormClient />
     </div>
   );
-};
-
-export default CreateBiolinkProfilePage;
+}
