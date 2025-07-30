@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
     if (!user) {
       return NextResponse.json(
         { success: false, error: { code: 'UNAUTHORIZED', message: 'Authentication required' } },
-        { status: 401 }
+        { status: HTTP_STATUS.UNAUTHORIZED },
       );
     }
 
@@ -87,14 +87,14 @@ export async function POST(request: NextRequest) {
     console.error('Error generating aliases:', error);
     
     return NextResponse.json(
-      { 
-        success: false, 
-        error: { 
-          code: 'INTERNAL_ERROR', 
-          message: error instanceof Error ? error.message : 'Failed to generate aliases. Please try again.' 
-        }
+      {
+        success: false,
+        error: {
+          code: 'INTERNAL_ERROR',
+          message: 'Failed to generate aliases. Please try again.',
+        },
       },
-      { status: HTTP_STATUS.INTERNAL_SERVER_ERROR }
+      { status: HTTP_STATUS.INTERNAL_SERVER_ERROR },
     );
   }
 } 
