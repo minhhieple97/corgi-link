@@ -145,8 +145,3 @@ export type AliasClickHandler = (alias: string) => void;
 export type SubmitHandler = () => void;
 export type ResetHandler = () => void;
 export type CopyHandler = () => void;
-
-// Types moved to lib services for better modularity
-// CrawledContent - now in lib/crawler.ts
-// UrlSafetyCheck - now in lib/llm-service.ts
-// AliasGenerationOptions - now in lib/llm-service.ts
