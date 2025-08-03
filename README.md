@@ -38,6 +38,12 @@ Built on Next.js 15 with Redis caching, PostgreSQL optimization, and intelligent
 **📊 Real-Time Analytics & Insights**  
 Comprehensive analytics dashboard with geographic tracking, referral analysis, and user behavior insights to help you understand and optimize your link performance.
 
+**👁️ Intelligent URL Preview System**  
+Advanced link preview technology that automatically extracts Open Graph metadata, Twitter Cards, and website information to display rich previews with titles, descriptions, images, and favicons - all with seamless dark/light mode support.
+
+**🤖 AI-Powered Alias Generation**  
+Revolutionary machine learning system that analyzes website content, extracts meaningful keywords, and generates contextually relevant short codes. Our AI crawls the target URL, processes the content semantically, and suggests memorable aliases that reflect the actual content - making your short links both meaningful and brandable.
+
 ## ✨ Key Features
 
 <table>
@@ -60,6 +66,14 @@ Comprehensive analytics dashboard with geographic tracking, referral analysis, a
   <tr>
     <td>📱 <strong>QR Code Generation</strong></td>
     <td>Instant QR codes for mobile sharing</td>
+  </tr>
+  <tr>
+    <td>👁️ <strong>Smart URL Preview</strong></td>
+    <td>Real-time link previews with Open Graph metadata extraction</td>
+  </tr>
+  <tr>
+    <td>🤖 <strong>AI Alias Generation</strong></td>
+    <td>Intelligent short code suggestions based on website content analysis</td>
   </tr>
   <tr>
     <td>🛡️ <strong>URL Safety Checking</strong></td>
