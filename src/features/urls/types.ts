@@ -126,6 +126,9 @@ export type UseUrlShortenerFormReturn = {
   suggestedAliases: string[];
   isGenerating: boolean;
 
+  // URL preview state
+  previewState: UrlPreviewState;
+
   // Event handlers
   handleSubmit: () => void;
   handleUrlChange: (value: string) => void;
@@ -136,6 +139,31 @@ export type UseUrlShortenerFormReturn = {
   handleResetForm: () => void;
   handleCopy: () => void;
   setIsAnalyzing: (analyzing: boolean) => void;
+};
+
+// URL Preview Types
+export type UrlPreviewMetadata = {
+  title?: string;
+  description?: string;
+  image?: string;
+  favicon?: string;
+  siteName?: string;
+  url: string;
+};
+
+export type UrlPreviewState = {
+  isLoading: boolean;
+  data: UrlPreviewMetadata | null;
+  error: string | null;
+};
+
+export type UrlPreviewResponse = {
+  success: boolean;
+  data?: UrlPreviewMetadata;
+  error?: {
+    message: string;
+    code?: string;
+  };
 };
 
 // Event Handler Types

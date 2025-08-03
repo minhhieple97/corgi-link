@@ -11,7 +11,9 @@ import type {
   IUrlFormData,
   UseUrlShortenerFormReturn,
   AliasGenerationResponse,
+  UrlPreviewState,
 } from '../types';
+import { urlPreviewService } from '../services/url-preview-service';
 
 type AliasGenerationOptions = {
   count?: number;
@@ -34,11 +36,16 @@ export const useUrlShortenerForm = (): UseUrlShortenerFormReturn => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Local state for alias generation
   const [suggestedAliases, setSuggestedAliases] = useState<string[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
 
-  // URL shortening action
+  const [previewState, setPreviewState] = useState<UrlPreviewState>({
+    isLoading: false,
+    data: null,
+    error: null,
+  });
+  const previewTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   const {
     execute,
     result,
@@ -74,9 +81,7 @@ export const useUrlShortenerForm = (): UseUrlShortenerFormReturn => {
         const formErrors = error.error.validationErrors.formErrors;
 
         if (fieldErrors?.url) {
-          toast.error(
-            `${UI_CONSTANTS.TOAST_MESSAGES.URL_ERROR_PREFIX}${fieldErrors.url[0]}`,
-          );
+          toast.error(`${UI_CONSTANTS.TOAST_MESSAGES.URL_ERROR_PREFIX}${fieldErrors.url[0]}`);
         }
         if (fieldErrors?.customCode) {
           toast.error(
@@ -106,76 +111,104 @@ export const useUrlShortenerForm = (): UseUrlShortenerFormReturn => {
   }, [urlValue]);
 
   const baseUrl = useMemo(
-    () =>
-      env.NEXT_PUBLIC_APP_URL ||
-      (typeof window !== 'undefined' ? window.location.origin : ''),
+    () => env.NEXT_PUBLIC_APP_URL || (typeof window !== 'undefined' ? window.location.origin : ''),
     [],
   );
 
-  // Alias generation logic
-  const generateAliases = useCallback(
-    async (url: string, options: AliasGenerationOptions = {}) => {
-      if (!url.trim()) {
-        const errorMessage = 'Please enter a URL first';
-        toast.error(errorMessage);
-        return;
+  const fetchUrlPreview = useCallback(async (url: string) => {
+    if (previewTimeoutRef.current) {
+      clearTimeout(previewTimeoutRef.current);
+      previewTimeoutRef.current = null;
+    }
+
+    if (!urlPreviewService.isValidPreviewUrl(url)) {
+      setPreviewState({
+        isLoading: false,
+        data: null,
+        error: null,
+      });
+      return;
+    }
+
+    setPreviewState((prev) => ({
+      ...prev,
+      isLoading: true,
+      error: null,
+    }));
+
+    try {
+      const metadata = await urlPreviewService.fetchPreview(url);
+      setPreviewState({
+        isLoading: false,
+        data: metadata,
+        error: null,
+      });
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to fetch preview';
+      setPreviewState({
+        isLoading: false,
+        data: null,
+        error: errorMessage,
+      });
+    }
+  }, []);
+
+  const generateAliases = useCallback(async (url: string, options: AliasGenerationOptions = {}) => {
+    if (!url.trim()) {
+      const errorMessage = 'Please enter a URL first';
+      toast.error(errorMessage);
+      return;
+    }
+
+    setIsGenerating(true);
+    setSuggestedAliases([]);
+
+    try {
+      const requestBody = {
+        url: url.trim(),
+        options: {
+          count: options.count || 5,
+          maxLength: options.maxLength || 12,
+          excludeWords: options.excludeWords || [],
+        },
+      };
+
+      const response = await fetch('/api/generate-alias', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      const data: AliasGenerationResponse = await response.json();
+
+      if (!response.ok) {
+        const errorMessage = data.error?.message || `Server error: ${response.status}`;
+        throw new Error(errorMessage);
       }
 
-      setIsGenerating(true);
-      setSuggestedAliases([]);
-
-      try {
-        const requestBody = {
-          url: url.trim(),
-          options: {
-            count: options.count || 5,
-            maxLength: options.maxLength || 12,
-            excludeWords: options.excludeWords || [],
-          },
-        };
-
-        const response = await fetch('/api/generate-alias', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(requestBody),
-        });
-
-        const data: AliasGenerationResponse = await response.json();
-
-        if (!response.ok) {
-          const errorMessage =
-            data.error?.message || `Server error: ${response.status}`;
-          throw new Error(errorMessage);
-        }
-
-        if (data.success && data.data?.aliases) {
-          if (data.data.aliases.length === 0) {
-            const warningMessage = 'No aliases could be generated for this URL';
-            toast.warning(warningMessage);
-          } else {
-            setSuggestedAliases(data.data.aliases);
-            toast.success(
-              `Generated ${data.data.aliases.length} alias suggestions`,
-            );
-          }
+      if (data.success && data.data?.aliases) {
+        if (data.data.aliases.length === 0) {
+          const warningMessage = 'No aliases could be generated for this URL';
+          toast.warning(warningMessage);
         } else {
-          throw new Error('Invalid response format');
+          setSuggestedAliases(data.data.aliases);
+          toast.success(`Generated ${data.data.aliases.length} alias suggestions`);
         }
-      } catch (error) {
-        const errorMessage =
-          error instanceof Error ? error.message : 'Failed to generate aliases';
-
-        console.error('Error generating aliases:', error);
-        toast.error(errorMessage);
-        setSuggestedAliases([]);
-      } finally {
-        setIsGenerating(false);
+      } else {
+        throw new Error('Invalid response format');
       }
-    },
-    [],
-  );
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to generate aliases';
+
+      console.error('Error generating aliases:', error);
+      toast.error(errorMessage);
+      setSuggestedAliases([]);
+    } finally {
+      setIsGenerating(false);
+    }
+  }, []);
 
   const clearSuggestions = useCallback(() => {
     setSuggestedAliases([]);
@@ -207,7 +240,6 @@ export const useUrlShortenerForm = (): UseUrlShortenerFormReturn => {
     [execute],
   );
 
-  // Event handlers
   const handleSubmit = useCallback(() => {
     const formData = form.getValues();
     onSubmit(formData);
@@ -216,8 +248,24 @@ export const useUrlShortenerForm = (): UseUrlShortenerFormReturn => {
   const handleUrlChange = useCallback(
     (value: string) => {
       form.setValue('url', value);
+
+      if (previewTimeoutRef.current) {
+        clearTimeout(previewTimeoutRef.current);
+      }
+
+      previewTimeoutRef.current = setTimeout(() => {
+        if (value.trim()) {
+          fetchUrlPreview(value.trim());
+        } else {
+          setPreviewState({
+            isLoading: false,
+            data: null,
+            error: null,
+          });
+        }
+      }, 800); // 800ms debounce
     },
-    [form],
+    [form, fetchUrlPreview],
   );
 
   const handleCustomCodeChange = useCallback(
@@ -254,7 +302,16 @@ export const useUrlShortenerForm = (): UseUrlShortenerFormReturn => {
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
     }
+    if (previewTimeoutRef.current) {
+      clearTimeout(previewTimeoutRef.current);
+      previewTimeoutRef.current = null;
+    }
     setIsAnalyzing(false);
+    setPreviewState({
+      isLoading: false,
+      data: null,
+      error: null,
+    });
     form.reset();
   }, [resetAction, clearSuggestions, form]);
 
@@ -265,7 +322,6 @@ export const useUrlShortenerForm = (): UseUrlShortenerFormReturn => {
     }
   }, [result?.data?.shortUrl]);
 
-  // Effects
   useEffect(() => {
     const subscription = form.watch((_, { name }) => {
       if (name === 'url' && suggestedAliases.length > 0) {
@@ -275,11 +331,13 @@ export const useUrlShortenerForm = (): UseUrlShortenerFormReturn => {
     return () => subscription.unsubscribe();
   }, [form, suggestedAliases.length, clearSuggestions]);
 
-  // Cleanup effect
   useEffect(() => {
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
+      }
+      if (previewTimeoutRef.current) {
+        clearTimeout(previewTimeoutRef.current);
       }
     };
   }, []);
@@ -305,6 +363,9 @@ export const useUrlShortenerForm = (): UseUrlShortenerFormReturn => {
     // Alias generation state
     suggestedAliases,
     isGenerating,
+
+    // URL preview state
+    previewState,
 
     // Event handlers
     handleSubmit,

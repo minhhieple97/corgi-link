@@ -11,6 +11,7 @@ import {
   CustomCodeField,
   AliasSuggestions,
   ExpirationField,
+  UrlPreview,
 } from './';
 
 export const UrlShortenerForm = () => {
@@ -34,6 +35,9 @@ export const UrlShortenerForm = () => {
     suggestedAliases,
     isGenerating,
 
+    // URL preview state
+    previewState,
+
     // Event handlers
     handleSubmit,
     handleUrlChange,
@@ -51,10 +55,7 @@ export const UrlShortenerForm = () => {
       <div className="w-full max-w-2xl mx-auto">
         {/* Flagged URL Alert */}
         {flagged && flagReason && (
-          <FlaggedUrlAlert
-            flagReason={flagReason}
-            onCreateAnother={handleResetForm}
-          />
+          <FlaggedUrlAlert flagReason={flagReason} onCreateAnother={handleResetForm} />
         )}
 
         {/* Success URL Display */}
@@ -93,6 +94,9 @@ export const UrlShortenerForm = () => {
                   </FormItem>
                 )}
               />
+
+              {/* URL Preview */}
+              {isUrlValid && <UrlPreview previewState={previewState} className="mt-4" />}
 
               {/* Custom Code Field */}
               <FormField
