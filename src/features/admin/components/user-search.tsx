@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { routes } from '@/routes';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { routes } from "@/routes";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 type UserSearchProps = {
   initialSearch?: string;
@@ -13,7 +13,7 @@ type UserSearchProps = {
 export const UserSearch = ({ initialSearch }: UserSearchProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [searchTerm, setSearchTerm] = useState(initialSearch || '');
+  const [searchTerm, setSearchTerm] = useState(initialSearch || "");
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,12 +21,12 @@ export const UserSearch = ({ initialSearch }: UserSearchProps) => {
     const params = new URLSearchParams(searchParams.toString());
 
     if (searchParams) {
-      params.set('search', searchTerm);
+      params.set("search", searchTerm);
     } else {
-      params.delete('search');
+      params.delete("search");
     }
 
-    params.set('page', '1');
+    params.set("page", "1");
 
     router.push(`${routes.admin.users}?${params.toString()}`);
   };
@@ -38,7 +38,7 @@ export const UserSearch = ({ initialSearch }: UserSearchProps) => {
           type="text"
           placeholder="Search users"
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={e => setSearchTerm(e.target.value)}
           className="pl-10 pr-10"
         />
       </div>

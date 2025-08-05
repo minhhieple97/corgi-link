@@ -1,22 +1,22 @@
-import { getUserUrls } from '@/features/urls/queries';
-import { isAdmin } from '@/lib/utils';
-import { currentUser } from '@clerk/nextjs/server';
-import { Metadata } from 'next';
-import { env } from '@/env';
-import { PAGINATION } from '@/constants';
-import { createSearchParamsCache, parseAsInteger } from 'nuqs/server';
+import { getUserUrls } from "@/features/urls/queries";
+import { isAdmin } from "@/lib/utils";
+import { currentUser } from "@clerk/nextjs/server";
+import { Metadata } from "next";
+import { env } from "@/env";
+import { PAGINATION } from "@/constants";
+import { createSearchParamsCache, parseAsInteger } from "nuqs/server";
 import {
   DashboardHeader,
   CreateUrlCard,
   UserUrlsCard,
   AdminToolsLink,
-} from '@/components/dashboard';
+} from "@/components/dashboard";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: 'Dashboard | CorgiLink',
-  description: 'Dashboard page',
+  title: "Dashboard | CorgiLink",
+  description: "Dashboard page",
 };
 
 const searchParamsCache = createSearchParamsCache({
@@ -27,7 +27,9 @@ type DashboardPageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
-export default async function DashboardPage({ searchParams }: DashboardPageProps) {
+export default async function DashboardPage({
+  searchParams,
+}: DashboardPageProps) {
   const user = await currentUser();
   const { page } = searchParamsCache.parse(await searchParams);
 
@@ -39,14 +41,19 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
 
   return (
     <div className="w-full space-y-6 lg:space-y-8">
-      <DashboardHeader title="Dashboard" description="Create and manage your shortened URLs" />
+      <DashboardHeader
+        title="Dashboard"
+        description="Create and manage your shortened URLs"
+      />
 
       <div className="grid gap-4 lg:gap-6">
         <CreateUrlCard />
 
         <UserUrlsCard urlsPromise={urlsPromise} currentPage={page} />
 
-        {env.NODE_ENV === 'development' && user && isAdmin(user) && <AdminToolsLink />}
+        {env.NODE_ENV === "development" && user && isAdmin(user) && (
+          <AdminToolsLink />
+        )}
       </div>
     </div>
   );

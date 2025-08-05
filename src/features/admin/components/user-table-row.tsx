@@ -1,6 +1,6 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,12 +8,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { TableCell, TableRow } from '@/components/ui/table';
-import { ADMIN_TABLE, ROLE_TYPE, UserRole } from '@/constants';
-import { formatDistanceToNow } from 'date-fns';
-import { Loader2, MoreHorizontalIcon, ShieldIcon, User } from 'lucide-react';
-import { UserWithoutPassword } from '../queries';
+} from "@/components/ui/dropdown-menu";
+import { TableCell, TableRow } from "@/components/ui/table";
+import { ADMIN_TABLE, ROLE_TYPE, UserRole } from "@/constants";
+import { formatDistanceToNow } from "date-fns";
+import { Loader2, MoreHorizontalIcon, ShieldIcon, User } from "lucide-react";
+import { UserWithoutPassword } from "../queries";
 
 type UserTableRowProps = {
   user: UserWithoutPassword;
@@ -33,11 +33,14 @@ export const UserTableRow = ({
       <TableCell className="font-medium">
         <div className="flex items-center gap-3">
           <Avatar>
-            <AvatarImage src={user.image || undefined} alt={user.name || 'User'} />
+            <AvatarImage
+              src={user.image || undefined}
+              alt={user.name || "User"}
+            />
             <AvatarFallback>{getUserInitials(user.name)}</AvatarFallback>
           </Avatar>
           <div>
-            <div className="font-medium">{user.name || 'Unknown User'}</div>
+            <div className="font-medium">{user.name || "Unknown User"}</div>
             <div className="text-xs text-muted-foreground">
               ID: {user.id.substring(0, ADMIN_TABLE.ID_DISPLAY_LENGTH)}...
             </div>
@@ -47,7 +50,7 @@ export const UserTableRow = ({
       <TableCell>{user.email}</TableCell>
       <TableCell>
         <Badge
-          variant={user.role === ROLE_TYPE.ADMIN ? 'destructive' : 'secondary'}
+          variant={user.role === ROLE_TYPE.ADMIN ? "destructive" : "secondary"}
           className="flex w-fit items-center gap-1"
         >
           {user.role === ROLE_TYPE.ADMIN ? (
@@ -66,7 +69,11 @@ export const UserTableRow = ({
       <TableCell className="text-right">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" disabled={isLoading === user.id}>
+            <Button
+              variant="ghost"
+              size="icon"
+              disabled={isLoading === user.id}
+            >
               {isLoading === user.id ? (
                 <Loader2 className="size-4 animate-spin" />
               ) : (
@@ -78,14 +85,18 @@ export const UserTableRow = ({
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              className={user.role === ROLE_TYPE.ADMIN ? 'text-destructive' : 'text-blue-600'}
+              className={
+                user.role === ROLE_TYPE.ADMIN
+                  ? "text-destructive"
+                  : "text-blue-600"
+              }
               onClick={() => handleRoleToggle(user.id, user.role as UserRole)}
               disabled={isLoading === user.id}
             >
               {user.role === ROLE_TYPE.ADMIN
                 ? ADMIN_TABLE.ACTIONS.DEMOTE
-                : ADMIN_TABLE.ACTIONS.PROMOTE}{' '}
-              to {user.role === ROLE_TYPE.ADMIN ? 'User' : 'Admin'}
+                : ADMIN_TABLE.ACTIONS.PROMOTE}{" "}
+              to {user.role === ROLE_TYPE.ADMIN ? "User" : "Admin"}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

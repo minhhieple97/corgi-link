@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Card,
@@ -10,10 +10,10 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from '@/components/ui';
-import { IUrl } from '../../urls/types';
-import { StatsBarChart } from './stats-bar-chart';
-import { StatsPieChart } from './stats-pie-chart';
+} from "@/components/ui";
+import { IUrl } from "../../urls/types";
+import { StatsBarChart } from "./stats-bar-chart";
+import { StatsPieChart } from "./stats-pie-chart";
 
 type StatsChartsProps = {
   barChartData: Array<{
@@ -67,7 +67,11 @@ export const StatsCharts = ({
             <TabsTrigger value="pie">Pie Chart</TabsTrigger>
           </TabsList>
           <TabsContent value="bar" className="min-h-[400px] mt-4">
-            <StatsBarChart barChartData={barChartData} topUrls={topUrls} avgClicks={avgClicks} />
+            <StatsBarChart
+              barChartData={barChartData}
+              topUrls={topUrls}
+              avgClicks={avgClicks}
+            />
           </TabsContent>
           <TabsContent value="pie" className="min-h-[400px] mt-4">
             <StatsPieChart

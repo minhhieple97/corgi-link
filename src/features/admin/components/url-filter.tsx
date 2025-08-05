@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-import { AlertTriangle, Flag, FlagIcon, ShieldIcon } from 'lucide-react';
-import { useUrlFilter } from '../hooks';
-import { filterConfig } from '../utils';
+import { Button } from "@/components/ui/button";
+import { AlertTriangle, Flag, FlagIcon, ShieldIcon } from "lucide-react";
+import { useUrlFilter } from "../hooks";
+import { filterConfig } from "../utils";
 
 type UrlFilterProps = {
   initialFilter: string;
@@ -21,10 +21,12 @@ export const UrlFilter = ({ initialFilter }: UrlFilterProps) => {
 
   return (
     <div className="flex flex-wrap gap-2 mb-4">
-      {filterConfig.map((filter) => {
-        const IconComponent = filter.icon ? iconMap[filter.icon as keyof typeof iconMap] : null;
+      {filterConfig.map(filter => {
+        const IconComponent = filter.icon
+          ? iconMap[filter.icon as keyof typeof iconMap]
+          : null;
         const isActive = currentFilter === filter.key;
-        const variant = isActive ? filter.variant : 'outline';
+        const variant = isActive ? filter.variant : "outline";
 
         return (
           <Button

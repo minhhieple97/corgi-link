@@ -1,6 +1,6 @@
-import { Button } from '@/components/ui';
-import { UI_CONSTANTS } from '@/constants';
-import type { FlaggedUrlAlertProps } from '../types';
+import { Button } from "@/components/ui";
+import { UI_CONSTANTS } from "@/constants";
+import type { FlaggedUrlAlertProps } from "../types";
 
 export const FlaggedUrlAlert = ({
   flagReason,

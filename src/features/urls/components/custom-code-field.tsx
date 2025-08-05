@@ -1,7 +1,7 @@
-import { Button, Input } from '@/components/ui';
-import { UI_CONSTANTS } from '@/constants';
-import { Sparkles, Loader2 } from 'lucide-react';
-import type { CustomCodeFieldProps } from '../types';
+import { Button, Input } from "@/components/ui";
+import { UI_CONSTANTS } from "@/constants";
+import { Sparkles, Loader2 } from "lucide-react";
+import type { CustomCodeFieldProps } from "../types";
 
 export const CustomCodeField = ({
   value,
@@ -21,8 +21,8 @@ export const CustomCodeField = ({
           </span>
           <Input
             placeholder={UI_CONSTANTS.FORM_PLACEHOLDERS.CUSTOM_CODE}
-            value={value || ''}
-            onChange={(e) => onChange(e.target.value || '')}
+            value={value || ""}
+            onChange={e => onChange(e.target.value || "")}
             className="flex-1"
             disabled={disabled}
           />
@@ -40,7 +40,7 @@ export const CustomCodeField = ({
           ) : (
             <Sparkles className="h-4 w-4" />
           )}
-          {isGenerating ? 'Generating...' : 'Suggest'}
+          {isGenerating ? "Generating..." : "Suggest"}
         </Button>
       </div>
     </div>

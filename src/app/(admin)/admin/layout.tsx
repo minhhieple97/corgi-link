@@ -1,5 +1,5 @@
-import { AdminSidebar } from '@/components/shared/admin-sidebar';
-import { ReactNode } from 'react';
+import { AdminSidebar } from "@/components/shared/admin-sidebar";
+import { ReactNode } from "react";
 
 interface AdminLayoutProps {
   children: ReactNode;

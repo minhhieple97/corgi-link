@@ -1,12 +1,12 @@
-'use server';
+"use server";
 
-import { eq } from 'drizzle-orm';
-import { db } from '@/db';
-import { urls } from '@/db/schema';
-import { redis } from '@/lib/redis';
-import { CACHE_TTL } from '@/constants';
-import { queueClickIncrement } from '../services';
-import { isExpired } from '@/lib/date-utils';
+import { eq } from "drizzle-orm";
+import { db } from "@/db";
+import { urls } from "@/db/schema";
+import { redis } from "@/lib/redis";
+import { CACHE_TTL } from "@/constants";
+import { queueClickIncrement } from "../services";
+import { isExpired } from "@/lib/date-utils";
 
 type CachedUrlData = {
   originalUrl: string;
@@ -23,11 +23,11 @@ export const getUrlByShortCode = async (shortCode: string) => {
   if (cached && Object.keys(cached).length > 0) {
     const urlData = {
       originalUrl: cached.originalUrl,
-      flagged: cached.flagged === 'true',
-      flagReason: cached.flagReason === 'null' ? null : cached.flagReason,
-      userId: cached.userId === 'null' ? null : cached.userId,
-      clicks: parseInt((cached.clicks as string) || '0', 10),
-      expiresAt: cached.expiresAt === 'null' ? null : cached.expiresAt,
+      flagged: cached.flagged === "true",
+      flagReason: cached.flagReason === "null" ? null : cached.flagReason,
+      userId: cached.userId === "null" ? null : cached.userId,
+      clicks: parseInt((cached.clicks as string) || "0", 10),
+      expiresAt: cached.expiresAt === "null" ? null : cached.expiresAt,
     } as CachedUrlData;
 
     if (isExpired(urlData.expiresAt)) {
@@ -60,10 +60,10 @@ export const getUrlByShortCode = async (shortCode: string) => {
   await redis.hset(`url:${shortCode}`, {
     originalUrl: url.originalUrl,
     flagged: (url.flagged || false).toString(),
-    flagReason: url.flagReason || 'null',
-    userId: url.userId || 'null',
+    flagReason: url.flagReason || "null",
+    userId: url.userId || "null",
     clicks: updatedClicks.toString(),
-    expiresAt: url.expiresAt ? url.expiresAt.toISOString() : 'null',
+    expiresAt: url.expiresAt ? url.expiresAt.toISOString() : "null",
   });
   await redis.expire(`url:${shortCode}`, CACHE_TTL.URL_MAPPING);
 
@@ -75,4 +75,3 @@ export const getUrlByShortCode = async (shortCode: string) => {
     flagReason: url.flagReason || null,
   };
 };
-

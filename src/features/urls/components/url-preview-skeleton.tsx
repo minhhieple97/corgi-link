@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { Card, CardContent } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { cn } from '@/lib/utils';
+import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 
 type UrlPreviewSkeletonProps = {
   className?: string;
@@ -10,7 +10,7 @@ type UrlPreviewSkeletonProps = {
 
 export const UrlPreviewSkeleton = ({ className }: UrlPreviewSkeletonProps) => {
   return (
-    <Card className={cn('border-border/50', className)}>
+    <Card className={cn("border-border/50", className)}>
       <CardContent className="p-4">
         <div className="flex gap-4">
           <Skeleton className="h-16 w-16 rounded-md flex-shrink-0" />

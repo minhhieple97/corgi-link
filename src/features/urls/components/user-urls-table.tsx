@@ -1,20 +1,27 @@
-'use client';
+"use client";
 
-import { Copy, Edit, ExternalLink, QrCode, Trash2Icon, MoreHorizontal } from 'lucide-react';
-import { Button } from '@/components/ui';
-import { formatDistanceToNow } from 'date-fns';
-import { IUrl, PaginationInfo } from '../types';
-import { QRCodeModal } from './qr-code-modal';
-import { EditUrlModal } from './edit-url-modal';
+import {
+  Copy,
+  Edit,
+  ExternalLink,
+  QrCode,
+  Trash2Icon,
+  MoreHorizontal,
+} from "lucide-react";
+import { Button } from "@/components/ui";
+import { formatDistanceToNow } from "date-fns";
+import { IUrl, PaginationInfo } from "../types";
+import { QRCodeModal } from "./qr-code-modal";
+import { EditUrlModal } from "./edit-url-modal";
 
-import { useUserUrlsTable } from '../hooks/use-user-urls-table';
-import { ExpirationBadge } from '@/components/shared';
+import { useUserUrlsTable } from "../hooks/use-user-urls-table";
+import { ExpirationBadge } from "@/components/shared";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -22,10 +29,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { truncateUrl } from '@/lib/utils';
-import { PAGINATION, URL_DISPLAY } from '@/constants';
-import { use } from 'react';
+} from "@/components/ui/table";
+import { truncateUrl } from "@/lib/utils";
+import { PAGINATION, URL_DISPLAY } from "@/constants";
+import { use } from "react";
 
 type IUserUrlsTableProps = {
   urlsPromise: Promise<{ urls: IUrl[]; pagination: PaginationInfo }>;
@@ -56,7 +63,9 @@ export const UserUrlsTable = ({ urlsPromise }: IUserUrlsTableProps) => {
     return (
       <div className="text-center py-12">
         <div className="mx-auto max-w-md">
-          <p className="text-muted-foreground mb-4">You haven&apos;t created any short URLs yet.</p>
+          <p className="text-muted-foreground mb-4">
+            You haven&apos;t created any short URLs yet.
+          </p>
           <p className="text-sm text-muted-foreground">
             Create your first short URL using the form above.
           </p>
@@ -80,15 +89,21 @@ export const UserUrlsTable = ({ urlsPromise }: IUserUrlsTableProps) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {urls.map((url) => {
+            {urls.map(url => {
               const shortUrl = getShortUrl(url.shortCode);
 
               return (
                 <TableRow key={url.id}>
                   <TableCell className="font-medium">
                     <div className="flex items-center gap-2 min-w-0">
-                      <div className="truncate text-sm flex-1 min-w-0" title={url.originalUrl}>
-                        {truncateUrl(url.originalUrl, URL_DISPLAY.ORIGINAL_URL_MAX_LENGTH)}
+                      <div
+                        className="truncate text-sm flex-1 min-w-0"
+                        title={url.originalUrl}
+                      >
+                        {truncateUrl(
+                          url.originalUrl,
+                          URL_DISPLAY.ORIGINAL_URL_MAX_LENGTH
+                        )}
                       </div>
                       <a
                         href={url.originalUrl}
@@ -102,12 +117,18 @@ export const UserUrlsTable = ({ urlsPromise }: IUserUrlsTableProps) => {
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2 min-w-0">
-                      <div className="truncate text-sm font-mono flex-1 min-w-0" title={shortUrl}>
-                        {truncateUrl(shortUrl, URL_DISPLAY.SHORT_URL_MAX_LENGTH)}
+                      <div
+                        className="truncate text-sm font-mono flex-1 min-w-0"
+                        title={shortUrl}
+                      >
+                        {truncateUrl(
+                          shortUrl,
+                          URL_DISPLAY.SHORT_URL_MAX_LENGTH
+                        )}
                       </div>
                       <Button
-                        variant={'ghost'}
-                        size={'icon'}
+                        variant={"ghost"}
+                        size={"icon"}
                         onClick={() => copyToClipboard(url.shortCode)}
                         className="size-8 flex-shrink-0"
                       >
@@ -115,14 +136,18 @@ export const UserUrlsTable = ({ urlsPromise }: IUserUrlsTableProps) => {
                       </Button>
                     </div>
                   </TableCell>
-                  <TableCell className="text-muted-foreground">{url.clicks}</TableCell>
+                  <TableCell className="text-muted-foreground">
+                    {url.clicks}
+                  </TableCell>
                   <TableCell>
                     <ExpirationBadge expiresAt={url.expiresAt} />
                   </TableCell>
                   <TableCell className="text-muted-foreground">
                     <div
                       className="truncate text-sm"
-                      title={formatDistanceToNow(new Date(url.createdAt), { addSuffix: true })}
+                      title={formatDistanceToNow(new Date(url.createdAt), {
+                        addSuffix: true,
+                      })}
                     >
                       {formatDistanceToNow(new Date(url.createdAt), {
                         addSuffix: true,
@@ -134,8 +159,8 @@ export const UserUrlsTable = ({ urlsPromise }: IUserUrlsTableProps) => {
                       {/* Desktop Actions */}
                       <div className="hidden sm:flex gap-1">
                         <Button
-                          variant={'ghost'}
-                          size={'icon'}
+                          variant={"ghost"}
+                          size={"icon"}
                           onClick={() => showQrCode(url.shortCode)}
                           className="size-8"
                           title="Generate QR Code"
@@ -143,17 +168,19 @@ export const UserUrlsTable = ({ urlsPromise }: IUserUrlsTableProps) => {
                           <QrCode className="size-4" />
                         </Button>
                         <Button
-                          variant={'ghost'}
-                          size={'icon'}
-                          onClick={() => handleEdit(url.id, url.shortCode, url.expiresAt)}
+                          variant={"ghost"}
+                          size={"icon"}
+                          onClick={() =>
+                            handleEdit(url.id, url.shortCode, url.expiresAt)
+                          }
                           className="size-8"
                           title="Edit URL"
                         >
                           <Edit className="size-4" />
                         </Button>
                         <Button
-                          variant={'ghost'}
-                          size={'icon'}
+                          variant={"ghost"}
+                          size={"icon"}
                           onClick={() => handleDelete(url.id)}
                           disabled={isDeleting === url.id}
                           className="size-8 text-destructive hover:text-destructive"
@@ -171,17 +198,25 @@ export const UserUrlsTable = ({ urlsPromise }: IUserUrlsTableProps) => {
                       <div className="sm:hidden">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                            <Button variant={'ghost'} size={'icon'} className="size-8">
+                            <Button
+                              variant={"ghost"}
+                              size={"icon"}
+                              className="size-8"
+                            >
                               <MoreHorizontal className="size-4" />
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end" className="w-40">
-                            <DropdownMenuItem onClick={() => showQrCode(url.shortCode)}>
+                            <DropdownMenuItem
+                              onClick={() => showQrCode(url.shortCode)}
+                            >
                               <QrCode className="size-4 mr-2" />
                               QR Code
                             </DropdownMenuItem>
                             <DropdownMenuItem
-                              onClick={() => handleEdit(url.id, url.shortCode, url.expiresAt)}
+                              onClick={() =>
+                                handleEdit(url.id, url.shortCode, url.expiresAt)
+                              }
                             >
                               <Edit className="size-4 mr-2" />
                               Edit URL

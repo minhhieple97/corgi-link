@@ -1,16 +1,22 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { PAGINATION } from '@/constants';
-import { UrlsTable } from '@/features/admin/components';
-import { UrlFilter } from '@/features/admin/components/url-filter';
-import { UrlSearch } from '@/features/admin/components/url-search';
-import { getAllUrls } from '@/features/admin/queries/get-all-urls';
-import type { UrlWithUser } from '@/features/admin/types';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { PAGINATION } from "@/constants";
+import { UrlsTable } from "@/features/admin/components";
+import { UrlFilter } from "@/features/admin/components/url-filter";
+import { UrlSearch } from "@/features/admin/components/url-search";
+import { getAllUrls } from "@/features/admin/queries/get-all-urls";
+import type { UrlWithUser } from "@/features/admin/types";
 
-import { Metadata } from 'next';
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'URL Management | Admin | CorgiLink',
-  description: 'Manage URLs in the CorgiLink application',
+  title: "URL Management | Admin | CorgiLink",
+  description: "Manage URLs in the CorgiLink application",
 };
 
 export default async function AdminUrlsPage({
@@ -26,31 +32,31 @@ export default async function AdminUrlsPage({
 }) {
   const params = await searchParams;
   const page = params.page ? parseInt(params.page) : 1;
-  const search = params.search || '';
-  const sortBy = (params.sortBy || 'createdAt') as
-    | 'originalUrl'
-    | 'shortCode'
-    | 'createdAt'
-    | 'clicks'
-    | 'userName';
-  const sortOrder = (params.sortOrder || 'desc') as 'asc' | 'desc';
-  const filter = (params.filter || 'all') as
-    | 'all'
-    | 'flagged'
-    | 'security'
-    | 'inappropriate'
-    | 'other';
+  const search = params.search || "";
+  const sortBy = (params.sortBy || "createdAt") as
+    | "originalUrl"
+    | "shortCode"
+    | "createdAt"
+    | "clicks"
+    | "userName";
+  const sortOrder = (params.sortOrder || "desc") as "asc" | "desc";
+  const filter = (params.filter || "all") as
+    | "all"
+    | "flagged"
+    | "security"
+    | "inappropriate"
+    | "other";
 
   const getHighlightStyle = () => {
     switch (filter) {
-      case 'security':
-        return 'security';
-      case 'inappropriate':
-        return 'inappropriate';
-      case 'other':
-        return 'other';
+      case "security":
+        return "security";
+      case "inappropriate":
+        return "inappropriate";
+      case "other":
+        return "other";
       default:
-        return 'none';
+        return "none";
     }
   };
 
@@ -65,7 +71,7 @@ export default async function AdminUrlsPage({
 
   const { urls: rawUrls, total } = response;
 
-  const urls: UrlWithUser[] = rawUrls.map((url) => ({
+  const urls: UrlWithUser[] = rawUrls.map(url => ({
     ...url,
     createdAt: url.createdAt.toISOString(),
     userId: url.userId?.toString() || null,
@@ -83,7 +89,9 @@ export default async function AdminUrlsPage({
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
                 <CardTitle>URLs</CardTitle>
-                <CardDescription>View and manage all URLs in the system.</CardDescription>
+                <CardDescription>
+                  View and manage all URLs in the system.
+                </CardDescription>
               </div>
               <UrlSearch initialSearch={search} />
             </div>
@@ -91,7 +99,11 @@ export default async function AdminUrlsPage({
           <CardContent>
             <div className="space-y-4">
               <UrlFilter initialFilter={filter} />
-              <UrlsTable urls={urls} total={total} highlightStyle={getHighlightStyle()} />
+              <UrlsTable
+                urls={urls}
+                total={total}
+                highlightStyle={getHighlightStyle()}
+              />
             </div>
           </CardContent>
         </Card>

@@ -1,15 +1,15 @@
-import { Button } from '@/components/ui/button';
-import { getUrlByShortCode } from '@/features/urls/queries/get-url';
-import { routes } from '@/routes';
+import { Button } from "@/components/ui/button";
+import { getUrlByShortCode } from "@/features/urls/queries/get-url";
+import { routes } from "@/routes";
 
-import { AlertTriangle, ExternalLink } from 'lucide-react';
-import { Metadata } from 'next';
-import Link from 'next/link';
-import { redirect } from 'next/navigation';
+import { AlertTriangle, ExternalLink } from "lucide-react";
+import { Metadata } from "next";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: 'Redirecting...',
-  description: 'You are being redirected to the original URL',
+  title: "Redirecting...",
+  description: "You are being redirected to the original URL",
 };
 
 type Params = Promise<{ shortCode: string }>;
@@ -33,8 +33,8 @@ export default async function RedirectPage(props: { params: Params }) {
               Caution: Flagged URL
             </h1>
             <p className="text-muted-foreground mb-2">
-              This link has been flagged by our safety system and is pending review by an
-              administrator.
+              This link has been flagged by our safety system and is pending
+              review by an administrator.
             </p>
             {data.flagReason && (
               <p className="text-sm text-yellow-600 dark:text-yellow-400 mb-6 bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded-md">
@@ -42,11 +42,15 @@ export default async function RedirectPage(props: { params: Params }) {
               </p>
             )}
             <div className="flex flex-col sm:flex-row gap-3 justify-center mt-6">
-              <Button asChild variant={'outline'}>
-                <Link href={'/'}>Return to Homepage</Link>
+              <Button asChild variant={"outline"}>
+                <Link href={"/"}>Return to Homepage</Link>
               </Button>
               <Button asChild>
-                <a href={data.originalUrl} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={data.originalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Proceed Anyway <ExternalLink className="size-4" />
                 </a>
               </Button>
@@ -67,9 +71,12 @@ export default async function RedirectPage(props: { params: Params }) {
             <AlertTriangle className="size-8 text-destructive" />
           </div>
         </div>
-        <h1 className="text-2xl font-bold text-destructive mb-4">URL Not Found</h1>
+        <h1 className="text-2xl font-bold text-destructive mb-4">
+          URL Not Found
+        </h1>
         <p className="text-muted-foreground mb-6">
-          The short link you&apos;re trying to access doesn&apos;t exist or has been removed.
+          The short link you&apos;re trying to access doesn&apos;t exist or has
+          been removed.
         </p>
         <Button asChild>
           <Link href={routes.home}>Return to Homepage</Link>

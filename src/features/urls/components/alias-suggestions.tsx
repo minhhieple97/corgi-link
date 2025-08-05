@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui';
-import type { AliasSuggestionsProps } from '../types';
+import { Button } from "@/components/ui";
+import type { AliasSuggestionsProps } from "../types";
 
 export const AliasSuggestions = ({
   aliases,

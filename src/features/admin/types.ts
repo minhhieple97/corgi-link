@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { manageFlaggedUrlSchema } from './schemas';
+import { z } from "zod";
+import { manageFlaggedUrlSchema } from "./schemas";
 
 export type ManageFlaggedUrlResult = {
   success: boolean;
@@ -7,11 +7,16 @@ export type ManageFlaggedUrlResult = {
   error?: string;
 };
 
-export type Action = 'approve' | 'delete';
+export type Action = "approve" | "delete";
 
-export type SortOrder = 'asc' | 'desc';
-export type SortBy = 'originalUrl' | 'shortCode' | 'clicks' | 'userName' | 'createdAt';
-export type HighlightStyle = 'security' | 'inappropriate' | 'other' | 'none';
+export type SortOrder = "asc" | "desc";
+export type SortBy =
+  | "originalUrl"
+  | "shortCode"
+  | "clicks"
+  | "userName"
+  | "createdAt";
+export type HighlightStyle = "security" | "inappropriate" | "other" | "none";
 
 export type UrlsTableQueryState = {
   page: number;

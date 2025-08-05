@@ -1,5 +1,5 @@
-import { Card, CardContent } from '@/components/ui/card';
-import { TrendingUp, MousePointer, Link } from 'lucide-react';
+import { Card, CardContent } from "@/components/ui/card";
+import { TrendingUp, MousePointer, Link } from "lucide-react";
 
 type StatsOverviewCardsProps = {
   totalUrls: number;
@@ -14,37 +14,37 @@ export const StatsOverviewCards = ({
 }: StatsOverviewCardsProps) => {
   const stats = [
     {
-      title: 'Total URLs',
+      title: "Total URLs",
       description: "Number of URLs you've created",
       value: totalUrls,
       icon: Link,
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-50',
-      borderColor: 'border-blue-200',
+      color: "text-blue-600",
+      bgColor: "bg-blue-50",
+      borderColor: "border-blue-200",
     },
     {
-      title: 'Total Clicks',
-      description: 'Total clicks across all URLs',
+      title: "Total Clicks",
+      description: "Total clicks across all URLs",
       value: totalClicks,
       icon: MousePointer,
-      color: 'text-green-600',
-      bgColor: 'bg-green-50',
-      borderColor: 'border-green-200',
+      color: "text-green-600",
+      bgColor: "bg-green-50",
+      borderColor: "border-green-200",
     },
     {
-      title: 'Average Clicks',
-      description: 'Average clicks per URL',
+      title: "Average Clicks",
+      description: "Average clicks per URL",
       value: avgClicks,
       icon: TrendingUp,
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-50',
-      borderColor: 'border-purple-200',
+      color: "text-purple-600",
+      bgColor: "bg-purple-50",
+      borderColor: "border-purple-200",
     },
   ];
 
   return (
     <div className="flex flex-wrap gap-4 mb-8">
-      {stats.map((stat) => {
+      {stats.map(stat => {
         const Icon = stat.icon;
         return (
           <Card
@@ -95,12 +95,14 @@ export const StatsOverviewCards = ({
                     <div
                       className={`
                         h-full rounded-full transition-all duration-1000 ease-out
-                        ${stat.color.replace('text-', 'bg-')}
+                        ${stat.color.replace("text-", "bg-")}
                       `}
                       style={{
                         width: `${Math.min(
-                          (stat.value / Math.max(totalUrls, totalClicks, avgClicks)) * 100,
-                          100,
+                          (stat.value /
+                            Math.max(totalUrls, totalClicks, avgClicks)) *
+                            100,
+                          100
                         )}%`,
                       }}
                     />

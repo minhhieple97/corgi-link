@@ -92,6 +92,7 @@ Revolutionary machine learning system that analyzes website content, extracts me
 ## 🚀 Tech Stack
 
 ### **Frontend**
+
 - **Framework:** Next.js 15.1.8 with App Router
 - **Language:** TypeScript 5.0
 - **Styling:** Tailwind CSS 3.4.1
@@ -99,6 +100,7 @@ Revolutionary machine learning system that analyzes website content, extracts me
 - **Forms:** React Hook Form + Zod validation
 
 ### **Backend**
+
 - **Database:** PostgreSQL 16 (Docker)
 - **ORM:** Drizzle ORM 0.43.1
 - **Caching:** Upstash Redis 1.34.9
@@ -106,6 +108,7 @@ Revolutionary machine learning system that analyzes website content, extracts me
 - **API:** Next.js Server Actions with `next-safe-action`
 
 ### **DevOps & Tools**
+
 - **Package Manager:** pnpm
 - **Environment:** T3 Env validation
 - **Linting:** ESLint 9
@@ -114,11 +117,13 @@ Revolutionary machine learning system that analyzes website content, extracts me
 ## 🛠️ Quick Start
 
 ### Prerequisites
+
 ```bash
 Node.js 20+ | pnpm | Docker
 ```
 
 ### 1. Clone & Install
+
 ```bash
 git clone https://github.com/minhhieple97/corgi-link.git
 cd corgi-link
@@ -126,7 +131,9 @@ pnpm install
 ```
 
 ### 2. Environment Setup
+
 Create `.env` file:
+
 ```env
 # App Configuration
 NODE_ENV=development
@@ -151,6 +158,7 @@ OPENAI_API_KEY=your_openai_api_key
 ```
 
 ### 3. Database Setup
+
 ```bash
 # Start PostgreSQL container
 docker-compose up -d
@@ -160,6 +168,7 @@ npm run db
 ```
 
 ### 4. Launch Development Server
+
 ```bash
 npm run dev
 ```

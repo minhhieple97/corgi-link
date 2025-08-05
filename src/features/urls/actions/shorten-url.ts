@@ -1,22 +1,22 @@
-'use server';
+"use server";
 import {
   checkUrlSafety,
   cleanupShortCode,
   ensureHttps,
   generateShortCode,
   processSafetyCheck,
-} from '../services';
-import { db } from '@/db';
-import { urls } from '@/db/schema';
-import { revalidatePath } from 'next/cache';
-import { ActionError, authAction } from '@/lib/safe-action';
-import { UrlFormSchema } from '../schemas';
-import { isAdmin } from '@/lib/utils';
-import { env } from '@/env';
-import { CACHE_TTL } from '@/constants';
-import { routes } from '@/routes';
-import { redis } from '@/lib/redis';
-import { RateLimiter } from '@/lib/rate-limiter';
+} from "../services";
+import { db } from "@/db";
+import { urls } from "@/db/schema";
+import { revalidatePath } from "next/cache";
+import { ActionError, authAction } from "@/lib/safe-action";
+import { UrlFormSchema } from "../schemas";
+import { isAdmin } from "@/lib/utils";
+import { env } from "@/env";
+import { CACHE_TTL } from "@/constants";
+import { routes } from "@/routes";
+import { redis } from "@/lib/redis";
+import { RateLimiter } from "@/lib/rate-limiter";
 
 export const shortenUrl = authAction
   .schema(UrlFormSchema)
@@ -27,7 +27,7 @@ export const shortenUrl = authAction
 
     if (!rateLimitResult.allowed) {
       throw new ActionError(
-        `Rate limit exceeded. Try again in a minute. Remaining: ${rateLimitResult.remaining}`,
+        `Rate limit exceeded. Try again in a minute. Remaining: ${rateLimitResult.remaining}`
       );
     }
 
@@ -36,15 +36,18 @@ export const shortenUrl = authAction
     const shortCode = await generateShortCode(customCode);
     const safetyCheck = await checkUrlSafety(originalUrl);
 
-    const { flagged, flagReason, shouldBlock } = processSafetyCheck(safetyCheck, userIsAdmin);
+    const { flagged, flagReason, shouldBlock } = processSafetyCheck(
+      safetyCheck,
+      userIsAdmin
+    );
 
     if (shouldBlock) {
       await cleanupShortCode(shortCode);
-      throw new ActionError('This URL is flagged as malicious');
+      throw new ActionError("This URL is flagged as malicious");
     }
 
     try {
-      await db.transaction(async (tx) => {
+      await db.transaction(async tx => {
         const [result] = await tx
           .insert(urls)
           .values({
@@ -56,9 +59,9 @@ export const shortenUrl = authAction
             expiresAt,
           })
           .returning()
-          .catch(async (error) => {
-            if (error.code === '23505') {
-              throw new ActionError('Short code collision detected');
+          .catch(async error => {
+            if (error.code === "23505") {
+              throw new ActionError("Short code collision detected");
             }
             throw error;
           });
@@ -72,10 +75,10 @@ export const shortenUrl = authAction
       const cacheData = {
         originalUrl,
         flagged: flagged.toString(),
-        flagReason: flagReason || 'null',
+        flagReason: flagReason || "null",
         userId: user.id,
-        clicks: '0',
-        expiresAt: expiresAt ? expiresAt.toISOString() : 'null',
+        clicks: "0",
+        expiresAt: expiresAt ? expiresAt.toISOString() : "null",
       };
 
       await redis.hset(`url:${shortCode}`, cacheData);
@@ -93,4 +96,3 @@ export const shortenUrl = authAction
       throw error;
     }
   });
-

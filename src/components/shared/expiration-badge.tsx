@@ -1,15 +1,19 @@
-import { Badge } from '@/components/ui/badge';
-import { getTimeUntilExpiration, isExpired, formatExpirationDate } from '@/lib/date-utils';
-import { Clock, Timer, AlertTriangle } from 'lucide-react';
+import { Badge } from "@/components/ui/badge";
+import {
+  getTimeUntilExpiration,
+  isExpired,
+  formatExpirationDate,
+} from "@/lib/date-utils";
+import { Clock, Timer, AlertTriangle } from "lucide-react";
 
 type ExpirationBadgeProps = {
   expiresAt: Date | string | null;
   showFullDate?: boolean;
 };
 
-export function ExpirationBadge({ 
-  expiresAt, 
-  showFullDate = false 
+export function ExpirationBadge({
+  expiresAt,
+  showFullDate = false,
 }: ExpirationBadgeProps) {
   if (!expiresAt) {
     return (
@@ -36,7 +40,7 @@ export function ExpirationBadge({
     <div className="flex flex-col gap-1">
       <Badge variant="outline" className="flex items-center gap-1">
         <Timer className="h-3 w-3" />
-        {timeUntil ? `${timeUntil} left` : 'Active'}
+        {timeUntil ? `${timeUntil} left` : "Active"}
       </Badge>
       {showFullDate && (
         <span className="text-xs text-muted-foreground">
@@ -45,4 +49,4 @@ export function ExpirationBadge({
       )}
     </div>
   );
-} 
+}

@@ -1,20 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { Webhook } from 'svix';
-import { headers } from 'next/headers';
-import { WebhookEvent, clerkClient } from '@clerk/nextjs/server';
-import { db, eq } from '@/db';
-import { env } from '@/env';
-import { userRoleEnum, users } from '@/db/schema';
+import { Webhook } from "svix";
+import { headers } from "next/headers";
+import { WebhookEvent, clerkClient } from "@clerk/nextjs/server";
+import { db, eq } from "@/db";
+import { env } from "@/env";
+import { userRoleEnum, users } from "@/db/schema";
 
 const validateRequest = async (request: Request) => {
   const payloadString = await request.text();
   const headerPayload = await headers();
 
   const svixHeaders = {
-    'svix-id': headerPayload.get('svix-id')!,
-    'svix-timestamp': headerPayload.get('svix-timestamp')!,
-    'svix-signature': headerPayload.get('svix-signature')!,
+    "svix-id": headerPayload.get("svix-id")!,
+    "svix-timestamp": headerPayload.get("svix-timestamp")!,
+    "svix-signature": headerPayload.get("svix-signature")!,
   };
   const wh = new Webhook(env.CLERK_WEBHOOK_SIGNING_SECRET);
   return wh.verify(payloadString, svixHeaders) as WebhookEvent;
@@ -26,23 +26,23 @@ export async function POST(req: Request) {
 
   try {
     await handleWebhookEvent(payload, body);
-    return Response.json({ message: 'Received webhook' });
+    return Response.json({ message: "Received webhook" });
   } catch (error) {
-    console.error('Webhook verification failed:', error);
-    return new Response('Webhook verification failed', { status: 400 });
+    console.error("Webhook verification failed:", error);
+    return new Response("Webhook verification failed", { status: 400 });
   }
 }
 
 const handleWebhookEvent = async (event: WebhookEvent, rawBody: string) => {
   const data = JSON.parse(rawBody).data;
   switch (event.type) {
-    case 'user.created':
+    case "user.created":
       await handleUserCreated(data);
       break;
-    case 'user.updated':
+    case "user.updated":
       await handleUserUpdated(data);
       break;
-    case 'user.deleted':
+    case "user.deleted":
       await handleUserDeleted(data.id);
       break;
   }
@@ -62,7 +62,7 @@ const handleUserCreated = async (data: any) => {
 
     await updateClerkMetadata(userData.id, userData.role);
   } catch (error) {
-    console.error('Error creating user:', error);
+    console.error("Error creating user:", error);
     throw error;
   }
 };
@@ -83,7 +83,7 @@ const handleUserUpdated = async (data: any) => {
 
     await updateClerkMetadata(userData.id, userData.role);
   } catch (error) {
-    console.error('Error updating user:', error);
+    console.error("Error updating user:", error);
     throw error;
   }
 };
@@ -94,7 +94,7 @@ const prepareUserData = (data: any) => {
 
   return {
     id: data.id,
-    name: `${data.first_name || ''} ${data.last_name || ''}`.trim(),
+    name: `${data.first_name || ""} ${data.last_name || ""}`.trim(),
     email: data.email_addresses?.[0]?.email_address,
     image: data.image_url,
     role: data.private_metadata?.role || defaultRole,

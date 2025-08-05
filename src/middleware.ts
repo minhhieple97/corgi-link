@@ -1,14 +1,18 @@
-import { clerkMiddleware, createRouteMatcher, clerkClient } from '@clerk/nextjs/server';
-import { ROLE_TYPE } from '@/constants';
-const isAdminRoute = createRouteMatcher(['/admin', '/admin/(.*)']);
+import {
+  clerkMiddleware,
+  createRouteMatcher,
+  clerkClient,
+} from "@clerk/nextjs/server";
+import { ROLE_TYPE } from "@/constants";
+const isAdminRoute = createRouteMatcher(["/admin", "/admin/(.*)"]);
 
-const isAuthRoute = createRouteMatcher(['/dashboard', '/dashboard/(.*)']);
+const isAuthRoute = createRouteMatcher(["/dashboard", "/dashboard/(.*)"]);
 
 const isProtectedRoute = createRouteMatcher([
-  '/dashboard',
-  '/dashboard/(.*)',
-  '/profile',
-  '/profile/(.*)',
+  "/dashboard",
+  "/dashboard/(.*)",
+  "/profile",
+  "/profile/(.*)",
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
@@ -21,15 +25,19 @@ export default clerkMiddleware(async (auth, req) => {
     const user = await clerk.users.getUser(userId);
     const role = user.privateMetadata?.role;
     if (isAdminRoute(req) && role !== ROLE_TYPE.ADMIN) {
-      return Response.redirect(new URL('/', req.url));
+      return Response.redirect(new URL("/", req.url));
     }
 
-    if (isAuthRoute(req) && role !== ROLE_TYPE.USER && role !== ROLE_TYPE.ADMIN) {
-      return Response.redirect(new URL('/', req.url));
+    if (
+      isAuthRoute(req) &&
+      role !== ROLE_TYPE.USER &&
+      role !== ROLE_TYPE.ADMIN
+    ) {
+      return Response.redirect(new URL("/", req.url));
     }
   }
 });
 
 export const config = {
-  matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
+  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
 };

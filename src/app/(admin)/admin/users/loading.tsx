@@ -1,8 +1,14 @@
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { ArrowLeft } from 'lucide-react';
-import Link from 'next/link';
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
 export default function Loading() {
   return (
@@ -10,7 +16,7 @@ export default function Loading() {
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold tracking-tight">User Management</h1>
         <Link href="/admin" passHref>
-          <Button variant={'outline'} size={'sm'} className="gap-2">
+          <Button variant={"outline"} size={"sm"} className="gap-2">
             <ArrowLeft className="size-4" />
             Back to Admin
           </Button>
@@ -21,7 +27,9 @@ export default function Loading() {
         <Card className="shadow-sm">
           <CardHeader>
             <CardTitle>Users</CardTitle>
-            <CardDescription>View and manage all users in the system</CardDescription>
+            <CardDescription>
+              View and manage all users in the system
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">

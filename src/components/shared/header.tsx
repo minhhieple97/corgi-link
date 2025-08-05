@@ -1,12 +1,23 @@
-'use client';
-import Link from 'next/link';
-import { Button } from '../ui/button';
-import { BarChart3Icon, LayoutDashboard, LogOut, Menu } from 'lucide-react';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '../ui/sheet';
-import { SignInButton, SignOutButton, UserButton, useUser } from '@clerk/nextjs';
-import { ThemeToggle } from '@/components/shared/theme-toggle';
-import { useState } from 'react';
-import { routes } from '@/routes';
+"use client";
+import Link from "next/link";
+import { Button } from "../ui/button";
+import { BarChart3Icon, LayoutDashboard, LogOut, Menu } from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "../ui/sheet";
+import {
+  SignInButton,
+  SignOutButton,
+  UserButton,
+  useUser,
+} from "@clerk/nextjs";
+import { ThemeToggle } from "@/components/shared/theme-toggle";
+import { useState } from "react";
+import { routes } from "@/routes";
 
 export const Header = () => {
   const { isSignedIn } = useUser();
@@ -17,7 +28,10 @@ export const Header = () => {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link href={routes.home} className="text-xl font-bold hover:opacity-80 transition-opacity">
+        <Link
+          href={routes.home}
+          className="text-xl font-bold hover:opacity-80 transition-opacity"
+        >
           CorgiLink
         </Link>
 
@@ -26,15 +40,21 @@ export const Header = () => {
 
           {isSignedIn ? (
             <>
-              <Button variant={'ghost'} size={'sm'} asChild>
-                <Link href={routes.dashboard.root} className="flex items-center gap-2">
+              <Button variant={"ghost"} size={"sm"} asChild>
+                <Link
+                  href={routes.dashboard.root}
+                  className="flex items-center gap-2"
+                >
                   <LayoutDashboard className="size-4" />
                   Dashboard
                 </Link>
               </Button>
 
-              <Button variant={'ghost'} size={'sm'} asChild>
-                <Link href={routes.dashboard.stats} className="flex items-center gap-2">
+              <Button variant={"ghost"} size={"sm"} asChild>
+                <Link
+                  href={routes.dashboard.stats}
+                  className="flex items-center gap-2"
+                >
                   <BarChart3Icon className="size-4" />
                   My Stats
                 </Link>
@@ -44,14 +64,14 @@ export const Header = () => {
             </>
           ) : (
             <>
-              <Button variant={'ghost'} size={'sm'} asChild>
+              <Button variant={"ghost"} size={"sm"} asChild>
                 <Link href={routes.stats} className="flex items-center gap-2">
                   <BarChart3Icon className="size-4" />
                   Stats
                 </Link>
               </Button>
               <SignInButton>
-                <Button variant={'ghost'} size={'sm'}>
+                <Button variant={"ghost"} size={"sm"}>
                   Login
                 </Button>
               </SignInButton>
@@ -63,7 +83,7 @@ export const Header = () => {
           <ThemeToggle />
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
-              <Button variant={'ghost'} size={'icon'}>
+              <Button variant={"ghost"} size={"icon"}>
                 <Menu className="size-5" />
                 <span className="sr-only">Toggle menu</span>
               </Button>
@@ -74,7 +94,12 @@ export const Header = () => {
               </SheetHeader>
 
               <nav className="flex flex-col gap-2 mt-6">
-                <Button variant={'ghost'} size={'sm'} asChild onClick={closeSheet}>
+                <Button
+                  variant={"ghost"}
+                  size={"sm"}
+                  asChild
+                  onClick={closeSheet}
+                >
                   <Link
                     href={routes.dashboard.stats}
                     className="flex items-center gap-3 justify-start w-full h-12"
@@ -86,7 +111,12 @@ export const Header = () => {
 
                 {isSignedIn ? (
                   <>
-                    <Button variant={'ghost'} size={'sm'} asChild onClick={closeSheet}>
+                    <Button
+                      variant={"ghost"}
+                      size={"sm"}
+                      asChild
+                      onClick={closeSheet}
+                    >
                       <Link
                         href={routes.dashboard.root}
                         className="flex items-center gap-3 justify-start w-full h-12"
@@ -96,7 +126,12 @@ export const Header = () => {
                       </Link>
                     </Button>
 
-                    <Button variant={'ghost'} size={'sm'} asChild onClick={closeSheet}>
+                    <Button
+                      variant={"ghost"}
+                      size={"sm"}
+                      asChild
+                      onClick={closeSheet}
+                    >
                       <Link
                         href={routes.dashboard.stats}
                         className="flex items-center gap-3 justify-start w-full h-12"
@@ -106,10 +141,12 @@ export const Header = () => {
                       </Link>
                     </Button>
 
-                    <SignOutButton signOutOptions={{ redirectUrl: routes.home }}>
+                    <SignOutButton
+                      signOutOptions={{ redirectUrl: routes.home }}
+                    >
                       <Button
-                        variant={'ghost'}
-                        size={'sm'}
+                        variant={"ghost"}
+                        size={"sm"}
                         className="flex items-center gap-3 justify-start w-full h-12"
                         onClick={closeSheet}
                       >
@@ -120,8 +157,11 @@ export const Header = () => {
                   </>
                 ) : (
                   <>
-                    <Button variant={'ghost'} size={'sm'} asChild>
-                      <Link href={routes.stats} className="flex items-center gap-2">
+                    <Button variant={"ghost"} size={"sm"} asChild>
+                      <Link
+                        href={routes.stats}
+                        className="flex items-center gap-2"
+                      >
                         <BarChart3Icon className="size-4" />
                         Stats
                       </Link>

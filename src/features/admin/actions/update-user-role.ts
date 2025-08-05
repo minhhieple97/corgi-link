@@ -1,12 +1,12 @@
-'use server';
+"use server";
 
-import { db } from '@/db';
-import { users } from '@/db/schema';
-import { ActionError, adminAction } from '@/lib/safe-action';
-import { routes } from '@/routes';
-import { revalidatePath } from 'next/cache';
-import { eq } from 'drizzle-orm';
-import { UpdateUserRoleSchema } from '../schemas';
+import { db } from "@/db";
+import { users } from "@/db/schema";
+import { ActionError, adminAction } from "@/lib/safe-action";
+import { routes } from "@/routes";
+import { revalidatePath } from "next/cache";
+import { eq } from "drizzle-orm";
+import { UpdateUserRoleSchema } from "../schemas";
 
 export const updateUserRole = adminAction
   .schema(UpdateUserRoleSchema)
@@ -14,7 +14,7 @@ export const updateUserRole = adminAction
     const { userId, role } = parsedInput;
 
     if (ctx.user.id === userId) {
-      throw new ActionError('You cannot change your own role');
+      throw new ActionError("You cannot change your own role");
     }
 
     const userToUpdate = await db.query.users.findFirst({
@@ -22,7 +22,7 @@ export const updateUserRole = adminAction
     });
 
     if (!userToUpdate) {
-      throw new ActionError('User not found');
+      throw new ActionError("User not found");
     }
 
     await db

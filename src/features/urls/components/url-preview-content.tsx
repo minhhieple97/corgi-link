@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { Badge } from '@/components/ui/badge';
-import { Globe } from 'lucide-react';
+import { Badge } from "@/components/ui/badge";
+import { Globe } from "lucide-react";
 
 type UrlPreviewContentProps = {
   domain: string | null;
@@ -30,11 +30,15 @@ export const UrlPreviewContent = ({
       </h3>
 
       {description && (
-        <p className="text-xs text-muted-foreground leading-relaxed">{description}</p>
+        <p className="text-xs text-muted-foreground leading-relaxed">
+          {description}
+        </p>
       )}
 
       {siteName && siteName !== title && (
-        <p className="text-xs text-muted-foreground/80 font-medium">{siteName}</p>
+        <p className="text-xs text-muted-foreground/80 font-medium">
+          {siteName}
+        </p>
       )}
     </div>
   );

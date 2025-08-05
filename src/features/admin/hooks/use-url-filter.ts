@@ -1,7 +1,10 @@
-import { useQueryState, parseAsString } from 'nuqs';
+import { useQueryState, parseAsString } from "nuqs";
 
 export const useUrlFilter = (initialFilter: string) => {
-  const [filter, setFilter] = useQueryState('filter', parseAsString.withDefault(initialFilter));
+  const [filter, setFilter] = useQueryState(
+    "filter",
+    parseAsString.withDefault(initialFilter)
+  );
 
   return {
     currentFilter: filter,

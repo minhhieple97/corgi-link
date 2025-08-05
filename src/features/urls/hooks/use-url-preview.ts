@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { urlPreviewService } from '../services/url-preview-service';
+import { useState } from "react";
+import { urlPreviewService } from "../services/url-preview-service";
 
 type UseUrlPreviewReturn = {
   imageError: boolean;
@@ -24,11 +24,11 @@ export const useUrlPreview = (): UseUrlPreviewReturn => {
   };
 
   const truncateTitle = (title?: string) => {
-    return title ? urlPreviewService.truncateText(title, 80) : 'Untitled';
+    return title ? urlPreviewService.truncateText(title, 80) : "Untitled";
   };
 
   const truncateDescription = (description?: string) => {
-    return description ? urlPreviewService.truncateText(description, 120) : '';
+    return description ? urlPreviewService.truncateText(description, 120) : "";
   };
 
   const handleImageLoad = () => {

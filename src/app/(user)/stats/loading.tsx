@@ -1,10 +1,18 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function StatsLoading() {
   return (
     <div className="container max-w-4xl mx-auto py-10 px-4">
-      <h1 className="text-3xl font-bold mb-2 text-center">Service Statistics</h1>
+      <h1 className="text-3xl font-bold mb-2 text-center">
+        Service Statistics
+      </h1>
       <p className="text-center text-muted-foreground mb-8">
         General statistics about our URL shortener service
       </p>
@@ -13,7 +21,9 @@ export default function StatsLoading() {
         <Card className="shadow-sm">
           <CardHeader className="pb-2">
             <CardTitle className="text-lg">Total URLs Shortened</CardTitle>
-            <CardDescription>Number of URLs shortened with our service</CardDescription>
+            <CardDescription>
+              Number of URLs shortened with our service
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <Skeleton className="h-12 w-32" />
@@ -23,7 +33,9 @@ export default function StatsLoading() {
         <Card className="shadow-sm">
           <CardHeader className="pb-2">
             <CardTitle className="text-lg">Total Clicks</CardTitle>
-            <CardDescription>Total number of redirects through our service</CardDescription>
+            <CardDescription>
+              Total number of redirects through our service
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <Skeleton className="h-12 w-32" />
@@ -36,7 +48,8 @@ export default function StatsLoading() {
           <CardHeader>
             <CardTitle>Want to see your personal statistics?</CardTitle>
             <CardDescription>
-              Sign up for an account to track your own shortened URLs and view detailed statistics.
+              Sign up for an account to track your own shortened URLs and view
+              detailed statistics.
             </CardDescription>
           </CardHeader>
           <CardContent className="flex justify-center gap-4">

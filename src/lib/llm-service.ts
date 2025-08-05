@@ -1,14 +1,14 @@
-'server-only';
+"server-only";
 
-import { openaiClient } from './openai';
-import { OPENAI_CONFIG, ALIAS_GENERATION } from '@/constants';
-import type { CrawledContent } from './crawler';
+import { openaiClient } from "./openai";
+import { OPENAI_CONFIG, ALIAS_GENERATION } from "@/constants";
+import type { CrawledContent } from "./crawler";
 
 export type UrlSafetyCheck = {
   isSafe: boolean;
   flagged: boolean;
   reason: string | null;
-  category: 'safe' | 'suspicious' | 'malicious' | 'inappropriate' | 'unknown';
+  category: "safe" | "suspicious" | "malicious" | "inappropriate" | "unknown";
   confidence: number;
 };
 
@@ -23,7 +23,6 @@ export type GeneratedAliases = {
 };
 
 export class LLMService {
- 
   static async checkUrlSafety(url: string): Promise<UrlSafetyCheck> {
     const prompt = LLMService.buildSafetyCheckPrompt(url);
 
@@ -32,11 +31,12 @@ export class LLMService {
         model: OPENAI_CONFIG.MODEL,
         messages: [
           {
-            role: 'system',
-            content: 'You are a URL safety analyzer. Respond only with the requested JSON format.',
+            role: "system",
+            content:
+              "You are a URL safety analyzer. Respond only with the requested JSON format.",
           },
           {
-            role: 'user',
+            role: "user",
             content: prompt,
           },
         ],
@@ -44,22 +44,23 @@ export class LLMService {
         temperature: OPENAI_CONFIG.TEMPERATURE,
       });
 
-      const jsonResponse = JSON.parse(response.choices[0].message.content || '{}') as UrlSafetyCheck;
+      const jsonResponse = JSON.parse(
+        response.choices[0].message.content || "{}"
+      ) as UrlSafetyCheck;
       return LLMService.validateSafetyResponse(jsonResponse);
     } catch (error) {
-      console.error('Error checking URL safety:', error);
+      console.error("Error checking URL safety:", error);
       // Return safe default to avoid blocking legitimate URLs
       return {
         isSafe: true,
         flagged: false,
         reason: null,
-        category: 'unknown',
+        category: "unknown",
         confidence: 0,
       };
     }
   }
 
- 
   static async generateAliases(
     content: CrawledContent,
     options: AliasGenerationOptions = {}
@@ -72,11 +73,12 @@ export class LLMService {
         model: OPENAI_CONFIG.MODEL,
         messages: [
           {
-            role: 'system',
-            content: 'You are an expert at creating short, memorable URL aliases. Respond only with valid JSON.',
+            role: "system",
+            content:
+              "You are an expert at creating short, memorable URL aliases. Respond only with valid JSON.",
           },
           {
-            role: 'user',
+            role: "user",
             content: prompt,
           },
         ],
@@ -84,12 +86,21 @@ export class LLMService {
         temperature: OPENAI_CONFIG.TEMPERATURE,
       });
 
-      const jsonResponse = JSON.parse(response.choices[0].message.content || '{}') as GeneratedAliases;
-      const validAliases = LLMService.validateAndFilterAliases(jsonResponse.aliases || [], config);
+      const jsonResponse = JSON.parse(
+        response.choices[0].message.content || "{}"
+      ) as GeneratedAliases;
+      const validAliases = LLMService.validateAndFilterAliases(
+        jsonResponse.aliases || [],
+        config
+      );
 
       // Fill with fallbacks if needed
       if (validAliases.length < config.count) {
-        const fallbacks = LLMService.generateFallbackAliases(content, config.count - validAliases.length, config);
+        const fallbacks = LLMService.generateFallbackAliases(
+          content,
+          config.count - validAliases.length,
+          config
+        );
         validAliases.push(...fallbacks);
       }
 
@@ -97,15 +108,18 @@ export class LLMService {
         aliases: validAliases.slice(0, config.count),
       };
     } catch (error) {
-      console.error('Error generating aliases with LLM:', error);
+      console.error("Error generating aliases with LLM:", error);
       // Fallback to non-LLM generation
       return {
-        aliases: LLMService.generateFallbackAliases(content, config.count, config),
+        aliases: LLMService.generateFallbackAliases(
+          content,
+          config.count,
+          config
+        ),
       };
     }
   }
 
- 
   private static buildSafetyCheckPrompt(url: string): string {
     return `
       Analyze this URL for safety concerns: "${url}"
@@ -130,8 +144,10 @@ export class LLMService {
     `;
   }
 
- 
-  private static buildAliasPrompt(content: CrawledContent, config: Required<AliasGenerationOptions>): string {
+  private static buildAliasPrompt(
+    content: CrawledContent,
+    config: Required<AliasGenerationOptions>
+  ): string {
     return `
       You are an expert at creating short, memorable aliases for URLs based on their content.
 
@@ -142,7 +158,7 @@ export class LLMService {
       - Make aliases meaningful and related to content
       - Prioritize readability and memorability
       - Avoid generic words like "page", "site", "web", "link"
-      - Avoid these excluded words: ${config.excludeWords.join(', ')}
+      - Avoid these excluded words: ${config.excludeWords.join(", ")}
       - Each alias should be between ${ALIAS_GENERATION.MIN_LENGTH} and ${config.maxLength} characters
       - Prefer shorter aliases when possible
       - Use hyphens sparingly and meaningfully
@@ -155,45 +171,62 @@ export class LLMService {
       Content Analysis:
       Title: ${content.title}
       Description: ${content.description}
-      Keywords: ${content.keywords.join(', ')}
+      Keywords: ${content.keywords.join(", ")}
       URL: ${content.url}
     `;
   }
 
-  
-  private static buildAliasConfig(options: AliasGenerationOptions): Required<AliasGenerationOptions> {
+  private static buildAliasConfig(
+    options: AliasGenerationOptions
+  ): Required<AliasGenerationOptions> {
     return {
-      count: Math.min(options.count || ALIAS_GENERATION.DEFAULT_COUNT, ALIAS_GENERATION.MAX_COUNT),
-      maxLength: Math.min(options.maxLength || ALIAS_GENERATION.MAX_LENGTH, ALIAS_GENERATION.MAX_LENGTH),
+      count: Math.min(
+        options.count || ALIAS_GENERATION.DEFAULT_COUNT,
+        ALIAS_GENERATION.MAX_COUNT
+      ),
+      maxLength: Math.min(
+        options.maxLength || ALIAS_GENERATION.MAX_LENGTH,
+        ALIAS_GENERATION.MAX_LENGTH
+      ),
       excludeWords: options.excludeWords || [],
     };
   }
 
-  
   private static validateAndFilterAliases(
     aliases: string[],
     config: Required<AliasGenerationOptions>
   ): string[] {
-    return aliases.filter(alias =>
-      alias &&
-      alias.length >= ALIAS_GENERATION.MIN_LENGTH &&
-      alias.length <= config.maxLength &&
-      ALIAS_GENERATION.ALLOWED_CHARS_REGEX.test(alias) &&
-      !config.excludeWords.some(word => alias.includes(word.toLowerCase()))
+    return aliases.filter(
+      alias =>
+        alias &&
+        alias.length >= ALIAS_GENERATION.MIN_LENGTH &&
+        alias.length <= config.maxLength &&
+        ALIAS_GENERATION.ALLOWED_CHARS_REGEX.test(alias) &&
+        !config.excludeWords.some(word => alias.includes(word.toLowerCase()))
     );
   }
 
- 
   private static validateSafetyResponse(response: unknown): UrlSafetyCheck {
     const data = response as Record<string, unknown>;
-    const validCategories = ['safe', 'suspicious', 'malicious', 'inappropriate', 'unknown'] as const;
-    
-    const isValidCategory = (value: unknown): value is UrlSafetyCheck['category'] => {
-      return typeof value === 'string' && validCategories.includes(value as typeof validCategories[number]);
+    const validCategories = [
+      "safe",
+      "suspicious",
+      "malicious",
+      "inappropriate",
+      "unknown",
+    ] as const;
+
+    const isValidCategory = (
+      value: unknown
+    ): value is UrlSafetyCheck["category"] => {
+      return (
+        typeof value === "string" &&
+        validCategories.includes(value as (typeof validCategories)[number])
+      );
     };
-    
-    const category = isValidCategory(data.category) ? data.category : 'unknown';
-      
+
+    const category = isValidCategory(data.category) ? data.category : "unknown";
+
     return {
       isSafe: Boolean(data.isSafe),
       flagged: Boolean(data.flagged),
@@ -203,7 +236,6 @@ export class LLMService {
     };
   }
 
-
   private static generateFallbackAliases(
     content: CrawledContent,
     count: number,
@@ -211,15 +243,23 @@ export class LLMService {
   ): string[] {
     const aliases: string[] = [];
     const baseWords = [
-      ...content.title.toLowerCase().split(/\s+/).filter(w => w.length > 2),
+      ...content.title
+        .toLowerCase()
+        .split(/\s+/)
+        .filter(w => w.length > 2),
       ...content.keywords.map(k => k.toLowerCase()).filter(w => w.length > 2),
     ]
-      .filter(word =>
-        word.length <= config.maxLength &&
-        ALIAS_GENERATION.ALLOWED_CHARS_REGEX.test(word.replace(/[^a-z0-9-]/g, '')) &&
-        !config.excludeWords.some(excluded => word.includes(excluded.toLowerCase()))
+      .filter(
+        word =>
+          word.length <= config.maxLength &&
+          ALIAS_GENERATION.ALLOWED_CHARS_REGEX.test(
+            word.replace(/[^a-z0-9-]/g, "")
+          ) &&
+          !config.excludeWords.some(excluded =>
+            word.includes(excluded.toLowerCase())
+          )
       )
-      .map(word => word.replace(/[^a-z0-9-]/g, ''))
+      .map(word => word.replace(/[^a-z0-9-]/g, ""))
       .filter(word => word.length >= ALIAS_GENERATION.MIN_LENGTH);
 
     // Add single words
@@ -247,4 +287,4 @@ export class LLMService {
 
     return [...new Set(aliases)].slice(0, count);
   }
-} 
+}

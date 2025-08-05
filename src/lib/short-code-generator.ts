@@ -1,6 +1,6 @@
-import { customAlphabet } from 'nanoid';
-import { redis } from './redis';
-import { SHORT_CODE, CACHE_TTL } from '@/constants';
+import { customAlphabet } from "nanoid";
+import { redis } from "./redis";
+import { SHORT_CODE, CACHE_TTL } from "@/constants";
 
 const generateId = customAlphabet(SHORT_CODE.ALPHABET, SHORT_CODE.LENGTH);
 
@@ -12,12 +12,17 @@ export class ShortCodeGenerator {
       const isUnique = await redis.sadd(SHORT_CODE.REDIS_SET_KEY, shortCode);
 
       if (isUnique) {
-        await redis.expire(`shortcode:${shortCode}`, CACHE_TTL.URL_REDIS_EXPIRY);
+        await redis.expire(
+          `shortcode:${shortCode}`,
+          CACHE_TTL.URL_REDIS_EXPIRY
+        );
         return shortCode;
       }
     }
 
-    throw new Error('Failed to generate unique short code after maximum retries');
+    throw new Error(
+      "Failed to generate unique short code after maximum retries"
+    );
   }
 
   static async isCodeAvailable(customCode: string): Promise<boolean> {

@@ -1,11 +1,17 @@
-import { Metadata } from 'next';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { SignInButton } from '@clerk/nextjs';
-import { getPublicStats } from '@/features/urls/queries';
+import { Metadata } from "next";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { SignInButton } from "@clerk/nextjs";
+import { getPublicStats } from "@/features/urls/queries";
 
 export const metadata: Metadata = {
-  title: 'Statistics | CorgiLink',
-  description: 'Statistics about our URL shortener service',
+  title: "Statistics | CorgiLink",
+  description: "Statistics about our URL shortener service",
 };
 
 export default async function PublicStatsPage() {
@@ -13,7 +19,9 @@ export default async function PublicStatsPage() {
 
   return (
     <div className="container max-w-4xl mx-auto py-10 px-4">
-      <h1 className="text-3xl font-bold mb-2 text-center">Service Statistics</h1>
+      <h1 className="text-3xl font-bold mb-2 text-center">
+        Service Statistics
+      </h1>
       <p className="text-center text-muted-foreground mb-8">
         General statistics about our URL shortener service
       </p>
@@ -22,7 +30,9 @@ export default async function PublicStatsPage() {
         <Card className="shadow-sm">
           <CardHeader className="pb-2">
             <CardTitle className="text-lg">Total URLs Shortened</CardTitle>
-            <CardDescription>Number of URLs shortened with our service</CardDescription>
+            <CardDescription>
+              Number of URLs shortened with our service
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <p className="text-4xl font-bold">{totalUrls.toLocaleString()}</p>
@@ -32,7 +42,9 @@ export default async function PublicStatsPage() {
         <Card className="shadow-sm">
           <CardHeader className="pb-2">
             <CardTitle className="text-lg">Total Clicks</CardTitle>
-            <CardDescription>Total number of redirects through our service</CardDescription>
+            <CardDescription>
+              Total number of redirects through our service
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <p className="text-4xl font-bold">{totalClicks.toLocaleString()}</p>
@@ -45,7 +57,8 @@ export default async function PublicStatsPage() {
           <CardHeader>
             <CardTitle>Want to see your personal statistics?</CardTitle>
             <CardDescription>
-              Sign up for an account to track your own shortened URLs and view detailed statistics.
+              Sign up for an account to track your own shortened URLs and view
+              detailed statistics.
             </CardDescription>
           </CardHeader>
           <CardContent className="flex justify-center gap-4">

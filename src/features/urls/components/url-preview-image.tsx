@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Image from 'next/image';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Globe, ImageIcon } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { useState } from "react";
+import Image from "next/image";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Globe, ImageIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type UrlPreviewImageProps = {
   image?: string;
@@ -56,9 +56,9 @@ export const UrlPreviewImage = ({
           alt={title}
           fill
           className={cn(
-            'object-cover transition-all duration-300 ease-out',
-            imageLoading ? 'opacity-0 scale-105' : 'opacity-100 scale-100',
-            'group-hover:scale-105',
+            "object-cover transition-all duration-300 ease-out",
+            imageLoading ? "opacity-0 scale-105" : "opacity-100 scale-100",
+            "group-hover:scale-105"
           )}
           onLoad={handleImageLoad}
           onError={handleImageError}

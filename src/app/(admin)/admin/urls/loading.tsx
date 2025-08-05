@@ -1,5 +1,11 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Loading() {
   return (
@@ -14,7 +20,9 @@ export default function Loading() {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
                 <CardTitle>URLs</CardTitle>
-                <CardDescription>View and manage all URLs in the system.</CardDescription>
+                <CardDescription>
+                  View and manage all URLs in the system.
+                </CardDescription>
               </div>
               <Skeleton className="h-10 w-64" />
             </div>

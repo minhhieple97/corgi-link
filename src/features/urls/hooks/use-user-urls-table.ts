@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { toast } from 'sonner';
-import { useDeleteUrl } from './use-delete-url';
-import { UI_CONSTANTS } from '@/constants';
-import { useRouter } from 'next/navigation';
-import { env } from '@/env';
+import { useState } from "react";
+import { toast } from "sonner";
+import { useDeleteUrl } from "./use-delete-url";
+import { UI_CONSTANTS } from "@/constants";
+import { useRouter } from "next/navigation";
+import { env } from "@/env";
 
 export const useUserUrlsTable = () => {
-  const [qrCodeUrl, setQrCodeUrl] = useState<string>('');
-  const [qrCodeShortCode, setQrCodeShortCode] = useState<string>('');
+  const [qrCodeUrl, setQrCodeUrl] = useState<string>("");
+  const [qrCodeShortCode, setQrCodeShortCode] = useState<string>("");
   const [isQrCodeModalOpen, setIsQrCodeModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [urlToEdit, setUrlToEdit] = useState<{
@@ -32,12 +32,12 @@ export const useUserUrlsTable = () => {
     try {
       await navigator.clipboard.writeText(shortUrl);
       toast.success(UI_CONSTANTS.TOAST_MESSAGES.COPY_SUCCESS, {
-        description: 'The short URL has been copied to your clipboard',
+        description: "The short URL has been copied to your clipboard",
       });
     } catch (error) {
-      console.error('Failed to copy short URL to clipboard', error);
-      toast.error('Failed to copy to clipboard', {
-        description: 'Please try again or copy manually',
+      console.error("Failed to copy short URL to clipboard", error);
+      toast.error("Failed to copy to clipboard", {
+        description: "Please try again or copy manually",
       });
     }
   };
@@ -53,7 +53,11 @@ export const useUserUrlsTable = () => {
     setIsQrCodeModalOpen(true);
   };
 
-  const handleEdit = (id: number, shortCode: string, expiresAt?: Date | null) => {
+  const handleEdit = (
+    id: number,
+    shortCode: string,
+    expiresAt?: Date | null
+  ) => {
     setUrlToEdit({ id, shortCode, expiresAt });
     setIsEditModalOpen(true);
   };
@@ -61,15 +65,15 @@ export const useUserUrlsTable = () => {
   const handleEditSuccess = () => {
     if (!urlToEdit) return;
 
-    toast.success('URL updated successfully', {
-      description: 'The short code has been updated',
+    toast.success("URL updated successfully", {
+      description: "The short code has been updated",
     });
   };
 
   const closeQrCodeModal = () => {
     setIsQrCodeModalOpen(false);
-    setQrCodeUrl('');
-    setQrCodeShortCode('');
+    setQrCodeUrl("");
+    setQrCodeShortCode("");
   };
 
   const closeEditModal = () => {

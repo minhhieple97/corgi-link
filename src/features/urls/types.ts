@@ -1,6 +1,6 @@
-import { UpdateUrlSchema, UrlFormSchema, DeleteUrlSchema } from './schemas';
-import { z } from 'zod';
-import type { UseFormReturn } from 'react-hook-form';
+import { UpdateUrlSchema, UrlFormSchema, DeleteUrlSchema } from "./schemas";
+import { z } from "zod";
+import type { UseFormReturn } from "react-hook-form";
 
 export type IUrlFormData = z.infer<typeof UrlFormSchema>;
 
@@ -8,7 +8,7 @@ export type UrlSafetyCheck = {
   isSafe: boolean;
   flagged: boolean;
   reason: string | null;
-  category: 'safe' | 'suspicious' | 'malicious' | 'inappropriate' | 'unknown';
+  category: "safe" | "suspicious" | "malicious" | "inappropriate" | "unknown";
   confidence: number;
 };
 

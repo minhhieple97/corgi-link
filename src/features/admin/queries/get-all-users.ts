@@ -1,8 +1,8 @@
-'use server';
+"use server";
 
-import { db } from '@/db';
-import { users } from '@/db/schema'; // Assuming you have a schema file
-import { and, asc, desc, ilike, or, sql } from 'drizzle-orm';
+import { db } from "@/db";
+import { users } from "@/db/schema"; // Assuming you have a schema file
+import { and, asc, desc, ilike, or, sql } from "drizzle-orm";
 
 export type UserWithoutPassword = {
   id: string;
@@ -16,24 +16,32 @@ export type UserWithoutPassword = {
 type GetAllUsersOptions = {
   page?: number;
   limit?: number;
-  sortBy?: 'name' | 'email' | 'role' | 'createdAt';
-  sortOrder?: 'asc' | 'desc';
+  sortBy?: "name" | "email" | "role" | "createdAt";
+  sortOrder?: "asc" | "desc";
   search?: string;
 };
 
 export const getAllUsers = async (options: GetAllUsersOptions = {}) => {
-  const { page = 1, limit = 10, sortBy = 'createdAt', sortOrder = 'desc', search = '' } = options;
+  const {
+    page = 1,
+    limit = 10,
+    sortBy = "createdAt",
+    sortOrder = "desc",
+    search = "",
+  } = options;
 
   const offset = (page - 1) * limit;
 
   const whereConditions = [];
 
   if (search) {
-    whereConditions.push(or(ilike(users.email, `%${search}%`), ilike(users.name, `%${search}%`)));
+    whereConditions.push(
+      or(ilike(users.email, `%${search}%`), ilike(users.name, `%${search}%`))
+    );
   }
 
   const orderByColumn = users[sortBy];
-  const orderDirection = sortOrder === 'asc' ? asc : desc;
+  const orderDirection = sortOrder === "asc" ? asc : desc;
 
   const [userResults, totalResult] = await Promise.all([
     db

@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
-import { ADMIN_TABLE } from '@/constants';
-import { UserWithoutPassword } from '../queries';
-import { useUsersTable } from '../hooks';
-import { UserTableHeader } from './user-table-header';
-import { UserTableRow } from './user-table-row';
-import { UserTablePagination } from './user-table-pagination';
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { ADMIN_TABLE } from "@/constants";
+import { UserWithoutPassword } from "../queries";
+import { useUsersTable } from "../hooks";
+import { UserTableHeader } from "./user-table-header";
+import { UserTableRow } from "./user-table-row";
+import { UserTablePagination } from "./user-table-pagination";
 
 type UsersTableProps = {
   users: UserWithoutPassword[];
@@ -53,7 +53,7 @@ export const UsersTable = ({
                 </TableCell>
               </TableRow>
             ) : (
-              users.map((user) => (
+              users.map(user => (
                 <UserTableRow
                   key={user.id}
                   user={user}

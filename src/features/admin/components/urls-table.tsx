@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,7 +17,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '@/components/ui';
+} from "@/components/ui";
 import {
   Table,
   TableBody,
@@ -25,8 +25,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { formatDistanceToNow } from 'date-fns';
+} from "@/components/ui/table";
+import { formatDistanceToNow } from "date-fns";
 import {
   AlertTriangle,
   ArrowDown,
@@ -38,11 +38,16 @@ import {
   ExternalLink,
   Loader2,
   MoreHorizontal,
-} from 'lucide-react';
-import type { SortBy, HighlightStyle, UrlWithUser } from '../types';
-import { SORT_COLUMNS } from '../constants';
-import { useUrlsTable } from '../hooks';
-import { truncateUrl, getHighlightStyles, getFlagIconColor, getColumnWidth } from '../utils';
+} from "lucide-react";
+import type { SortBy, HighlightStyle, UrlWithUser } from "../types";
+import { SORT_COLUMNS } from "../constants";
+import { useUrlsTable } from "../hooks";
+import {
+  truncateUrl,
+  getHighlightStyles,
+  getFlagIconColor,
+  getColumnWidth,
+} from "../utils";
 
 type UrlsTableProps = {
   urls: UrlWithUser[];
@@ -70,7 +75,7 @@ export const UrlsTable = ({ urls, total, highlightStyle }: UrlsTableProps) => {
       return <ArrowUpDown className="ml-2 size-4" />;
     }
 
-    return sortOrder === 'asc' ? (
+    return sortOrder === "asc" ? (
       <ArrowUp className="ml-2 size-4" />
     ) : (
       <ArrowDown className="ml-2 size-4" />
@@ -85,18 +90,22 @@ export const UrlsTable = ({ urls, total, highlightStyle }: UrlsTableProps) => {
         <PaginationLink href={createPaginationUrl(1)} isActive={page === 1}>
           1
         </PaginationLink>
-      </PaginationItem>,
+      </PaginationItem>
     );
 
     if (page > 3) {
       items.push(
         <PaginationItem key="ellipsis-1">
           <PaginationEllipsis />
-        </PaginationItem>,
+        </PaginationItem>
       );
     }
 
-    for (let i = Math.max(2, page - 1); i <= Math.min(totalPage - 1, page + 1); i++) {
+    for (
+      let i = Math.max(2, page - 1);
+      i <= Math.min(totalPage - 1, page + 1);
+      i++
+    ) {
       if (i === 1 || i === totalPage) continue;
 
       items.push(
@@ -104,7 +113,7 @@ export const UrlsTable = ({ urls, total, highlightStyle }: UrlsTableProps) => {
           <PaginationLink href={createPaginationUrl(i)} isActive={page === i}>
             {i}
           </PaginationLink>
-        </PaginationItem>,
+        </PaginationItem>
       );
     }
 
@@ -112,17 +121,20 @@ export const UrlsTable = ({ urls, total, highlightStyle }: UrlsTableProps) => {
       items.push(
         <PaginationItem key="ellipsis-2">
           <PaginationEllipsis />
-        </PaginationItem>,
+        </PaginationItem>
       );
     }
 
     if (totalPage > 1) {
       items.push(
         <PaginationItem key="last">
-          <PaginationLink href={createPaginationUrl(totalPage)} isActive={page === totalPage}>
+          <PaginationLink
+            href={createPaginationUrl(totalPage)}
+            isActive={page === totalPage}
+          >
             {totalPage}
           </PaginationLink>
-        </PaginationItem>,
+        </PaginationItem>
       );
     }
 
@@ -153,18 +165,23 @@ export const UrlsTable = ({ urls, total, highlightStyle }: UrlsTableProps) => {
             {urls.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={6}>
-                  {search ? 'No URLs found with the search term.' : 'No URLs found.'}
+                  {search
+                    ? "No URLs found with the search term."
+                    : "No URLs found."}
                 </TableCell>
               </TableRow>
             ) : (
-              urls.map((url) => (
-                <TableRow key={url.id} className={getHighlightStyles(url, highlightStyle)}>
+              urls.map(url => (
+                <TableRow
+                  key={url.id}
+                  className={getHighlightStyles(url, highlightStyle)}
+                >
                   <TableCell className="font-medium">
                     <div className="flex items-center gap-2">
                       {url.flagged && (
                         <div
                           className={getFlagIconColor(highlightStyle)}
-                          title={url.flagReason || 'Flagged By AI'}
+                          title={url.flagReason || "Flagged By AI"}
                         >
                           <AlertTriangle className="size-4" />
                         </div>
@@ -187,7 +204,9 @@ export const UrlsTable = ({ urls, total, highlightStyle }: UrlsTableProps) => {
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
-                      <code className="bg-muted px-1 py-0.5 rounded text-sm">{url.shortCode}</code>
+                      <code className="bg-muted px-1 py-0.5 rounded text-sm">
+                        {url.shortCode}
+                      </code>
                       <Button
                         variant="ghost"
                         size="icon"
@@ -210,15 +229,22 @@ export const UrlsTable = ({ urls, total, highlightStyle }: UrlsTableProps) => {
                     {url.userId ? (
                       <div className="flex items-center gap-2">
                         <Avatar className="size-6">
-                          <AvatarImage src={undefined} alt={url.userName || 'User'} />
+                          <AvatarImage
+                            src={undefined}
+                            alt={url.userName || "User"}
+                          />
                           <AvatarFallback className="text-xs">
                             {url.userName?.substring(0, 2)}
                           </AvatarFallback>
                         </Avatar>
-                        <span>{url.userName || url.userEmail || 'Unknown User'}</span>
+                        <span>
+                          {url.userName || url.userEmail || "Unknown User"}
+                        </span>
                       </div>
                     ) : (
-                      <span className="text-muted-foreground text-sm">Anonymous</span>
+                      <span className="text-muted-foreground text-sm">
+                        Anonymous
+                      </span>
                     )}
                   </TableCell>
                   <TableCell>
@@ -236,11 +262,17 @@ export const UrlsTable = ({ urls, total, highlightStyle }: UrlsTableProps) => {
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => copyToClipboard(url.id, url.shortCode)}>
+                        <DropdownMenuItem
+                          onClick={() => copyToClipboard(url.id, url.shortCode)}
+                        >
                           Copy Short URL
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                          <a href={url.originalUrl} target="_blank" rel="noopener noreferrer">
+                          <a
+                            href={url.originalUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
                             Visit Original URL
                           </a>
                         </DropdownMenuItem>
@@ -249,19 +281,27 @@ export const UrlsTable = ({ urls, total, highlightStyle }: UrlsTableProps) => {
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
                               className="text-green-600 dark:text-green-400"
-                              onClick={() => handleManageFlaggedUrl(url.id, 'approve')}
+                              onClick={() =>
+                                handleManageFlaggedUrl(url.id, "approve")
+                              }
                               disabled={isManagingUrl}
                             >
-                              {isManagingUrl && <Loader2 className="size-4 mr-1 animate-spin" />}
+                              {isManagingUrl && (
+                                <Loader2 className="size-4 mr-1 animate-spin" />
+                              )}
                               <CheckCircle className="size-4 mr-1 text-green-700" />
                               Approve URL
                             </DropdownMenuItem>
                             <DropdownMenuItem
                               className="text-red-600 dark:text-red-400"
-                              onClick={() => handleManageFlaggedUrl(url.id, 'delete')}
+                              onClick={() =>
+                                handleManageFlaggedUrl(url.id, "delete")
+                              }
                               disabled={isManagingUrl}
                             >
-                              {isManagingUrl && <Loader2 className="size-4 mr-1 animate-spin" />}
+                              {isManagingUrl && (
+                                <Loader2 className="size-4 mr-1 animate-spin" />
+                              )}
                               <Ban className="size-4 mr-1 text-red-700" />
                               Delete URL
                             </DropdownMenuItem>
@@ -281,13 +321,17 @@ export const UrlsTable = ({ urls, total, highlightStyle }: UrlsTableProps) => {
         <Pagination>
           <PaginationContent>
             <PaginationItem>
-              <PaginationPrevious href={createPaginationUrl(Math.max(1, page - 1))} />
+              <PaginationPrevious
+                href={createPaginationUrl(Math.max(1, page - 1))}
+              />
             </PaginationItem>
 
             {getPaginationItems()}
 
             <PaginationItem>
-              <PaginationNext href={createPaginationUrl(Math.min(totalPage, page + 1))} />
+              <PaginationNext
+                href={createPaginationUrl(Math.min(totalPage, page + 1))}
+              />
             </PaginationItem>
           </PaginationContent>
         </Pagination>

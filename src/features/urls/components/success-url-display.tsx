@@ -1,7 +1,7 @@
-import { Button, Input, Card, CardContent, Badge } from '@/components/ui';
-import { UI_CONSTANTS } from '@/constants';
-import { CheckCircle, Copy, Plus, ExternalLink } from 'lucide-react';
-import type { SuccessUrlDisplayProps } from '../types';
+import { Button, Input, Card, CardContent, Badge } from "@/components/ui";
+import { UI_CONSTANTS } from "@/constants";
+import { CheckCircle, Copy, Plus, ExternalLink } from "lucide-react";
+import type { SuccessUrlDisplayProps } from "../types";
 
 export const SuccessUrlDisplay = ({
   shortUrl,
@@ -39,7 +39,9 @@ export const SuccessUrlDisplay = ({
             </div>
             <Button onClick={onCopy} size="sm" className="gap-1 text-xs">
               <Copy className="h-3 w-3" />
-              <span className="hidden sm:inline">{UI_CONSTANTS.BUTTON_LABELS.COPY}</span>
+              <span className="hidden sm:inline">
+                {UI_CONSTANTS.BUTTON_LABELS.COPY}
+              </span>
               <span className="sm:hidden">Copy</span>
             </Button>
           </div>
@@ -52,7 +54,9 @@ export const SuccessUrlDisplay = ({
               className="gap-1 border-green-300 dark:border-green-700 hover:bg-green-100 dark:hover:bg-green-900/30 text-xs"
             >
               <Plus className="h-3 w-3" />
-              <span className="hidden sm:inline">{UI_CONSTANTS.BUTTON_LABELS.CREATE_ANOTHER}</span>
+              <span className="hidden sm:inline">
+                {UI_CONSTANTS.BUTTON_LABELS.CREATE_ANOTHER}
+              </span>
               <span className="sm:hidden">Create Another</span>
             </Button>
           </div>

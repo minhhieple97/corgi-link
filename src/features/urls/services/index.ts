@@ -1,17 +1,21 @@
-import { env } from '@/env';
-import { SHORT_CODE, URL_SAFETY } from '@/constants';
-import { redis } from '@/lib/redis';
-import { ShortCodeGenerator } from '@/lib/short-code-generator';
-import { ActionError } from '@/lib/safe-action';
-import { queueClient } from '@/lib/qstash';
-import { db } from '@/db';
-import { urls } from '@/db/schema';
-import { eq } from 'drizzle-orm';
-import { QSTASH_QUEUE, RESPONSE_MESSAGES, CONTENT_TYPES } from '@/constants';
-import { isExpired } from '@/lib/date-utils';
-import { UrlValidator } from '@/lib/url-validator';
-import { WebCrawler, type CrawledContent } from '@/lib/crawler';
-import { LLMService, type UrlSafetyCheck, type AliasGenerationOptions } from '@/lib/llm-service';
+import { env } from "@/env";
+import { SHORT_CODE, URL_SAFETY } from "@/constants";
+import { redis } from "@/lib/redis";
+import { ShortCodeGenerator } from "@/lib/short-code-generator";
+import { ActionError } from "@/lib/safe-action";
+import { queueClient } from "@/lib/qstash";
+import { db } from "@/db";
+import { urls } from "@/db/schema";
+import { eq } from "drizzle-orm";
+import { QSTASH_QUEUE, RESPONSE_MESSAGES, CONTENT_TYPES } from "@/constants";
+import { isExpired } from "@/lib/date-utils";
+import { UrlValidator } from "@/lib/url-validator";
+import { WebCrawler, type CrawledContent } from "@/lib/crawler";
+import {
+  LLMService,
+  type UrlSafetyCheck,
+  type AliasGenerationOptions,
+} from "@/lib/llm-service";
 
 export const isValidUrl = UrlValidator.isValid;
 export const ensureHttps = UrlValidator.ensureHttps;
@@ -24,10 +28,10 @@ export const checkUrlSafety = async (url: string) => {
       data,
     };
   } catch (error) {
-    console.error('Error checking URL safety:', error);
+    console.error("Error checking URL safety:", error);
     return {
       success: false,
-      error: 'Failed to analyze URL safety',
+      error: "Failed to analyze URL safety",
     };
   }
 };
@@ -36,23 +40,24 @@ export const crawlWebContent = WebCrawler.crawl;
 
 export const generateAliasesWithLLM = async (
   content: CrawledContent,
-  options: AliasGenerationOptions = {},
+  options: AliasGenerationOptions = {}
 ) => {
   const result = await LLMService.generateAliases(content, options);
   return result;
 };
 
-
-export const generateShortCode = async (customCode?: string): Promise<string> => {
+export const generateShortCode = async (
+  customCode?: string
+): Promise<string> => {
   if (customCode) {
     const isAvailable = await ShortCodeGenerator.isCodeAvailable(customCode);
     if (!isAvailable) {
-      throw new ActionError('Custom code already exists');
+      throw new ActionError("Custom code already exists");
     }
 
     const reserved = await ShortCodeGenerator.reserveCode(customCode);
     if (!reserved) {
-      throw new ActionError('Custom code was taken by another user');
+      throw new ActionError("Custom code was taken by another user");
     }
 
     return customCode;
@@ -61,10 +66,9 @@ export const generateShortCode = async (customCode?: string): Promise<string> =>
   return ShortCodeGenerator.generateUniqueCode();
 };
 
-
 export const processSafetyCheck = (
   safetyCheck: Awaited<ReturnType<typeof checkUrlSafety>>,
-  userIsAdmin: boolean,
+  userIsAdmin: boolean
 ): { flagged: boolean; flagReason: string | null; shouldBlock: boolean } => {
   if (!safetyCheck.success || !safetyCheck.data) {
     return { flagged: false, flagReason: null, shouldBlock: false };
@@ -84,11 +88,9 @@ export const processSafetyCheck = (
   };
 };
 
-
 export const cleanupShortCode = async (shortCode: string): Promise<void> => {
   await redis.srem(SHORT_CODE.REDIS_SET_KEY, shortCode);
 };
-
 
 export const queueClickIncrement = async (shortCode: string) => {
   try {
@@ -101,7 +103,7 @@ export const queueClickIncrement = async (shortCode: string) => {
         timestamp: Date.now(),
       },
       headers: {
-        'Content-Type': CONTENT_TYPES.JSON,
+        "Content-Type": CONTENT_TYPES.JSON,
       },
     });
   } catch (error) {
@@ -110,10 +112,9 @@ export const queueClickIncrement = async (shortCode: string) => {
   }
 };
 
-
 const incrementClicksDirectly = async (shortCode: string) => {
   try {
-    await db.transaction(async (tx) => {
+    await db.transaction(async tx => {
       const url = await tx.query.urls.findFirst({
         where: eq(urls.shortCode, shortCode),
       });
@@ -133,7 +134,7 @@ const incrementClicksDirectly = async (shortCode: string) => {
           })
           .where(eq(urls.shortCode, shortCode));
 
-        await redis.hincrby(`url:${shortCode}`, 'clicks', 1);
+        await redis.hincrby(`url:${shortCode}`, "clicks", 1);
       }
     });
   } catch (error) {

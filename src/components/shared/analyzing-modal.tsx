@@ -1,22 +1,31 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '../ui/dialog';
-import { Loader2, Shield } from 'lucide-react';
+import { useEffect, useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog";
+import { Loader2, Shield } from "lucide-react";
 
 type AnalyzingModalProps = {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
 };
 
-export const AnalyzingModal = ({ isOpen, onOpenChange }: AnalyzingModalProps) => {
-  const [dots, setDots] = useState('');
+export const AnalyzingModal = ({
+  isOpen,
+  onOpenChange,
+}: AnalyzingModalProps) => {
+  const [dots, setDots] = useState("");
 
   useEffect(() => {
     if (!isOpen) return;
 
     const interval = setInterval(() => {
-      setDots((prev) => (prev.length >= 3 ? '' : prev + '.'));
+      setDots(prev => (prev.length >= 3 ? "" : prev + "."));
     }, 500);
 
     return () => clearInterval(interval);
@@ -31,7 +40,8 @@ export const AnalyzingModal = ({ isOpen, onOpenChange }: AnalyzingModalProps) =>
             AI Security Analysis
           </DialogTitle>
           <DialogDescription>
-            Our AI is analyzing your URL for security threats and malicious content{dots}
+            Our AI is analyzing your URL for security threats and malicious
+            content{dots}
           </DialogDescription>
         </DialogHeader>
 

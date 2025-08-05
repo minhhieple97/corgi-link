@@ -1,7 +1,10 @@
-import { useQueryState, parseAsString } from 'nuqs';
+import { useQueryState, parseAsString } from "nuqs";
 
 export const useUrlSearch = (initialSearch: string) => {
-  const [search, setSearch] = useQueryState('search', parseAsString.withDefault(initialSearch));
+  const [search, setSearch] = useQueryState(
+    "search",
+    parseAsString.withDefault(initialSearch)
+  );
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -9,7 +12,7 @@ export const useUrlSearch = (initialSearch: string) => {
   };
 
   const clearSearch = () => {
-    setSearch('');
+    setSearch("");
   };
 
   return {

@@ -1,5 +1,5 @@
-import Link from 'next/link';
-import { routes } from '@/routes';
+import Link from "next/link";
+import { routes } from "@/routes";
 
 export const AdminToolsLink = () => {
   return (
@@ -12,4 +12,4 @@ export const AdminToolsLink = () => {
       </Link>
     </div>
   );
-}; 
+};

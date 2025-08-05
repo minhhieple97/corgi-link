@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { useUrlSearch } from '../hooks';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useUrlSearch } from "../hooks";
 
 type UrlSearchProps = {
   initialSearch: string;
@@ -18,7 +18,7 @@ export const UrlSearch = ({ initialSearch }: UrlSearchProps) => {
           type="text"
           placeholder="Search URLs"
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={e => setSearch(e.target.value)}
           className="pl-10 pr-10"
         />
       </div>

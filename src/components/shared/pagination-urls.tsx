@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useQueryState, parseAsInteger } from 'nuqs';
-import { PAGINATION } from '@/constants';
+import { useQueryState, parseAsInteger } from "nuqs";
+import { PAGINATION } from "@/constants";
 import {
   Pagination,
   PaginationContent,
@@ -9,7 +9,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '@/components/ui/pagination';
+} from "@/components/ui/pagination";
 
 type PaginationUrlsProps = {
   pagination: {
@@ -25,10 +25,10 @@ type PaginationUrlsProps = {
 
 export function PaginationUrls({ pagination, className }: PaginationUrlsProps) {
   const [currentPage, setCurrentPage] = useQueryState(
-    'page',
+    "page",
     parseAsInteger.withDefault(PAGINATION.DEFAULT_PAGE).withOptions({
       shallow: false,
-    }),
+    })
   );
 
   const handlePageChange = async (newPage: number) => {
@@ -54,7 +54,7 @@ export function PaginationUrls({ pagination, className }: PaginationUrlsProps) {
           {canGoPrevious && (
             <PaginationItem>
               <PaginationPrevious
-                onClick={(e) => {
+                onClick={e => {
                   e.preventDefault();
                   handlePageChange(activePage - 1);
                 }}
@@ -63,25 +63,27 @@ export function PaginationUrls({ pagination, className }: PaginationUrlsProps) {
             </PaginationItem>
           )}
 
-          {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((pageNum) => (
-            <PaginationItem key={pageNum}>
-              <PaginationLink
-                onClick={(e) => {
-                  e.preventDefault();
-                  handlePageChange(pageNum);
-                }}
-                isActive={pageNum === activePage}
-                className="cursor-pointer"
-              >
-                {pageNum}
-              </PaginationLink>
-            </PaginationItem>
-          ))}
+          {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map(
+            pageNum => (
+              <PaginationItem key={pageNum}>
+                <PaginationLink
+                  onClick={e => {
+                    e.preventDefault();
+                    handlePageChange(pageNum);
+                  }}
+                  isActive={pageNum === activePage}
+                  className="cursor-pointer"
+                >
+                  {pageNum}
+                </PaginationLink>
+              </PaginationItem>
+            )
+          )}
 
           {canGoNext && (
             <PaginationItem>
               <PaginationNext
-                onClick={(e) => {
+                onClick={e => {
                   e.preventDefault();
                   handlePageChange(activePage + 1);
                 }}

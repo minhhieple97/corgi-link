@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import type { UrlPreviewState } from '../types';
-import { useUrlPreview } from '../hooks/use-url-preview';
-import { UrlPreviewError } from './url-preview-error';
-import { UrlPreviewSkeleton } from './url-preview-skeleton';
-import { UrlPreviewCard } from './url-preview-card';
+import type { UrlPreviewState } from "../types";
+import { useUrlPreview } from "../hooks/use-url-preview";
+import { UrlPreviewError } from "./url-preview-error";
+import { UrlPreviewSkeleton } from "./url-preview-skeleton";
+import { UrlPreviewCard } from "./url-preview-card";
 
 type UrlPreviewProps = {
   previewState: UrlPreviewState;
@@ -12,8 +12,13 @@ type UrlPreviewProps = {
 };
 
 export const UrlPreview = ({ previewState, className }: UrlPreviewProps) => {
-  const { extractDomain, truncateTitle, truncateDescription, handleImageLoad, handleImageError } =
-    useUrlPreview();
+  const {
+    extractDomain,
+    truncateTitle,
+    truncateDescription,
+    handleImageLoad,
+    handleImageError,
+  } = useUrlPreview();
 
   const { isLoading, data, error } = previewState;
 

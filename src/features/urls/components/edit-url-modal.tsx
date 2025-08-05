@@ -12,12 +12,12 @@ import {
   FormMessage,
   Input,
   Button,
-} from '@/components/ui';
-import { Loader2, Calendar, Clock } from 'lucide-react';
-import { useUpdateUrl } from '../hooks/use-update-url';
-import { env } from '@/env';
-import { ExpirationDatePicker } from '@/components/ui/date-picker';
-import { ExpirationBadge } from '@/components/shared';
+} from "@/components/ui";
+import { Loader2, Calendar, Clock } from "lucide-react";
+import { useUpdateUrl } from "../hooks/use-update-url";
+import { env } from "@/env";
+import { ExpirationDatePicker } from "@/components/ui/date-picker";
+import { ExpirationBadge } from "@/components/shared";
 
 type EditUrlModalProps = {
   isOpen: boolean;
@@ -40,7 +40,7 @@ export const EditUrlModal = ({
     urlId,
     currentShortCode,
     currentExpiration,
-    onSuccess: (newShortCode) => {
+    onSuccess: newShortCode => {
       onSuccess(newShortCode);
       onOpenChange(false);
     },
@@ -57,14 +57,15 @@ export const EditUrlModal = ({
             Edit Short URL
           </DialogTitle>
           <DialogDescription>
-            Customize the short code and expiration date for this URL. The short code must be unique
-            and can only contain letters, numbers, hyphens, and underscores.
+            Customize the short code and expiration date for this URL. The short
+            code must be unique and can only contain letters, numbers, hyphens,
+            and underscores.
           </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
           <form
-            onSubmit={(e) => {
+            onSubmit={e => {
               e.preventDefault();
               onSubmit(form.getValues());
             }}
@@ -123,7 +124,12 @@ export const EditUrlModal = ({
             )}
 
             <DialogFooter className="sm:justify-end">
-              <Button type="button" variant={'outline'} onClick={handleCancel} disabled={isPending}>
+              <Button
+                type="button"
+                variant={"outline"}
+                onClick={handleCancel}
+                disabled={isPending}
+              >
                 Cancel
               </Button>
               <Button type="submit" disabled={isPending}>
@@ -133,7 +139,7 @@ export const EditUrlModal = ({
                     Updating...
                   </>
                 ) : (
-                  'Save Changes'
+                  "Save Changes"
                 )}
               </Button>
             </DialogFooter>

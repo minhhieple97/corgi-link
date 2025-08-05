@@ -1,2 +1,2 @@
-export * from './get-all-urls';
-export * from './get-all-users';
+export * from "./get-all-urls";
+export * from "./get-all-users";

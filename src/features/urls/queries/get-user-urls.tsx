@@ -1,9 +1,9 @@
-'use server';
+"use server";
 
-import { db } from '@/db';
-import { urls } from '@/db/schema';
-import { eq, count } from 'drizzle-orm';
-import { PAGINATION } from '@/constants';
+import { db } from "@/db";
+import { urls } from "@/db/schema";
+import { eq, count } from "drizzle-orm";
+import { PAGINATION } from "@/constants";
 
 type GetUserUrlsParams = {
   userId: string;
@@ -17,7 +17,6 @@ export const getUserUrls = async ({
   limit = PAGINATION.DEFAULT_LIMIT,
 }: GetUserUrlsParams) => {
   const offset = (page - PAGINATION.MIN_PAGE) * limit;
-
 
   const [totalResult] = await db
     .select({ count: count() })
@@ -33,7 +32,7 @@ export const getUserUrls = async ({
     offset,
   });
 
-  const urlsData = userUrls.map((url) => ({
+  const urlsData = userUrls.map(url => ({
     id: url.id,
     originalUrl: url.originalUrl,
     shortCode: url.shortCode,

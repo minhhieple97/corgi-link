@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Card,
@@ -11,10 +11,10 @@ import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from '@/components/ui';
-import { TrendingDown, TrendingUp } from 'lucide-react';
-import { Label, Pie, PieChart } from 'recharts';
-import { IUrl } from '../../urls/types';
+} from "@/components/ui";
+import { TrendingDown, TrendingUp } from "lucide-react";
+import { Label, Pie, PieChart } from "recharts";
+import { IUrl } from "../../urls/types";
 
 type StatsPieChartProps = {
   pieChartData: Array<{
@@ -35,7 +35,7 @@ export const StatsPieChart = ({
 }: StatsPieChartProps) => {
   const pieChartConfig: ChartConfig = {
     visitors: {
-      label: 'Clicks',
+      label: "Clicks",
     },
     ...topUrls.reduce((acc, url, index) => {
       acc[url.shortCode] = {
@@ -50,12 +50,20 @@ export const StatsPieChart = ({
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
         <CardTitle>URL Clicks Distribution</CardTitle>
-        <CardDescription>Top {topUrls.length} URLs with most clicks</CardDescription>
+        <CardDescription>
+          Top {topUrls.length} URLs with most clicks
+        </CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
-        <ChartContainer config={pieChartConfig} className="mx-auto aspect-square max-h-[350px]">
+        <ChartContainer
+          config={pieChartConfig}
+          className="mx-auto aspect-square max-h-[350px]"
+        >
           <PieChart>
-            <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent hideLabel />}
+            />
             <Pie
               data={pieChartData}
               dataKey="visitors"
@@ -65,7 +73,7 @@ export const StatsPieChart = ({
             >
               <Label
                 content={({ viewBox }) => {
-                  if (viewBox && 'cx' in viewBox && 'cy' in viewBox) {
+                  if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                     return (
                       <text
                         x={viewBox.cx}
@@ -102,12 +110,12 @@ export const StatsPieChart = ({
             <>
               {avgClicks > 5 ? (
                 <>
-                  Trending up by {((avgClicks / 5) * 100).toFixed(1)}% this month{' '}
-                  <TrendingUp className="size-4 text-green-500" />
+                  Trending up by {((avgClicks / 5) * 100).toFixed(1)}% this
+                  month <TrendingUp className="size-4 text-green-500" />
                 </>
               ) : (
                 <>
-                  Could improve with only {5 - avgClicks} more clicks{' '}
+                  Could improve with only {5 - avgClicks} more clicks{" "}
                   <TrendingDown className="size-4 text-amber-500" />
                 </>
               )}

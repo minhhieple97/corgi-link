@@ -1,7 +1,7 @@
-import { Button, Input } from '@/components/ui';
-import { UI_CONSTANTS } from '@/constants';
-import { SignInButton } from '@clerk/nextjs';
-import type { UrlInputFieldProps } from '../types';
+import { Button, Input } from "@/components/ui";
+import { UI_CONSTANTS } from "@/constants";
+import { SignInButton } from "@clerk/nextjs";
+import type { UrlInputFieldProps } from "../types";
 
 export const UrlInputField = ({
   value,
@@ -27,7 +27,7 @@ export const UrlInputField = ({
         <Input
           placeholder={UI_CONSTANTS.FORM_PLACEHOLDERS.URL_INPUT}
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={e => onChange(e.target.value)}
           disabled={disabled || !isUserSignedIn}
         />
       </div>

@@ -1,7 +1,7 @@
-import { UrlShortenerForm } from '@/features/urls/components';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Link2, Zap, Shield, BarChart3 } from 'lucide-react';
+import { UrlShortenerForm } from "@/features/urls/components";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Link2, Zap, Shield, BarChart3 } from "lucide-react";
 
 export default function Home() {
   return (
@@ -74,7 +74,9 @@ export default function Home() {
             <div className="p-1 rounded-full bg-purple-100 dark:bg-purple-900/30 w-fit mx-auto mb-1">
               <BarChart3 className="h-3 w-3 text-purple-600 dark:text-purple-400" />
             </div>
-            <p className="text-xs text-muted-foreground font-medium">Analytics</p>
+            <p className="text-xs text-muted-foreground font-medium">
+              Analytics
+            </p>
           </div>
         </div>
       </div>

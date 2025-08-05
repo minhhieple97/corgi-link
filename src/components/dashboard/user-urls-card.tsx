@@ -1,15 +1,27 @@
-import { Suspense } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { UserUrlsTable, UserUrlsTableSkeleton } from '@/features/urls/components';
-import { PaginationUrls } from '@/components/shared/pagination-urls';
-import type { IUrl, PaginationInfo } from '@/features/urls/types';
+import { Suspense } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  UserUrlsTable,
+  UserUrlsTableSkeleton,
+} from "@/features/urls/components";
+import { PaginationUrls } from "@/components/shared/pagination-urls";
+import type { IUrl, PaginationInfo } from "@/features/urls/types";
 
 type UserUrlsCardProps = {
   urlsPromise: Promise<{ urls: IUrl[]; pagination: PaginationInfo }>;
   currentPage: number;
 };
 
-export const UserUrlsCard = ({ urlsPromise, currentPage }: UserUrlsCardProps) => {
+export const UserUrlsCard = ({
+  urlsPromise,
+  currentPage,
+}: UserUrlsCardProps) => {
   return (
     <Card className="shadow-sm border-dashed border-border/50 w-full overflow-hidden">
       <CardHeader className="pb-3 lg:pb-4">
@@ -28,7 +40,11 @@ export const UserUrlsCard = ({ urlsPromise, currentPage }: UserUrlsCardProps) =>
       <CardContent className="pt-0 px-0 lg:px-6">
         <div className="px-4 lg:px-0">
           <Suspense fallback={<UserUrlsTableSkeleton />}>
-            <UserUrlsTable key={`page-${currentPage}`} urlsPromise={urlsPromise} currentPage={currentPage} />
+            <UserUrlsTable
+              key={`page-${currentPage}`}
+              urlsPromise={urlsPromise}
+              currentPage={currentPage}
+            />
           </Suspense>
         </div>
       </CardContent>
@@ -43,4 +59,4 @@ async function PaginationWrapper({
 }) {
   const { pagination } = await urlsPromise;
   return <PaginationUrls pagination={pagination} className="hidden sm:block" />;
-} 
+}

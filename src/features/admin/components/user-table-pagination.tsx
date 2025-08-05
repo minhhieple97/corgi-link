@@ -6,7 +6,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '@/components/ui/pagination';
+} from "@/components/ui/pagination";
 
 type UserTablePaginationProps = {
   currentPage: number;
@@ -24,17 +24,20 @@ export const UserTablePagination = ({
 
     items.push(
       <PaginationItem key="first">
-        <PaginationLink href={createPaginationUrl(1)} isActive={currentPage === 1}>
+        <PaginationLink
+          href={createPaginationUrl(1)}
+          isActive={currentPage === 1}
+        >
           1
         </PaginationLink>
-      </PaginationItem>,
+      </PaginationItem>
     );
 
     if (currentPage > 3) {
       items.push(
         <PaginationItem key="ellipsis-1">
           <PaginationEllipsis />
-        </PaginationItem>,
+        </PaginationItem>
       );
     }
 
@@ -47,10 +50,13 @@ export const UserTablePagination = ({
 
       items.push(
         <PaginationItem key={i}>
-          <PaginationLink href={createPaginationUrl(i)} isActive={currentPage === i}>
+          <PaginationLink
+            href={createPaginationUrl(i)}
+            isActive={currentPage === i}
+          >
             {i}
           </PaginationLink>
-        </PaginationItem>,
+        </PaginationItem>
       );
     }
 
@@ -58,7 +64,7 @@ export const UserTablePagination = ({
       items.push(
         <PaginationItem key="ellipsis-2">
           <PaginationEllipsis />
-        </PaginationItem>,
+        </PaginationItem>
       );
     }
 
@@ -71,7 +77,7 @@ export const UserTablePagination = ({
           >
             {totalPages}
           </PaginationLink>
-        </PaginationItem>,
+        </PaginationItem>
       );
     }
 
@@ -84,13 +90,17 @@ export const UserTablePagination = ({
     <Pagination>
       <PaginationContent>
         <PaginationItem>
-          <PaginationPrevious href={createPaginationUrl(Math.max(1, currentPage - 1))} />
+          <PaginationPrevious
+            href={createPaginationUrl(Math.max(1, currentPage - 1))}
+          />
         </PaginationItem>
 
         {getPaginationItems()}
 
         <PaginationItem>
-          <PaginationNext href={createPaginationUrl(Math.min(totalPages, currentPage + 1))} />
+          <PaginationNext
+            href={createPaginationUrl(Math.min(totalPages, currentPage + 1))}
+          />
         </PaginationItem>
       </PaginationContent>
     </Pagination>

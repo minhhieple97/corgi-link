@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { Form, FormControl, FormField, FormItem } from '@/components/ui';
-import { useAuth } from '@clerk/nextjs';
-import { AnalyzingModal } from '@/components/shared';
-import { useUrlShortenerForm } from '../hooks/use-url-shortener-form';
+import { Form, FormControl, FormField, FormItem } from "@/components/ui";
+import { useAuth } from "@clerk/nextjs";
+import { AnalyzingModal } from "@/components/shared";
+import { useUrlShortenerForm } from "../hooks/use-url-shortener-form";
 import {
   FlaggedUrlAlert,
   SuccessUrlDisplay,
@@ -12,7 +12,7 @@ import {
   AliasSuggestions,
   ExpirationField,
   UrlPreview,
-} from './';
+} from "./";
 
 export const UrlShortenerForm = () => {
   const { isSignedIn } = useAuth();
@@ -55,7 +55,10 @@ export const UrlShortenerForm = () => {
       <div className="w-full max-w-2xl mx-auto">
         {/* Flagged URL Alert */}
         {flagged && flagReason && (
-          <FlaggedUrlAlert flagReason={flagReason} onCreateAnother={handleResetForm} />
+          <FlaggedUrlAlert
+            flagReason={flagReason}
+            onCreateAnother={handleResetForm}
+          />
         )}
 
         {/* Success URL Display */}
@@ -80,7 +83,7 @@ export const UrlShortenerForm = () => {
                     <FormControl>
                       <UrlInputField
                         value={field.value}
-                        onChange={(value) => {
+                        onChange={value => {
                           field.onChange(value);
                           handleUrlChange(value);
                         }}
@@ -96,7 +99,9 @@ export const UrlShortenerForm = () => {
               />
 
               {/* URL Preview */}
-              {isUrlValid && <UrlPreview previewState={previewState} className="mt-4" />}
+              {isUrlValid && (
+                <UrlPreview previewState={previewState} className="mt-4" />
+              )}
 
               {/* Custom Code Field */}
               <FormField
@@ -107,8 +112,8 @@ export const UrlShortenerForm = () => {
                     <FormControl>
                       <div className="space-y-2">
                         <CustomCodeField
-                          value={field.value || ''}
-                          onChange={(value) => {
+                          value={field.value || ""}
+                          onChange={value => {
                             field.onChange(value);
                             handleCustomCodeChange(value);
                           }}
@@ -139,7 +144,7 @@ export const UrlShortenerForm = () => {
                     <FormControl>
                       <ExpirationField
                         value={field.value}
-                        onChange={(date) => {
+                        onChange={date => {
                           field.onChange(date);
                           handleExpirationChange(date);
                         }}

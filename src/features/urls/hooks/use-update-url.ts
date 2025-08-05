@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useAction } from 'next-safe-action/hooks';
-import { updateUrl } from '../actions/update-url';
-import { IUpdateUrlFormData } from '../types';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { UpdateUrlSchema } from '../schemas';
-import { toast } from 'sonner';
-import { UI_CONSTANTS } from '@/constants';
-import { useEffect } from 'react';
+import { useAction } from "next-safe-action/hooks";
+import { updateUrl } from "../actions/update-url";
+import { IUpdateUrlFormData } from "../types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { UpdateUrlSchema } from "../schemas";
+import { toast } from "sonner";
+import { UI_CONSTANTS } from "@/constants";
+import { useEffect } from "react";
 
 type UseUpdateUrlProps = {
   urlId: number;
@@ -41,22 +41,22 @@ export const useUpdateUrl = ({
     isPending,
     reset: resetAction,
   } = useAction(updateUrl, {
-    onSuccess: (result) => {
+    onSuccess: result => {
       if (result.data?.customCode) {
-        toast.success('URL updated successfully', {
-          description: 'The URL has been updated successfully',
+        toast.success("URL updated successfully", {
+          description: "The URL has been updated successfully",
         });
         onSuccess?.(result.data.customCode);
       }
     },
-    onError: (error) => {
+    onError: error => {
       if (error.error.validationErrors) {
         const fieldErrors = error.error.validationErrors.fieldErrors;
         const formErrors = error.error.validationErrors.formErrors;
 
         if (fieldErrors?.customCode) {
           toast.error(
-            `${UI_CONSTANTS.TOAST_MESSAGES.CUSTOM_CODE_ERROR_PREFIX}${fieldErrors.customCode[0]}`,
+            `${UI_CONSTANTS.TOAST_MESSAGES.CUSTOM_CODE_ERROR_PREFIX}${fieldErrors.customCode[0]}`
           );
         }
 

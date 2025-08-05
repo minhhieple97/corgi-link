@@ -1,11 +1,17 @@
-'use client';
+"use client";
 
-import { useCallback, useEffect, useState } from 'react';
-import QRCode from 'qrcode';
-import { toast } from 'sonner';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, Button } from '@/components/ui';
-import Image from 'next/image';
-import { Download } from 'lucide-react';
+import { useCallback, useEffect, useState } from "react";
+import QRCode from "qrcode";
+import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  Button,
+} from "@/components/ui";
+import Image from "next/image";
+import { Download } from "lucide-react";
 
 type QRCodeModalProps = {
   isOpen: boolean;
@@ -14,7 +20,12 @@ type QRCodeModalProps = {
   shortCode: string;
 };
 
-export const QRCodeModal = ({ isOpen, onOpenChange, url, shortCode }: QRCodeModalProps) => {
+export const QRCodeModal = ({
+  isOpen,
+  onOpenChange,
+  url,
+  shortCode,
+}: QRCodeModalProps) => {
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
@@ -26,15 +37,15 @@ export const QRCodeModal = ({ isOpen, onOpenChange, url, shortCode }: QRCodeModa
         width: 300,
         margin: 2,
         color: {
-          dark: '#000000',
-          light: '#ffffff',
+          dark: "#000000",
+          light: "#ffffff",
         },
       });
       setQrCodeDataUrl(dataUrl);
     } catch (error) {
-      console.error('Failed to generate QR code', error);
-      toast.error('Failed to generate QR code', {
-        description: 'An error occurred while generating the QR code',
+      console.error("Failed to generate QR code", error);
+      toast.error("Failed to generate QR code", {
+        description: "An error occurred while generating the QR code",
       });
     } finally {
       setIsGenerating(false);
@@ -49,15 +60,15 @@ export const QRCodeModal = ({ isOpen, onOpenChange, url, shortCode }: QRCodeModa
 
   const downloadQRCode = () => {
     if (!qrCodeDataUrl) return;
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = qrCodeDataUrl;
     link.download = `corgi-link-${shortCode}.png`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
 
-    toast.success('QR code downloaded', {
-      description: 'The QR code has been downloaded to your device',
+    toast.success("QR code downloaded", {
+      description: "The QR code has been downloaded to your device",
     });
   };
 
@@ -91,7 +102,9 @@ export const QRCodeModal = ({ isOpen, onOpenChange, url, shortCode }: QRCodeModa
               </Button>
             </div>
           ) : (
-            <div className="text-center text-muted-foreground">Failed to generate QR code</div>
+            <div className="text-center text-muted-foreground">
+              Failed to generate QR code
+            </div>
           )}
         </div>
       </DialogContent>

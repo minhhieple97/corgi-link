@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { Card, CardContent } from '@/components/ui/card';
-import { ExternalLink } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { UrlPreviewImage } from './url-preview-image';
-import { UrlPreviewContent } from './url-preview-content';
-import type { UrlPreviewMetadata } from '../types';
+import { Card, CardContent } from "@/components/ui/card";
+import { ExternalLink } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { UrlPreviewImage } from "./url-preview-image";
+import { UrlPreviewContent } from "./url-preview-content";
+import type { UrlPreviewMetadata } from "../types";
 
 type UrlPreviewCardProps = {
   data: UrlPreviewMetadata;
@@ -28,14 +28,14 @@ export const UrlPreviewCard = ({
 }: UrlPreviewCardProps) => {
   const handleExternalLinkClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    window.open(data.url, '_blank', 'noopener,noreferrer');
+    window.open(data.url, "_blank", "noopener,noreferrer");
   };
 
   return (
     <Card
       className={cn(
-        'border-border/50 bg-card hover:bg-accent/50 transition-colors cursor-pointer group',
-        className,
+        "border-border/50 bg-card hover:bg-accent/50 transition-colors cursor-pointer group",
+        className
       )}
     >
       <CardContent className="p-4">

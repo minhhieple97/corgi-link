@@ -1,10 +1,12 @@
-import { ReactNode } from 'react';
+import { ReactNode } from "react";
 
 type DashboardLayoutProps = {
   children: ReactNode;
 };
 
-export default async function DashboardLayout({ children }: DashboardLayoutProps) {
+export default async function DashboardLayout({
+  children,
+}: DashboardLayoutProps) {
   return (
     <div className="min-h-screen flex flex-col w-full overflow-x-hidden">
       <main className="flex-1 bg-background w-full">
