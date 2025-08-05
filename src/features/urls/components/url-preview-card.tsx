@@ -26,6 +26,11 @@ export const UrlPreviewCard = ({
   onImageLoad,
   onImageError,
 }: UrlPreviewCardProps) => {
+  const handleExternalLinkClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    window.open(data.url, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <Card
       className={cn(
@@ -53,7 +58,10 @@ export const UrlPreviewCard = ({
           />
 
           <div className="flex-shrink-0 self-start">
-            <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+            <ExternalLink
+              className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors cursor-pointer"
+              onClick={handleExternalLinkClick}
+            />
           </div>
         </div>
       </CardContent>
