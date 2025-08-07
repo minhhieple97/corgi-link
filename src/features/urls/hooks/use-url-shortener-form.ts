@@ -297,9 +297,8 @@ export const useUrlShortenerForm = (): UseUrlShortenerFormReturn => {
   const handleSuggestionClick = useCallback(
     (alias: string) => {
       form.setValue("customCode", alias);
-      clearSuggestions();
     },
-    [form, clearSuggestions]
+    [form]
   );
 
   const handleGenerateAliases = useCallback(() => {
