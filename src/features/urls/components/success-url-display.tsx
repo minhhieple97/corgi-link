@@ -35,7 +35,6 @@ export const SuccessUrlDisplay = ({
                 readOnly
                 className="pr-8 bg-background/80 border-border/50 focus:border-green-500 dark:focus:border-green-400 font-mono text-sm"
               />
-              <ExternalLink className="absolute right-2 top-1/2 transform -translate-y-1/2 h-3 w-3 text-muted-foreground" />
             </div>
             <Button onClick={onCopy} size="sm" className="gap-1 text-xs">
               <Copy className="h-3 w-3" />
